@@ -3047,6 +3047,13 @@
             50% { opacity:0.8; transform:scale(1.06); }
           }
         </style>
+
+        <div class="bottom-nav">
+          <div class="bnav-item" onclick="nav('r-home',null)"><div class="bnav-icon">🏠</div><div>Home</div><div class="bnav-dot"></div></div>
+          <div class="bnav-item" onclick="nav('r-history',null)"><div class="bnav-icon">📋</div><div>History</div><div class="bnav-dot"></div></div>
+          <div class="bnav-item" onclick="nav('r-earnings',null)"><div class="bnav-icon">💰</div><div>Earnings</div><div class="bnav-dot"></div></div>
+          <div class="bnav-item" onclick="nav('r-profile',null)"><div class="bnav-icon">👤</div><div>Profile</div><div class="bnav-dot"></div></div>
+        </div>
       </div>
 
             <!-- =========================================
@@ -4256,23 +4263,33 @@ function loadCustomerTasks() {
     .where('customerId', '==', user.uid)
     .orderBy('createdAt', 'desc')
     .onSnapshot(function(snapshot) {
-      var running = [], completed = [], cancelled = [];
-
-      snapshot.forEach(function(doc) {
-        var t = doc.data();
-        t.id = doc.id;
-        if (t.status === 'open' || t.status === 'assigned' || t.status === 'picked_up') running.push(t);
-        else if (t.status === 'completed') completed.push(t);
-        else if (t.status === 'cancelled') cancelled.push(t);
-      });
-
-      renderCustomerTaskList('running-tasks-list',   running,   'running');
-      renderCustomerTaskList('completed-tasks-list', completed, 'done');
-      renderCustomerTaskList('cancelled-tasks-list', cancelled, 'cancelled');
-      renderHomeRecent(running.concat(completed).slice(0,3));
+      processCustomerTasks(snapshot);
     }, function(err) {
-      console.error('Customer tasks error:', err.message);
+      console.error('Customer tasks error (trying without sort):', err.message);
+      // Index না থাকলে orderBy ছাড়া চালাও
+      db.collection('tasks')
+        .where('customerId', '==', user.uid)
+        .onSnapshot(function(snapshot) {
+          processCustomerTasks(snapshot);
+        }, function(err2) {
+          console.error('Customer tasks fallback error:', err2.message);
+        });
     });
+}
+
+function processCustomerTasks(snapshot) {
+  var running = [], completed = [], cancelled = [];
+  snapshot.forEach(function(doc) {
+    var t = doc.data();
+    t.id = doc.id;
+    if (t.status === 'open' || t.status === 'assigned' || t.status === 'picked_up') running.push(t);
+    else if (t.status === 'completed') completed.push(t);
+    else if (t.status === 'cancelled') cancelled.push(t);
+  });
+  renderCustomerTaskList('running-tasks-list',   running,   'running');
+  renderCustomerTaskList('completed-tasks-list', completed, 'done');
+  renderCustomerTaskList('cancelled-tasks-list', cancelled, 'cancelled');
+  renderHomeRecent(running.concat(completed).slice(0,3));
 }
 
 function renderCustomerTaskList(containerId, tasks, badgeType) {
@@ -4364,12 +4381,33 @@ function loadRiderFeed() {
           + '</div></div>';
       }).join('');
     }, function(err) {
-      console.error('Feed error:', err.message);
-      // Index না থাকলে এই error আসবে — console এ link দেখাবে
-      var feed = document.getElementById('rider-task-feed');
-      if (feed) feed.innerHTML = '<div style="text-align:center;padding:30px 16px;color:var(--gray-400);">'
-        + '<div style="font-size:13px;font-weight:600;color:var(--red);">⚠️ Setup বাকি আছে</div>'
-        + '<div style="font-size:11px;margin-top:6px;">Browser Console (F12) খুলুন — error link এ click করে Firebase Index তৈরি করুন</div></div>';
+      console.error('Feed error (trying without sort):', err.message);
+      // orderBy ছাড়া fallback
+      riderFeedListener = db.collection('tasks')
+        .where('status', '==', 'open')
+        .onSnapshot(function(snapshot) {
+          var tasks = [];
+          snapshot.forEach(function(doc) { var t=doc.data(); t.id=doc.id; tasks.push(t); });
+          var countEl = document.getElementById('live-task-count');
+          if (countEl) countEl.textContent = tasks.length ? tasks.length+'টি টাস্ক আছে' : 'কোনো টাস্ক নেই';
+          var feed = document.getElementById('rider-task-feed');
+          if (!feed) return;
+          if (!tasks.length) {
+            feed.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--gray-400);"><div style="font-size:40px;margin-bottom:12px;">🛵</div><div style="font-weight:600;">কোনো টাস্ক নেই এখন</div></div>';
+            return;
+          }
+          feed.innerHTML = tasks.map(function(t) {
+            return '<div style="background:white;border-radius:18px;padding:16px;border:1.5px solid var(--gray-100);box-shadow:var(--shadow-sm);margin-bottom:10px;cursor:pointer;" onclick="selectRiderTask(\''+t.id+'\')">'
+              +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">'
+              +'<div><div style="font-size:15px;font-weight:700;color:var(--gray-900);">📋 '+escHtml(t.title)+'</div>'
+              +'<div style="font-size:11px;color:var(--gray-400);margin-top:3px;">'+escHtml(t.pickup)+' → '+escHtml(t.delivery)+'</div></div>'
+              +'<div style="font-family:\'Space Grotesk\',sans-serif;font-size:18px;font-weight:800;color:var(--blue-dark);">৳'+(t.fee||0)+'</div></div>'
+              +'<div style="display:flex;gap:8px;">'
+              +'<div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">⚡ '+(t.timing==='now'?'এখনই':'পরে')+'</div>'
+              +'<div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">🙋 '+escHtml(t.customerName||'Customer')+'</div>'
+              +'</div></div>';
+          }).join('');
+        });
     });
 }
 
@@ -4429,19 +4467,30 @@ function loadRiderHistory() {
     .where('riderId', '==', user.uid)
     .orderBy('createdAt', 'desc')
     .onSnapshot(function(snapshot) {
-      var all = [], done = [], cancelled = [];
-      snapshot.forEach(function(doc) {
-        var t = doc.data(); t.id = doc.id;
-        all.push(t);
-        if (t.status === 'completed') done.push(t);
-        else if (t.status === 'cancelled') cancelled.push(t);
-      });
-      renderRiderTaskList('rider-all-list',       all,       false);
-      renderRiderTaskList('rider-done-list',      done,      false);
-      renderRiderTaskList('rider-cancelled-list', cancelled, true);
+      processRiderHistory(snapshot);
     }, function(err) {
-      console.error('Rider history error:', err.message);
+      console.error('Rider history error (trying without sort):', err.message);
+      db.collection('tasks')
+        .where('riderId', '==', user.uid)
+        .onSnapshot(function(snapshot) {
+          processRiderHistory(snapshot);
+        }, function(err2) {
+          console.error('Rider history fallback error:', err2.message);
+        });
     });
+}
+
+function processRiderHistory(snapshot) {
+  var all = [], done = [], cancelled = [];
+  snapshot.forEach(function(doc) {
+    var t = doc.data(); t.id = doc.id;
+    all.push(t);
+    if (t.status === 'completed') done.push(t);
+    else if (t.status === 'cancelled') cancelled.push(t);
+  });
+  renderRiderTaskList('rider-all-list',       all,       false);
+  renderRiderTaskList('rider-done-list',      done,      false);
+  renderRiderTaskList('rider-cancelled-list', cancelled, true);
 }
 
 function renderRiderTaskList(containerId, tasks, isCancelled) {

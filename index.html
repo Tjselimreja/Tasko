@@ -1442,7 +1442,7 @@
       <!-- =========================================
            S1 · SPLASH
            ========================================= -->
-      <div class="screen active" id="screen-splash" onclick="nav('role',null)">
+      <div class="screen active" id="screen-splash">
         <div class="splash-bg-circle" style="width:300px;height:300px;top:-100px;right:-80px;"></div>
         <div class="splash-bg-circle" style="width:200px;height:200px;bottom:-60px;left:-60px;"></div>
         <div class="splash-bg-circle" style="width:120px;height:120px;top:55%;left:10%;"></div>
@@ -1788,21 +1788,10 @@
 
           <div class="activity-section" style="margin-top:18px;">
             <div class="section-title">📋 Recent Activity</div>
-            <div class="activity-card" onclick="nav('assigned',null)">
-              <div class="activity-icon ai-running">🛵</div>
-              <div class="activity-info">
-                <div class="activity-title">Market Run – Mohammadpur</div>
-                <div class="activity-meta">Today, 10:30 AM · Rider on the way</div>
+            <div id="home-recent-tasks">
+              <div style="text-align:center;padding:24px 20px;color:var(--gray-400);">
+                <div style="font-size:13px;font-weight:600;">কোনো টাস্ক নেই — এখনই একটি পোস্ট করুন!</div>
               </div>
-              <div class="status-badge badge-running">Running</div>
-            </div>
-            <div class="activity-card" onclick="nav('completed',null)">
-              <div class="activity-icon ai-done">✅</div>
-              <div class="activity-info">
-                <div class="activity-title">Pharmacy Delivery</div>
-                <div class="activity-meta">Yesterday, 9:00 PM</div>
-              </div>
-              <div class="status-badge badge-done">Done</div>
             </div>
           </div>
           <div style="height:12px;"></div>
@@ -1840,11 +1829,11 @@
         <div class="post-body">
           <div class="form-group">
             <div class="form-label">📝 Task Title</div>
-            <input class="form-input" type="text" placeholder="e.g. Bring groceries from market" value="Market Run – Mohammadpur Bazar">
+            <input class="form-input" type="text" placeholder="e.g. Bring groceries from market" id="task-title-input" value="">
           </div>
           <div class="form-group">
             <div class="form-label">📖 Description</div>
-            <textarea class="form-input" placeholder="What needs to be done? Include details...">Pick up 1kg chicken, 2kg rice, and fresh vegetables from Mohammadpur Bazar.</textarea>
+            <textarea class="form-input" placeholder="What needs to be done? Include details..." id="task-desc-input"></textarea>
           </div>
           <div class="form-group">
             <div class="form-label">📷 Attach Image (Optional)</div>
@@ -1886,21 +1875,13 @@
             <div class="map-pin" style="top:52%;left:62%;animation-delay:0.6s;">🏠</div>
           </div>
           <div class="curr-loc-btn">📍 Use my current location</div>
-          <div class="loc-row">
-            <div class="loc-icon">🟢</div>
-            <div class="loc-text">
-              <div class="loc-label">Pickup Point</div>
-              <div class="loc-val">Mohammadpur Bazar</div>
-            </div>
-            <span style="font-size:16px;color:var(--gray-300);">✏️</span>
+          <div class="form-group" style="margin-top:12px;">
+            <div class="form-label">🟢 Pickup Point</div>
+            <input class="form-input" type="text" placeholder="e.g. Mohammadpur Bazar" id="pickup-input">
           </div>
-          <div class="loc-row">
-            <div class="loc-icon">🔴</div>
-            <div class="loc-text">
-              <div class="loc-label">Delivery Point</div>
-              <div class="loc-val">Dhanmondi 27, House 4</div>
-            </div>
-            <span style="font-size:16px;color:var(--gray-300);">✏️</span>
+          <div class="form-group">
+            <div class="form-label">🔴 Delivery Point</div>
+            <input class="form-input" type="text" placeholder="e.g. Dhanmondi 27, House 4" id="delivery-input">
           </div>
           <div style="background:var(--blue-light);border-radius:12px;padding:12px 14px;display:flex;gap:8px;border:1px solid rgba(37,99,235,0.18);margin-top:8px;">
             <span>📏</span>
@@ -1990,7 +1971,7 @@
               <div class="fee-hero-sub">Editable amount</div>
             </div>
             <div style="display:flex;align-items:center;gap:6px;">
-              <div class="fee-hero-val">৳80</div>
+              <div class="fee-hero-val" id="task-fee-input" contenteditable="true">80</div>
               <div style="background:var(--blue-mid);color:white;border-radius:8px;padding:4px 8px;font-size:12px;font-weight:700;cursor:pointer;">✏️</div>
             </div>
           </div>
@@ -2019,7 +2000,7 @@
           </div>
         </div>
         <div class="post-footer">
-          <button class="btn-primary" onclick="nav('finding-rider',null);setTimeout(startFindTimer,100)">✅ Confirm & Post Task</button>
+          <button class="btn-primary" onclick="postTask()">✅ Confirm & Post Task</button>
         </div>
       </div>
 
@@ -2488,38 +2469,27 @@
         </div>
         <div class="scroll-content" style="padding-top:14px;">
           <div id="tc-running">
-            <div class="task-card" onclick="nav('assigned',null)">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-                <div><div class="tc-title">🛒 Market Run</div><div class="tc-meta">📍 Mohammadpur → Dhanmondi · Today 10:30</div></div>
-                <div class="status-badge badge-running">Running</div>
+            <div id="running-tasks-list" style="padding:14px 14px 0;">
+              <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
+                <div style="font-size:40px;margin-bottom:12px;">📋</div>
+                <div style="font-weight:600;">কোনো চলমান টাস্ক নেই</div>
               </div>
-              <div style="background:var(--blue-light);border-radius:8px;padding:8px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">🛵 Rider Mahmud is on his way – ETA 12 min</div>
-              <div class="tc-bottom"><div class="tc-fee">৳125</div><div style="font-size:12px;color:var(--blue);font-weight:600;cursor:pointer;">Track →</div></div>
             </div>
           </div>
           <div id="tc-completed" style="display:none;">
-            <div class="task-card">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                <div><div class="tc-title">💊 Pharmacy Delivery</div><div class="tc-meta">📍 Mirpur-1 → Mirpur-2 · Yesterday</div></div>
-                <div class="status-badge badge-done">Done</div>
+            <div id="completed-tasks-list" style="padding:14px 14px 0;">
+              <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
+                <div style="font-size:40px;margin-bottom:12px;">✅</div>
+                <div style="font-weight:600;">কোনো সম্পন্ন টাস্ক নেই</div>
               </div>
-              <div class="tc-bottom"><div class="tc-fee">৳90</div><div style="font-size:11px;color:var(--gray-400);">⭐ You rated 5/5</div></div>
-            </div>
-            <div class="task-card">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                <div><div class="tc-title">📄 Document Pickup</div><div class="tc-meta">📍 Motijheel → Gulshan · 2 days ago</div></div>
-                <div class="status-badge badge-done">Done</div>
-              </div>
-              <div class="tc-bottom"><div class="tc-fee">৳150</div><div style="font-size:11px;color:var(--gray-400);">⭐ You rated 4/5</div></div>
             </div>
           </div>
           <div id="tc-cancelled" style="display:none;">
-            <div class="task-card">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                <div><div class="tc-title">🎁 Gift Delivery</div><div class="tc-meta">📍 Banani → Uttara · 3 days ago</div></div>
-                <div class="status-badge badge-cancelled">Cancelled</div>
+            <div id="cancelled-tasks-list" style="padding:14px 14px 0;">
+              <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
+                <div style="font-size:40px;margin-bottom:12px;">❌</div>
+                <div style="font-weight:600;">কোনো বাতিল টাস্ক নেই</div>
               </div>
-              <div class="tc-bottom"><div class="tc-fee" style="color:var(--green);">Refunded</div><div style="font-size:12px;color:var(--gray-400);">No riders available</div></div>
             </div>
           </div>
         </div>
@@ -2849,95 +2819,16 @@
 
         <div style="flex:1;overflow-y:auto;padding:14px 16px 90px;scrollbar-width:none;">
 
-          <!-- SECTION 1: Normal Tasks -->
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;color:var(--gray-900);">⚡ সরাসরি টাস্ক</div>
-            <div style="font-size:10px;color:var(--gray-400);">নির্ধারিত মূল্যে — সাথে সাথে নিন</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;color:var(--gray-900);">⚡ Available Tasks</div>
+            <div id="live-task-count" style="font-size:10px;color:var(--gray-400);">লোড হচ্ছে...</div>
           </div>
 
-          <!-- Task Card 1 -->
-          <div style="background:white;border-radius:18px;padding:16px;border:1.5px solid var(--gray-100);box-shadow:var(--shadow-sm);margin-bottom:10px;cursor:pointer;" onclick="nav('r-alert',null)">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <div>
-                <div style="font-size:15px;font-weight:700;color:var(--gray-900);">🛒 Market Run</div>
-                <div style="font-size:11px;color:var(--gray-400);margin-top:3px;">Mohammadpur Bazar → Dhanmondi 27</div>
-              </div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--blue-dark);">৳80</div>
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">📍 1.8 km</div>
-              <div style="background:#fef3c7;border-radius:8px;padding:5px 10px;font-size:11px;color:#92400e;font-weight:600;">⚡ এখনই</div>
-              <div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">👁️ 3 জন দেখছে</div>
-            </div>
-          </div>
-
-          <!-- Task Card 2 -->
-          <div style="background:white;border-radius:18px;padding:16px;border:1.5px solid var(--gray-100);box-shadow:var(--shadow-sm);margin-bottom:18px;cursor:pointer;" onclick="nav('r-alert',null)">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-              <div>
-                <div style="font-size:15px;font-weight:700;color:var(--gray-900);">💊 Pharmacy Pickup</div>
-                <div style="font-size:11px;color:var(--gray-400);margin-top:3px;">Mirpur-1 Pharmacy → Mirpur-10</div>
-              </div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--blue-dark);">৳60</div>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">📍 0.9 km</div>
-              <div style="background:#fef3c7;border-radius:8px;padding:5px 10px;font-size:11px;color:#92400e;font-weight:600;">⚡ এখনই</div>
-            </div>
-          </div>
-
-          <!-- SECTION 2: Negotiation Tasks -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;color:var(--gray-900);">💬 নেগোশিয়েশন টাস্ক</div>
-              <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;color:#92400e;">2 টি অপেক্ষায়</div>
-            </div>
-            <div style="font-size:10px;color:var(--gray-400);">দাম আপনিই ঠিক করুন</div>
-          </div>
-          <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:9px 12px;margin-bottom:10px;display:flex;gap:7px;align-items:flex-start;">
-            <span style="font-size:13px;">💡</span>
-            <span style="font-size:11px;color:#92400e;line-height:1.5;">এই টাস্কগুলো কোনো রাইডার নেননি — কাস্টমার বেশি দিতে রাজি আছেন। আপনি কাউন্টার অফার করতে পারবেন।</span>
-          </div>
-
-          <!-- Negotiation Card 1 -->
-          <div style="background:white;border-radius:18px;padding:16px;border:2px solid #fde68a;box-shadow:var(--shadow-sm);margin-bottom:10px;cursor:pointer;position:relative;" onclick="nav('r-alert',null)">
-            <div style="position:absolute;top:12px;right:12px;background:linear-gradient(135deg,var(--orange),#d97706);color:white;border-radius:8px;padding:3px 8px;font-size:10px;font-weight:700;">দর কষুন</div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;padding-right:60px;">
-              <div>
-                <div style="font-size:15px;font-weight:700;color:var(--gray-900);">📄 Document Drop</div>
-                <div style="font-size:11px;color:var(--gray-400);margin-top:3px;">Motijheel → Gulshan 2</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-              <div style="font-size:11px;color:var(--gray-500);">কাস্টমারের অফার</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;color:var(--gray-400);text-decoration:line-through;">৳80</div>
-              <div style="font-size:11px;color:var(--green);">→ এখন দিচ্ছেন</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--green);">৳120</div>
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">📍 3.2 km</div>
-              <div style="background:#fef3c7;border-radius:8px;padding:5px 10px;font-size:11px;color:#92400e;font-weight:600;">⏳ ২ বার চেষ্টা হয়েছে</div>
-            </div>
-          </div>
-
-          <!-- Negotiation Card 2 -->
-          <div style="background:white;border-radius:18px;padding:16px;border:2px solid #fde68a;box-shadow:var(--shadow-sm);margin-bottom:10px;cursor:pointer;position:relative;" onclick="nav('r-alert',null)">
-            <div style="position:absolute;top:12px;right:12px;background:linear-gradient(135deg,var(--orange),#d97706);color:white;border-radius:8px;padding:3px 8px;font-size:10px;font-weight:700;">দর কষুন</div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;padding-right:60px;">
-              <div>
-                <div style="font-size:15px;font-weight:700;color:var(--gray-900);">🛒 Grocery Run</div>
-                <div style="font-size:11px;color:var(--gray-400);margin-top:3px;">Shyamoli Bazar → Mohammadpur</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-              <div style="font-size:11px;color:var(--gray-500);">কাস্টমারের অফার</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;color:var(--gray-400);text-decoration:line-through;">৳60</div>
-              <div style="font-size:11px;color:var(--green);">→ এখন দিচ্ছেন</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--green);">৳100</div>
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">📍 1.5 km</div>
-              <div style="background:#fef3c7;border-radius:8px;padding:5px 10px;font-size:11px;color:#92400e;font-weight:600;">⏳ ৩ বার চেষ্টা হয়েছে</div>
+          <div id="rider-task-feed">
+            <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
+              <div style="font-size:40px;margin-bottom:12px;">🛵</div>
+              <div style="font-weight:600;">কোনো টাস্ক নেই এখন</div>
+              <div style="font-size:12px;margin-top:6px;">Online থাকুন, নতুন টাস্ক এলে দেখাবে</div>
             </div>
           </div>
 
@@ -2975,23 +2866,21 @@
             </div>
           </div>
 
-          <!-- Task Card -->
-          <div style="background:var(--gray-50);border-radius:16px;padding:14px;border:1.5px solid var(--gray-200);margin-bottom:12px;">
-            <div style="font-size:15px;font-weight:800;color:var(--gray-900);margin-bottom:10px;">🛒 Market Run</div>
+            <div style="background:var(--gray-50);border-radius:16px;padding:14px;border:1.5px solid var(--gray-200);margin-bottom:12px;">
+            <div id="alert-task-title" style="font-size:15px;font-weight:800;color:var(--gray-900);margin-bottom:10px;">📋 Task</div>
             <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
               <div style="display:flex;gap:10px;align-items:center;">
                 <div style="width:9px;height:9px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>
-                <div style="font-size:13px;color:var(--gray-700);">Mohammadpur Bazar, Shop 14</div>
+                <div id="alert-pickup" style="font-size:13px;color:var(--gray-700);">—</div>
               </div>
               <div style="width:2px;height:12px;background:var(--gray-300);margin-left:3.5px;"></div>
               <div style="display:flex;gap:10px;align-items:center;">
                 <div style="width:9px;height:9px;background:var(--green);border-radius:50%;flex-shrink:0;"></div>
-                <div style="font-size:13px;color:var(--gray-700);">Dhanmondi 27, House 4</div>
+                <div id="alert-delivery" style="font-size:13px;color:var(--gray-700);">—</div>
               </div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">📍 1.8 km</div>
-              <div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">⏱️ ~20 min</div>
+              <div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;" id="alert-timing">⚡ এখনই</div>
             </div>
           </div>
 
@@ -2999,8 +2888,7 @@
           <div style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(245,158,11,0.05));border:1.5px solid rgba(245,158,11,0.3);border-radius:14px;padding:13px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
             <div>
               <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;">Customer's Offer</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--gray-900);">৳200</div>
-              <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Above normal rate ✨</div>
+              <div id="alert-fee" style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--gray-900);">৳—</div>
             </div>
             <div style="font-size:32px;">💰</div>
           </div>
@@ -3026,8 +2914,7 @@
 
           <!-- Action Buttons -->
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <button onclick="nav('r-accepted',null)" style="width:100%;padding:15px;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:14px;color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(16,185,129,0.35);">✅ Accept ৳200 Now</button>
-            <button onclick="nav('r-accepted',null)" style="width:100%;padding:15px;background:linear-gradient(135deg,var(--blue-mid),var(--blue-dark));border:none;border-radius:14px;color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(37,99,235,0.35);">↩️ Send Counter Offer</button>
+            <button onclick="riderAcceptTask()" style="width:100%;padding:15px;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:14px;color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(16,185,129,0.35);">✅ Accept Task Now</button>
             <button onclick="nav('r-home',null)" style="width:100%;padding:13px;background:var(--gray-100);border:none;border-radius:14px;color:var(--gray-400);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Skip this task</button>
           </div>
         </div>
@@ -3147,7 +3034,7 @@
 
         <!-- CTA -->
         <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px 30px;background:white;border-top:1px solid var(--gray-100);z-index:10;">
-          <button onclick="nav('r-pickup',null)" class="btn-primary">🟢 Start Navigation to Pickup</button>
+          <button onclick="riderStartNavigation()" class="btn-primary">🟢 Start Navigation to Pickup</button>
         </div>
 
         <style>
@@ -3257,7 +3144,7 @@
 
         <!-- CTA -->
         <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px 30px;background:white;border-top:1px solid var(--gray-100);z-index:10;">
-          <button onclick="nav('r-delivery',null)" class="btn-primary">✅ Arrived at Pickup — Confirm</button>
+          <button onclick="riderPickedUp()" class="btn-primary">✅ Arrived at Pickup — Confirm</button>
         </div>
       </div>
 
@@ -3409,7 +3296,7 @@
               el.style.border = '2px solid #10b981';
               el.style.background = '#f0fdf4';
             });
-            setTimeout(function(){ nav('r-done', null); }, 500);
+            setTimeout(function(){ riderCompleteTask(); }, 500);
           }
         </script>
       </div>
@@ -3896,8 +3783,9 @@
   // Current role tracker
   var currentRole = 'customer';
 
-  // Auto advance splash after 2.5s → Role Selection
-  setTimeout(() => { nav('role', null); }, 2500);
+  // Splash এ থাকো — onAuthStateChanged decide করবে কোথায় যাবে
+  // Logged in হলে → home/r-home, না হলে → role select
+  var splashTimeout = setTimeout(() => { nav('role', null); }, 2500);
 
   // nav() is defined below in RIDER FUNCTIONS section
   // (includes timer logic for r-alert screen)
@@ -4132,24 +4020,32 @@
 // Auto-login check
 auth.onAuthStateChanged(function(user) {
   if (user) {
+    // Logged in — splash timeout বাতিল করো, সরাসরি home এ যাও
+    clearTimeout(splashTimeout);
     db.collection('users').doc(user.uid).get().then(function(doc) {
       if (doc.exists) {
         var data = doc.data();
         currentRole = data.role || 'customer';
         applyUserToUI(data);
-        if (currentRole === 'rider') {
-          nav('r-home', null);
-        } else {
-          nav('home', null);
-        }
+        // Splash একটু দেখাও তারপর home
+        setTimeout(function() {
+          if (currentRole === 'rider') {
+            nav('r-home', null);
+          } else {
+            nav('home', null);
+          }
+        }, 1200);
       } else {
-        nav('splash', null);
+        // Firestore এ নেই — role select এ পাঠাও
+        clearTimeout(splashTimeout);
+        setTimeout(function() { nav('role', null); }, 1500);
       }
     }).catch(function() {
-      nav('splash', null);
+      clearTimeout(splashTimeout);
+      setTimeout(function() { nav('role', null); }, 1500);
     });
   } else {
-    nav('splash', null);
+    // Logged out — 2.5s পর role select দেখাও (splashTimeout চলতে দাও)
   }
 });
 
@@ -4300,11 +4196,321 @@ function firebaseLogout() {
     });
 }
 
+
+// ══════════════════════════════════════════
+//  TASK SYSTEM — Firestore Real-time
+// ══════════════════════════════════════════
+
+var currentTaskData = {};   // post করার সময় জমা থাকবে
+var riderFeedListener = null;  // unsubscribe handle
+
+// ── Post1→Post4 ডেটা collect ──
+function collectTaskData() {
+  currentTaskData.title       = (document.getElementById('task-title-input')  || {}).value || 'New Task';
+  currentTaskData.description = (document.getElementById('task-desc-input')   || {}).value || '';
+  currentTaskData.pickup      = (document.getElementById('pickup-input')       || {}).value || '';
+  currentTaskData.delivery    = (document.getElementById('delivery-input')     || {}).value || '';
+  currentTaskData.fee = (document.getElementById('task-fee-input') || {}).textContent || '80';
+  currentTaskData.timing      = (document.getElementById('t-now') && document.getElementById('t-now').classList.contains('selected')) ? 'now' : 'later';
+}
+
+// ── Task Post করো Firestore এ ──
+function postTask() {
+  var user = auth.currentUser;
+  if (!user) { alert('আগে লগইন করুন'); return; }
+
+  collectTaskData();
+
+  var taskDoc = {
+    title       : currentTaskData.title       || 'নতুন টাস্ক',
+    description : currentTaskData.description || '',
+    pickup      : currentTaskData.pickup      || 'অনির্ধারিত',
+    delivery    : currentTaskData.delivery    || 'অনির্ধারিত',
+    fee         : parseInt(currentTaskData.fee) || 80,
+    timing      : currentTaskData.timing      || 'now',
+    status      : 'open',
+    customerId  : user.uid,
+    customerName: document.querySelector('.home-name') ? document.querySelector('.home-name').textContent.replace('!','') : 'Customer',
+    riderId     : null,
+    createdAt   : firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  var btn = document.querySelector('#screen-post4 .btn-primary');
+  if (btn) { btn.textContent = 'Posting...'; btn.disabled = true; }
+
+  db.collection('tasks').add(taskDoc)
+    .then(function(docRef) {
+      if (btn) { btn.textContent = '✅ Confirm & Post Task'; btn.disabled = false; }
+      currentTaskData.taskId = docRef.id;
+      watchActiveTask(docRef.id);
+      nav('finding-rider', null);
+      setTimeout(startFindTimer, 100);
+    })
+    .catch(function(err) {
+      if (btn) { btn.textContent = '✅ Confirm & Post Task'; btn.disabled = false; }
+      alert('সমস্যা হয়েছে: ' + err.message);
+    });
+}
+
+// ── Customer: নিজের সব task load ──
+function loadCustomerTasks() {
+  var user = auth.currentUser;
+  if (!user) return;
+
+  db.collection('tasks')
+    .where('customerId', '==', user.uid)
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(function(snapshot) {
+      var running = [], completed = [], cancelled = [];
+
+      snapshot.forEach(function(doc) {
+        var t = doc.data();
+        t.id = doc.id;
+        if (t.status === 'open' || t.status === 'assigned' || t.status === 'picked_up') running.push(t);
+        else if (t.status === 'completed') completed.push(t);
+        else if (t.status === 'cancelled') cancelled.push(t);
+      });
+
+      renderCustomerTaskList('running-tasks-list',   running,   'running');
+      renderCustomerTaskList('completed-tasks-list', completed, 'done');
+      renderCustomerTaskList('cancelled-tasks-list', cancelled, 'cancelled');
+      renderHomeRecent(running.concat(completed).slice(0,3));
+    });
+}
+
+function renderCustomerTaskList(containerId, tasks, badgeType) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  if (!tasks.length) {
+    var emojis = { running:'📋', done:'✅', cancelled:'❌' };
+    var msgs   = { running:'কোনো চলমান টাস্ক নেই', done:'কোনো সম্পন্ন টাস্ক নেই', cancelled:'কোনো বাতিল টাস্ক নেই' };
+    el.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--gray-400);">'
+      + '<div style="font-size:40px;margin-bottom:12px;">' + (emojis[badgeType]||'📋') + '</div>'
+      + '<div style="font-weight:600;">' + (msgs[badgeType]||'কোনো টাস্ক নেই') + '</div></div>';
+    return;
+  }
+  var badgeLabels = { running:'Running', done:'Done', cancelled:'Cancelled' };
+  var badgeCls    = { running:'badge-running', done:'badge-done', cancelled:'badge-cancelled' };
+  el.innerHTML = tasks.map(function(t) {
+    return '<div class="task-card" style="margin:0 0 10px;">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">'
+      + '<div><div class="tc-title">' + escHtml(t.title) + '</div>'
+      + '<div class="tc-meta">📍 ' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
+      + '<div class="status-badge ' + (badgeCls[badgeType]||'') + '">' + (badgeLabels[badgeType]||'') + '</div>'
+      + '</div>'
+      + '<div class="tc-bottom"><div class="tc-fee">৳' + (t.fee||0) + '</div>'
+      + '<div style="font-size:11px;color:var(--gray-400);">' + statusLabel(t.status) + '</div></div>'
+      + '</div>';
+  }).join('');
+}
+
+function renderHomeRecent(tasks) {
+  var el = document.getElementById('home-recent-tasks');
+  if (!el) return;
+  if (!tasks.length) {
+    el.innerHTML = '<div style="text-align:center;padding:24px 20px;color:var(--gray-400);"><div style="font-size:13px;font-weight:600;">কোনো টাস্ক নেই — এখনই একটি পোস্ট করুন!</div></div>';
+    return;
+  }
+  var icons = { open:'🔍', assigned:'🛵', picked_up:'📦', completed:'✅', cancelled:'❌' };
+  var aiCls = { open:'ai-running', assigned:'ai-running', picked_up:'ai-running', completed:'ai-done', cancelled:'ai-cancelled' };
+  el.innerHTML = tasks.map(function(t) {
+    return '<div class="activity-card">'
+      + '<div class="activity-icon ' + (aiCls[t.status]||'') + '">' + (icons[t.status]||'📋') + '</div>'
+      + '<div class="activity-info">'
+      + '<div class="activity-title">' + escHtml(t.title) + '</div>'
+      + '<div class="activity-meta">📍 ' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
+      + '<div class="status-badge ' + statusBadgeCls(t.status) + '">' + statusLabel(t.status) + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+// ── Rider: open tasks real-time feed ──
+function loadRiderFeed() {
+  if (riderFeedListener) riderFeedListener(); // আগের listener বন্ধ করো
+
+  riderFeedListener = db.collection('tasks')
+    .where('status', '==', 'open')
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(function(snapshot) {
+      var tasks = [];
+      snapshot.forEach(function(doc) {
+        var t = doc.data();
+        t.id = doc.id;
+        tasks.push(t);
+      });
+
+      var countEl = document.getElementById('live-task-count');
+      if (countEl) countEl.textContent = tasks.length ? tasks.length + 'টি টাস্ক আছে' : 'কোনো টাস্ক নেই';
+
+      var feed = document.getElementById('rider-task-feed');
+      if (!feed) return;
+
+      if (!tasks.length) {
+        feed.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--gray-400);">'
+          + '<div style="font-size:40px;margin-bottom:12px;">🛵</div>'
+          + '<div style="font-weight:600;">কোনো টাস্ক নেই এখন</div>'
+          + '<div style="font-size:12px;margin-top:6px;">Online থাকুন, নতুন টাস্ক এলে দেখাবে</div></div>';
+        return;
+      }
+
+      feed.innerHTML = tasks.map(function(t) {
+        return '<div style="background:white;border-radius:18px;padding:16px;border:1.5px solid var(--gray-100);'
+          + 'box-shadow:var(--shadow-sm);margin-bottom:10px;cursor:pointer;" '
+          + 'onclick="selectRiderTask(\'' + t.id + '\')">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">'
+          + '<div><div style="font-size:15px;font-weight:700;color:var(--gray-900);">📋 ' + escHtml(t.title) + '</div>'
+          + '<div style="font-size:11px;color:var(--gray-400);margin-top:3px;">'
+          + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
+          + '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:18px;font-weight:800;color:var(--blue-dark);">৳' + (t.fee||0) + '</div>'
+          + '</div>'
+          + '<div style="display:flex;gap:8px;">'
+          + '<div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">⚡ ' + (t.timing === 'now' ? 'এখনই' : 'পরে') + '</div>'
+          + '<div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">🙋 ' + escHtml(t.customerName || 'Customer') + '</div>'
+          + '</div></div>';
+      }).join('');
+    });
+}
+
+var selectedTaskId = null;
+
+// ── Helpers ──
+function statusLabel(status) {
+  var map = { open:'খোঁজা হচ্ছে', assigned:'রাইডার আসছে', picked_up:'পিকআপ হয়েছে', completed:'সম্পন্ন', cancelled:'বাতিল' };
+  return map[status] || status;
+}
+function statusBadgeCls(status) {
+  var map = { open:'badge-running', assigned:'badge-running', picked_up:'badge-running', completed:'badge-done', cancelled:'badge-cancelled' };
+  return map[status] || '';
+}
+function escHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Login হলে সাথে সাথে task feed চালু করো ──
+// (applyUserToUI এর পরে call হবে)
+var _origApplyUI = applyUserToUI;
+applyUserToUI = function(data) {
+  _origApplyUI(data);
+  if (data.role === 'rider') {
+    loadRiderFeed();
+  } else {
+    loadCustomerTasks();
+  }
+};
+
 // ── Helper ──
 function showErr(el, msg) {
   if (!el) return;
   el.textContent = msg;
   el.style.display = 'block';
+}
+
+// ══════════════════════════════════════════
+//  RIDER STATUS FLOW
+// ══════════════════════════════════════════
+
+// Rider task select করলে r-alert এ data ভরো
+function selectRiderTask(taskId) {
+  selectedTaskId = taskId;
+  // Firestore থেকে task data নিয়ে alert screen populate করো
+  db.collection('tasks').doc(taskId).get().then(function(doc) {
+    if (!doc.exists) return;
+    var t = doc.data();
+    var titleEl   = document.getElementById('alert-task-title');
+    var pickupEl  = document.getElementById('alert-pickup');
+    var deliveryEl= document.getElementById('alert-delivery');
+    var feeEl     = document.getElementById('alert-fee');
+    var timingEl  = document.getElementById('alert-timing');
+    if (titleEl)    titleEl.textContent   = '📋 ' + (t.title || 'টাস্ক');
+    if (pickupEl)   pickupEl.textContent  = t.pickup   || '—';
+    if (deliveryEl) deliveryEl.textContent= t.delivery || '—';
+    if (feeEl)      feeEl.textContent     = '৳' + (t.fee || 0);
+    if (timingEl)   timingEl.textContent  = t.timing === 'now' ? '⚡ এখনই' : '⏰ পরে';
+    nav('r-alert', null);
+  });
+}
+
+// ── Accept ──
+function riderAcceptTask() {
+  var user = auth.currentUser;
+  if (!user || !selectedTaskId) { nav('r-home', null); return; }
+
+  var riderName = document.getElementById('rider-greeting')
+    ? document.getElementById('rider-greeting').textContent.replace('Hey ','').replace('! 🏍️','')
+    : 'Rider';
+
+  db.collection('tasks').doc(selectedTaskId).update({
+    status    : 'assigned',
+    riderId   : user.uid,
+    riderName : riderName,
+    acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    nav('r-accepted', null);
+  }).catch(function(err) {
+    alert('সমস্যা হয়েছে: ' + err.message);
+  });
+}
+
+// ── Start Navigation (assigned → picked_up pending) ──
+function riderStartNavigation() {
+  // শুধু screen navigation — Firestore এখনো assigned
+  nav('r-pickup', null);
+}
+
+// ── Picked Up ──
+function riderPickedUp() {
+  if (!selectedTaskId) { nav('r-delivery', null); return; }
+
+  db.collection('tasks').doc(selectedTaskId).update({
+    status   : 'picked_up',
+    pickedAt : firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    nav('r-delivery', null);
+  }).catch(function(err) {
+    alert('সমস্যা হয়েছে: ' + err.message);
+    nav('r-delivery', null);
+  });
+}
+
+// ── Complete ──
+function riderCompleteTask() {
+  if (!selectedTaskId) { nav('r-done', null); return; }
+
+  db.collection('tasks').doc(selectedTaskId).update({
+    status     : 'completed',
+    completedAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    selectedTaskId = null;
+    nav('r-done', null);
+  }).catch(function(err) {
+    nav('r-done', null);
+  });
+}
+
+// ── Customer side: active task live status watch ──
+var customerTaskListener = null;
+function watchActiveTask(taskId) {
+  if (customerTaskListener) customerTaskListener();
+  customerTaskListener = db.collection('tasks').doc(taskId)
+    .onSnapshot(function(doc) {
+      if (!doc.exists) return;
+      var t = doc.data();
+      // assigned screen এ rider info update
+      var riderInfoEl = document.getElementById('active-rider-name');
+      if (riderInfoEl && t.riderName) riderInfoEl.textContent = t.riderName;
+      // status দেখে screen navigate করো (customer side)
+      if (t.status === 'assigned' && getCurrentScreen() === 'finding-rider') {
+        nav('assigned', null);
+      }
+      if (t.status === 'completed' && getCurrentScreen() === 'assigned') {
+        nav('completed', null);
+      }
+    });
+}
+
+function getCurrentScreen() {
+  var active = document.querySelector('.screen.active');
+  return active ? active.id.replace('screen-', '') : '';
 }
 </script>
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1200">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tasko – App Prototype (Blue)</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -38,48 +38,30 @@
 
   body {
     font-family: 'DM Sans', sans-serif;
-    background: #0c1445;
-    background-image:
-      radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.3) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(6,182,212,0.2) 0%, transparent 50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    background: var(--white);
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
   }
 
   .phone-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 36px;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
   }
 
-  /* PHONE FRAME */
+  /* PHONE FRAME — removed, fullscreen now */
   .phone-frame {
-    width: 375px;
-    height: 812px;
-    background: #000;
-    border-radius: 52px;
-    border: 3px solid #1e293b;
-    box-shadow:
-      0 50px 120px rgba(0,0,0,0.8),
-      0 0 0 1px #2d3748,
-      inset 0 0 0 1px #374151;
+    width: 100%;
+    height: 100%;
+    background: var(--white);
     overflow: hidden;
     position: relative;
-    flex-shrink: 0;
   }
 
-  .phone-notch {
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 120px; height: 30px;
-    background: #000;
-    border-radius: 0 0 20px 20px;
-    z-index: 100;
-  }
+  .phone-notch { display: none; }
 
   .phone-screen {
     width: 100%; height: 100%;
@@ -114,7 +96,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 22px 8px;
+    padding: 14px 22px 8px;
     font-size: 11px;
     font-weight: 700;
     color: var(--gray-700);
@@ -1421,49 +1403,6 @@
 <body>
 
 <div class="phone-wrapper">
-
-  <!-- SIDEBAR NAV -->
-  <div class="screen-nav">
-    <div class="sn-title">Navigation</div>
-    <div style="font-size:9px;color:rgba(255,255,255,0.25);padding:0 4px 6px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">— Auth —</div>
-    <button class="sn-btn active" data-screen="splash" onclick="nav('splash',this)"><span class="sn-num">A1</span> Splash</button>
-    <button class="sn-btn" data-screen="role" onclick="nav('role',this)"><span class="sn-num">A2</span> Role Select</button>
-    <button class="sn-btn" data-screen="login" onclick="nav('login',this)"><span class="sn-num">A3</span> Login</button>
-    <button class="sn-btn" data-screen="signup" onclick="nav('signup',this)"><span class="sn-num">A4</span> Sign Up</button>
-    <button class="sn-btn" data-screen="forgot" onclick="nav('forgot',this)"><span class="sn-num">A5</span> Forgot Password</button>
-    <div style="font-size:9px;color:rgba(255,255,255,0.25);padding:6px 4px 6px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">— Customer —</div>
-    <button class="sn-btn" data-screen="home" onclick="nav('home',this)"><span class="sn-num">C1</span> Home</button>
-    <button class="sn-btn" data-screen="post1" onclick="nav('post1',this)"><span class="sn-num">C2</span> Task Details</button>
-    <button class="sn-btn" data-screen="post2" onclick="nav('post2',this)"><span class="sn-num">C3</span> Location</button>
-    <button class="sn-btn" data-screen="post3" onclick="nav('post3',this)"><span class="sn-num">C4</span> Time</button>
-    <button class="sn-btn" data-screen="post4" onclick="nav('post4',this)"><span class="sn-num">C5</span> Price & Confirm</button>
-    <button class="sn-btn" data-screen="finding-rider" onclick="nav('finding-rider',this);setTimeout(startFindTimer,100)"><span class="sn-num">C6</span> 🔍 Finding Rider</button>
-    <button class="sn-btn" data-screen="negotiate" onclick="nav('negotiate',this)"><span class="sn-num">C6b</span> 😔 No Rider</button>
-    <button class="sn-btn" data-screen="counter-offer" onclick="nav('counter-offer',this)"><span class="sn-num">C6c</span> 💬 Counter Offer</button>
-    <button class="sn-btn" data-screen="assigned" onclick="nav('assigned',this)"><span class="sn-num">C7</span> 📍 Live Tracking</button>
-    <button class="sn-btn" data-screen="assigned" onclick="nav('assigned',this);sim12stage2()"><span class="sn-num">C7b</span> 📦 Picked Up</button>
-    <button class="sn-btn" data-screen="completed" onclick="nav('completed',this)"><span class="sn-num">C8</span> ✅ Completed</button>
-    <button class="sn-btn" data-screen="activity" onclick="nav('activity',this)"><span class="sn-num">C9</span> Activity</button>
-    <button class="sn-btn" data-screen="notifications" onclick="nav('notifications',this)"><span class="sn-num">C10</span> Notifications</button>
-    <button class="sn-btn" data-screen="account" onclick="nav('account',this)"><span class="sn-num">C11</span> Account</button>
-    <button class="sn-btn" data-screen="c-add-money" onclick="nav('c-add-money',this)"><span class="sn-num">C11a</span> ➕ Add Money</button>
-    <button class="sn-btn" data-screen="c-txn-history" onclick="nav('c-txn-history',this)"><span class="sn-num">C11b</span> 📋 Txn History</button>
-    <button class="sn-btn" data-screen="settings" onclick="nav('settings',this)"><span class="sn-num">C12</span> Settings</button>
-    <div style="font-size:9px;color:rgba(255,255,255,0.25);padding:6px 4px 6px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">— Rider —</div>
-    <button class="sn-btn" data-screen="r-home" onclick="nav('r-home',this)"><span class="sn-num">R1</span> Rider Home</button>
-    <button class="sn-btn" data-screen="r-alert" onclick="nav('r-alert',this)"><span class="sn-num">R2</span> Task Alert</button>
-    <button class="sn-btn" data-screen="r-accepted" onclick="nav('r-accepted',this)"><span class="sn-num">R3</span> Task Accepted</button>
-    <button class="sn-btn" data-screen="r-pickup" onclick="nav('r-pickup',this)"><span class="sn-num">R4</span> En Route Pickup</button>
-    <button class="sn-btn" data-screen="r-delivery" onclick="nav('r-delivery',this)"><span class="sn-num">R5</span> En Route Delivery</button>
-    <button class="sn-btn" data-screen="r-done" onclick="nav('r-done',this)"><span class="sn-num">R6</span> Task Done</button>
-    <button class="sn-btn" data-screen="r-earnings" onclick="nav('r-earnings',this)"><span class="sn-num">R7</span> 💰 Wallet & Earnings</button>
-    <button class="sn-btn" data-screen="r-withdraw" onclick="nav('r-withdraw',this)"><span class="sn-num">R7a</span> 💸 Withdraw</button>
-    <button class="sn-btn" data-screen="r-wd-history" onclick="nav('r-wd-history',this)"><span class="sn-num">R7b</span> 📋 Wd. History</button>
-    <button class="sn-btn" data-screen="r-deposit-info" onclick="nav('r-deposit-info',this)"><span class="sn-num">R7c</span> 🔒 Deposit Info</button>
-    <button class="sn-btn" data-screen="r-history" onclick="nav('r-history',this)"><span class="sn-num">R8</span> Task History</button>
-    <button class="sn-btn" data-screen="r-profile" onclick="nav('r-profile',this)"><span class="sn-num">R9</span> Profile</button>
-    <button class="sn-btn" data-screen="r-settings" onclick="nav('r-settings',this)"><span class="sn-num">R10</span> Settings</button>
-  </div>
 
   <!-- PHONE -->
   <div class="phone-frame">
@@ -4348,10 +4287,7 @@ function firebaseLogout() {
   if (hamPanel) hamPanel.classList.remove('open');
   if (hamOverlay) hamOverlay.classList.remove('open');
 
-  if (!auth) {
-    nav('splash', null);
-    return;
-  }
+  if (!auth) { nav('splash', null); return; }
 
   auth.signOut()
     .then(function() {
@@ -4360,8 +4296,7 @@ function firebaseLogout() {
     })
     .catch(function(err) {
       console.error('Logout error:', err);
-      // Firebase error হলেও UI তে logout করে দাও
-      nav('splash', null);
+      nav('splash', null); // error হলেও UI logout করো
     });
 }
 

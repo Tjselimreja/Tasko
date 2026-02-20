@@ -1409,7 +1409,8 @@
     projectId: "tasko-3e6fa",
     storageBucket: "tasko-3e6fa.firebasestorage.app",
     messagingSenderId: "440608078253",
-    appId: "1:440608078253:web:bbfbf9a028097229b5c924"
+    appId: "1:440608078253:web:bbfbf9a028097229b5c924",
+    measurementId: "G-63PE620EP3"
   };
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
@@ -1604,7 +1605,7 @@
           <button class="btn-primary" id="login-btn" onclick="firebaseLogin()">Sign In →</button>
 
           <div class="divider">or</div>
-          <div class="google-btn">
+          <div class="google-btn" onclick="googleLogin()" style="cursor:pointer;">
             <span style="font-size:20px;font-weight:900;font-family:serif;color:#4285F4;">G</span>
             <span>Continue with Google</span>
           </div>
@@ -1675,7 +1676,7 @@
           </div>
 
           <div class="divider">or</div>
-          <div class="google-btn">
+          <div class="google-btn" onclick="googleLogin()" style="cursor:pointer;">
             <span style="font-size:20px;font-weight:900;font-family:serif;color:#4285F4;">G</span>
             <span>Continue with Google</span>
           </div>
@@ -2859,7 +2860,7 @@
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;position:relative;z-index:1;">
             <div>
               <div style="color:rgba(255,255,255,0.6);font-size:12px;">Rider Dashboard</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;margin-bottom:10px;">Hey Mahmud! 🏍️</div>
+              <div id="rider-greeting" style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;margin-bottom:10px;">Hey Mahmud! 🏍️</div>
               <!-- Wallet Balance — bKash style -->
               <div onclick="toggleRWallet()" style="cursor:pointer;display:inline-block;">
                 <div style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:3px;letter-spacing:0.5px;">💰 Wallet Balance</div>
@@ -4225,30 +4226,54 @@ auth.onAuthStateChanged(function(user) {
       nav('splash', null);
     });
   } else {
-    // Not logged in — show splash after 2s
-    setTimeout(function() {
-      var splash = document.getElementById('screen-splash');
-      if (splash && splash.classList.contains('active')) {
-        // still on splash, let user tap
-      }
-    }, 100);
+    nav('splash', null);
   }
 });
 
 // Apply user data to UI
 function applyUserToUI(data) {
-  var name = data.name || '';
+  var name = data.name || 'User';
+  var phone = data.phone || '';
   // Customer home name
-  var homeNameEl = document.querySelector('#screen-home .home-name');
-  if (homeNameEl && name) homeNameEl.textContent = name + '!';
+  document.querySelectorAll('.home-name').forEach(function(el){ el.textContent = name + '!'; });
+  // Ham panel
+  var hamName = document.querySelector('.ham-name');
+  if (hamName) hamName.textContent = name;
+  var hamPhone = document.querySelector('.ham-phone');
+  if (hamPhone && phone) hamPhone.textContent = '+880 ' + phone;
   // Account screen
-  var accNameEl = document.querySelector('#screen-account .acc-name');
-  if (accNameEl && name) accNameEl.textContent = name;
-  var accPhoneEl = document.querySelector('#screen-account .acc-phone');
-  if (accPhoneEl && data.phone) accPhoneEl.textContent = '+880 ' + data.phone;
-  // Rider home
-  var riderGreet = document.querySelector('#screen-r-home [style*="Hey Mahmud"]');
-  if (riderGreet && name) riderGreet.textContent = 'Hey ' + name + '! 🏍️';
+  document.querySelectorAll('.acc-name').forEach(function(el){ el.textContent = name; });
+  document.querySelectorAll('.acc-phone').forEach(function(el){ if(phone) el.textContent = '+880 ' + phone; });
+  // Rider home greeting
+  var riderGreetEl = document.getElementById('rider-greeting');
+  if (riderGreetEl) riderGreetEl.textContent = 'Hey ' + name + '! 🏍️';
+}
+
+// ── GOOGLE LOGIN ──
+function googleLogin() {
+  var provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(function(result) {
+      var user = result.user;
+      return db.collection('users').doc(user.uid).get().then(function(doc) {
+        if (!doc.exists) {
+          return db.collection('users').doc(user.uid).set({
+            name     : user.displayName || 'User',
+            phone    : '',
+            role     : currentRole,
+            wallet   : 0,
+            rating   : 5.0,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+      });
+    })
+    .then(function() {
+      nav(currentRole === 'rider' ? 'r-home' : 'home', null);
+    })
+    .catch(function(err) {
+      alert('Google login failed: ' + err.message);
+    });
 }
 
 // ── SIGN UP ──

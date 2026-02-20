@@ -4020,14 +4020,18 @@
 // Auto-login check
 auth.onAuthStateChanged(function(user) {
   if (user) {
-    // Logged in — splash timeout বাতিল করো, সরাসরি home এ যাও
     clearTimeout(splashTimeout);
     db.collection('users').doc(user.uid).get().then(function(doc) {
       if (doc.exists) {
         var data = doc.data();
         currentRole = data.role || 'customer';
         applyUserToUI(data);
-        // Splash একটু দেখাও তারপর home
+        // task feed চালু করো role অনুযায়ী
+        if (currentRole === 'rider') {
+          loadRiderFeed();
+        } else {
+          loadCustomerTasks();
+        }
         setTimeout(function() {
           if (currentRole === 'rider') {
             nav('r-home', null);
@@ -4036,7 +4040,6 @@ auth.onAuthStateChanged(function(user) {
           }
         }, 1200);
       } else {
-        // Firestore এ নেই — role select এ পাঠাও
         clearTimeout(splashTimeout);
         setTimeout(function() { nav('role', null); }, 1500);
       }
@@ -4045,7 +4048,7 @@ auth.onAuthStateChanged(function(user) {
       setTimeout(function() { nav('role', null); }, 1500);
     });
   } else {
-    // Logged out — 2.5s পর role select দেখাও (splashTimeout চলতে দাও)
+    // Logged out — splashTimeout চলতে দাও → role select
   }
 });
 
@@ -4275,6 +4278,8 @@ function loadCustomerTasks() {
       renderCustomerTaskList('completed-tasks-list', completed, 'done');
       renderCustomerTaskList('cancelled-tasks-list', cancelled, 'cancelled');
       renderHomeRecent(running.concat(completed).slice(0,3));
+    }, function(err) {
+      console.error('Customer tasks error:', err.message);
     });
 }
 
@@ -4326,7 +4331,7 @@ function renderHomeRecent(tasks) {
 
 // ── Rider: open tasks real-time feed ──
 function loadRiderFeed() {
-  if (riderFeedListener) riderFeedListener(); // আগের listener বন্ধ করো
+  if (riderFeedListener) riderFeedListener();
 
   riderFeedListener = db.collection('tasks')
     .where('status', '==', 'open')
@@ -4334,9 +4339,7 @@ function loadRiderFeed() {
     .onSnapshot(function(snapshot) {
       var tasks = [];
       snapshot.forEach(function(doc) {
-        var t = doc.data();
-        t.id = doc.id;
-        tasks.push(t);
+        var t = doc.data(); t.id = doc.id; tasks.push(t);
       });
 
       var countEl = document.getElementById('live-task-count');
@@ -4364,10 +4367,17 @@ function loadRiderFeed() {
           + '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:18px;font-weight:800;color:var(--blue-dark);">৳' + (t.fee||0) + '</div>'
           + '</div>'
           + '<div style="display:flex;gap:8px;">'
-          + '<div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">⚡ ' + (t.timing === 'now' ? 'এখনই' : 'পরে') + '</div>'
-          + '<div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">🙋 ' + escHtml(t.customerName || 'Customer') + '</div>'
+          + '<div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">⚡ ' + (t.timing==='now'?'এখনই':'পরে') + '</div>'
+          + '<div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">🙋 ' + escHtml(t.customerName||'Customer') + '</div>'
           + '</div></div>';
       }).join('');
+    }, function(err) {
+      console.error('Feed error:', err.message);
+      // Index না থাকলে এই error আসবে — console এ link দেখাবে
+      var feed = document.getElementById('rider-task-feed');
+      if (feed) feed.innerHTML = '<div style="text-align:center;padding:30px 16px;color:var(--gray-400);">'
+        + '<div style="font-size:13px;font-weight:600;color:var(--red);">⚠️ Setup বাকি আছে</div>'
+        + '<div style="font-size:11px;margin-top:6px;">Browser Console (F12) খুলুন — error link এ click করে Firebase Index তৈরি করুন</div></div>';
     });
 }
 
@@ -4385,18 +4395,6 @@ function statusBadgeCls(status) {
 function escHtml(str) {
   return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
-// ── Login হলে সাথে সাথে task feed চালু করো ──
-// (applyUserToUI এর পরে call হবে)
-var _origApplyUI = applyUserToUI;
-applyUserToUI = function(data) {
-  _origApplyUI(data);
-  if (data.role === 'rider') {
-    loadRiderFeed();
-  } else {
-    loadCustomerTasks();
-  }
-};
 
 // ── Helper ──
 function showErr(el, msg) {

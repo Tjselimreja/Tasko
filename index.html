@@ -2644,8 +2644,8 @@
           <div style="display:flex;align-items:center;gap:12px;position:relative;z-index:1;">
             <div style="width:52px;height:52px;background:rgba(255,255,255,0.15);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid rgba(255,255,255,0.2);">🧑</div>
             <div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;">Rafi Ahmed</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.6);">+880 1712 345678 · ⭐ 4.9</div>
+              <div class="acc-name" style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;">Rafi Ahmed</div>
+              <div class="acc-phone" style="font-size:11px;color:rgba(255,255,255,0.6);">+880 1712 345678 · ⭐ 4.9</div>
             </div>
           </div>
         </div>
@@ -4227,7 +4227,7 @@ function applyUserToUI(data) {
   if (hamPhone && phone) hamPhone.textContent = '+880 ' + phone;
   // Account screen
   document.querySelectorAll('.acc-name').forEach(function(el){ el.textContent = name; });
-  document.querySelectorAll('.acc-phone').forEach(function(el){ if(phone) el.textContent = '+880 ' + phone; });
+  document.querySelectorAll('.acc-phone').forEach(function(el){ if(phone) el.textContent = '+880 ' + phone + ' · ⭐ 4.9'; });
   // Rider home greeting
   var riderGreetEl = document.getElementById('rider-greeting');
   if (riderGreetEl) riderGreetEl.textContent = 'Hey ' + name + '! 🏍️';
@@ -4342,9 +4342,27 @@ function firebaseLogin() {
 
 // ── LOGOUT ──
 function firebaseLogout() {
-  auth.signOut().then(function() {
+  // Ham panel ও overlay বন্ধ করো আগে
+  var hamPanel = document.getElementById('ham-panel');
+  var hamOverlay = document.getElementById('ham-overlay');
+  if (hamPanel) hamPanel.classList.remove('open');
+  if (hamOverlay) hamOverlay.classList.remove('open');
+
+  if (!auth) {
     nav('splash', null);
-  });
+    return;
+  }
+
+  auth.signOut()
+    .then(function() {
+      currentRole = 'customer';
+      nav('splash', null);
+    })
+    .catch(function(err) {
+      console.error('Logout error:', err);
+      // Firebase error হলেও UI তে logout করে দাও
+      nav('splash', null);
+    });
 }
 
 // ── Helper ──

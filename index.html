@@ -3157,7 +3157,7 @@
 
         <!-- CTA -->
         <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px 30px;background:white;border-top:1px solid var(--gray-100);z-index:10;">
-          <button onclick="riderPickedUp()" class="btn-primary">✅ Arrived at Pickup — Confirm</button>
+          <button onclick="nav('r-delivery',null)" class="btn-primary">✅ Arrived at Pickup — Confirm</button>
         </div>
       </div>
 
@@ -4312,7 +4312,7 @@ function renderCustomerTaskList(containerId, tasks, badgeType) {
   var badgeLabels = { running:'Running', done:'Done', cancelled:'Cancelled' };
   var badgeCls    = { running:'badge-running', done:'badge-done', cancelled:'badge-cancelled' };
   el.innerHTML = tasks.map(function(t) {
-    return '<div class="task-card" style="margin:0 0 10px;">'
+    return '<div class="task-card" style="margin:0 0 10px;cursor:pointer;" onclick="customerOpenTask(\'' + t.id + '\',\'' + t.status + '\')">'
       + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">'
       + '<div><div class="tc-title">' + escHtml(t.title) + '</div>'
       + '<div class="tc-meta">📍 ' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
@@ -4513,13 +4513,38 @@ function renderRiderTaskList(containerId, tasks, isCancelled) {
     var badgeCls = isActive ? 'badge-running' : (t.status==='completed' ? 'badge-done' : 'badge-cancelled');
     var badgeTxt = isActive ? 'চলছে' : (t.status==='completed' ? 'Done' : 'Cancelled');
     var fee = t.status==='cancelled' ? '<span style="color:var(--gray-400);">৳0</span>' : '<span style="color:var(--green);">+৳'+t.fee+'</span>';
-    return '<div class="task-card" style="margin:0 0 10px;">'
+    return '<div class="task-card" style="margin:0 0 10px;cursor:pointer;" onclick="riderOpenTask(\'' + t.id + '\',\'' + t.status + '\')">'
       + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">'
       + '<div><div class="tc-title">📋 ' + escHtml(t.title) + '</div>'
       + '<div class="tc-meta">📍 ' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
       + '<div class="status-badge ' + badgeCls + '">' + badgeTxt + '</div></div>'
       + '<div class="tc-bottom">' + fee + '</div></div>';
   }).join('');
+}
+
+// ── Customer: Activity card click ──
+function customerOpenTask(taskId, status) {
+  currentTaskData.taskId = taskId;
+  watchActiveTask(taskId);
+  if (status === 'open' || status === 'assigned' || status === 'picked_up') {
+    nav('assigned', null);
+  } else if (status === 'completed') {
+    nav('completed', null);
+  }
+  // cancelled হলে কিছু করে না
+}
+
+// ── Rider: History card click ──
+function riderOpenTask(taskId, status) {
+  selectedTaskId = taskId;
+  if (status === 'assigned') {
+    nav('r-accepted', null);
+  } else if (status === 'picked_up') {
+    nav('r-pickup', null);
+  } else if (status === 'completed') {
+    nav('r-done', null);
+  }
+  // cancelled হলে কিছু করে না
 }
 
 // ── Accept এ screen update ──
@@ -4595,19 +4620,28 @@ function watchActiveTask(taskId) {
       if (!doc.exists) return;
       var t = doc.data();
       var screen = getCurrentScreen();
-      if (t.status === 'assigned') {
-        // Timer বন্ধ করো — rider accept করে ফেলেছে
-        clearInterval(window._findTimer);
-        if (screen === 'finding-rider') {
-          nav('assigned', null);
-        }
-      }
-      if (t.status === 'completed' && screen === 'assigned') {
-        nav('completed', null);
-      }
+
       // Rider name update
       var riderInfoEl = document.getElementById('active-rider-name');
       if (riderInfoEl && t.riderName) riderInfoEl.textContent = t.riderName;
+
+      // Status badge update — assigned screen এ
+      var statusEl = document.getElementById('assigned-status-label');
+      if (statusEl) {
+        var labels = { assigned:'🛵 রাইডার আসছে', picked_up:'📦 পিকআপ হয়েছে', completed:'✅ সম্পন্ন' };
+        statusEl.textContent = labels[t.status] || '';
+      }
+
+      if (t.status === 'assigned') {
+        clearInterval(window._findTimer);
+        if (screen === 'finding-rider') nav('assigned', null);
+      }
+      if (t.status === 'picked_up') {
+        if (screen === 'finding-rider' || screen === 'assigned') nav('assigned', null);
+      }
+      if (t.status === 'completed') {
+        nav('completed', null);
+      }
     });
 }
 

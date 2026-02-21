@@ -4663,16 +4663,30 @@ function watchActiveTask(taskId) {
         if (t.status === 'completed')  etaEl.textContent = '✅ ডেলিভারি সম্পন্ন!';
       }
 
-      // Progress step update
-      var step2dot = document.querySelector('#step-2 > div:first-child');
-      var step3dot = document.querySelector('#step-3 > div:first-child');
-      var line2    = document.getElementById('line-2');
+      // Progress step update — dot IDs ব্যবহার করো
+      var dot2   = document.getElementById('dot-2');
+      var dot3   = document.getElementById('dot-3');
+      var line2  = document.getElementById('line-2');
+      var label2 = document.getElementById('label-2');
+      var time2  = document.getElementById('time-2');
+      var label3 = document.getElementById('label-3');
+      var time3  = document.getElementById('time-3');
+
       if (t.status === 'picked_up' || t.status === 'completed') {
-        if (step2dot) { step2dot.style.background = 'var(--green)'; step2dot.textContent = '✓'; step2dot.style.color = 'white'; }
-        if (line2)    line2.style.background = 'var(--green)';
+        // Step 2 সম্পন্ন — সবুজ টিক
+        if (dot2)   { dot2.style.background = 'var(--green)'; dot2.style.animation = 'none'; dot2.style.boxShadow = 'none'; dot2.textContent = '✓'; dot2.style.color = 'white'; dot2.style.fontSize = '14px'; }
+        if (line2)  line2.style.background = 'var(--green)';
+        if (label2) { label2.textContent = 'Picked Up ✓'; label2.style.color = 'var(--green)'; }
+        if (time2)  { time2.textContent = 'Done'; time2.style.color = 'var(--green)'; time2.style.background = '#d1fae5'; }
+        // Step 3 active হয়
+        if (dot3)   { dot3.style.background = 'var(--blue)'; dot3.style.border = 'none'; dot3.textContent = '🛵'; dot3.style.fontSize = '12px'; dot3.style.boxShadow = '0 0 0 4px rgba(37,99,235,0.15)'; dot3.style.display = 'flex'; dot3.style.alignItems = 'center'; dot3.style.justifyContent = 'center'; }
+        if (label3) { label3.textContent = 'Delivering...'; label3.style.color = 'var(--blue)'; }
+        if (time3)  { time3.textContent = 'In progress'; time3.style.color = 'var(--blue)'; time3.style.background = 'var(--blue-light)'; }
       }
       if (t.status === 'completed') {
-        if (step3dot) { step3dot.style.background = 'var(--green)'; step3dot.textContent = '✓'; step3dot.style.color = 'white'; }
+        if (dot3)   { dot3.style.background = 'var(--green)'; dot3.textContent = '✓'; dot3.style.color = 'white'; dot3.style.fontSize = '14px'; dot3.style.boxShadow = 'none'; }
+        if (label3) { label3.textContent = 'Delivered ✓'; label3.style.color = 'var(--green)'; }
+        if (time3)  { time3.textContent = 'Done'; time3.style.color = 'var(--green)'; time3.style.background = '#d1fae5'; }
       }
 
       // Screen navigation

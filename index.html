@@ -2240,6 +2240,11 @@
           <div class="status-bar"><span>10:41</span><div>📶 🔋</div></div>
         </div>
 
+        <!-- Back button overlay -->
+        <div style="position:absolute;top:36px;left:16px;z-index:25;">
+          <button onclick="nav('activity',null)" style="background:rgba(255,255,255,0.9);border:none;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);">‹</button>
+        </div>
+
         <!-- Map Area -->
         <div style="height:290px;background:linear-gradient(135deg,#e0f2fe,#dbeafe);position:relative;overflow:hidden;flex-shrink:0;" id="map-area">
           <!-- Grid -->
@@ -2276,7 +2281,7 @@
           <!-- ETA pill -->
           <div style="position:absolute;top:48px;left:50%;transform:translateX(-50%);background:white;border-radius:20px;padding:7px 16px;box-shadow:0 4px 16px rgba(0,0,0,0.12);display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:5;">
             <div style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:etaBlink 1.2s ease-in-out infinite;"></div>
-            <span id="eta-text" style="font-weight:700;font-size:12px;color:var(--gray-900);">Rider heading to pickup · ~5 min</span>
+            <span id="eta-text" style="font-weight:700;font-size:12px;color:var(--gray-900);">🛵 রাইডার আসছে...</span>
           </div>
         </div>
 
@@ -2288,7 +2293,7 @@
           <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--gray-50);border-radius:14px;border:1px solid var(--gray-100);margin-bottom:12px;">
             <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--blue-mid),var(--accent));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧑</div>
             <div style="flex:1;">
-              <div style="font-weight:700;font-size:14px;color:var(--gray-900);">Mahmud Hasan</div>
+              <div style="font-weight:700;font-size:14px;color:var(--gray-900);" id="active-rider-name">রাইডার খুঁজছে...</div>
               <div style="font-size:11px;color:var(--gray-400);">⭐ 4.8 · Honda CD-80 · G-234</div>
             </div>
             <div style="display:flex;gap:7px;">
@@ -2371,14 +2376,7 @@
         </style>
 
         <script>
-          // Generate 4-digit code on load
-          (function(){
-            var code = Math.floor(1000 + Math.random() * 9000).toString();
-            document.getElementById('code-d1').textContent = code[0];
-            document.getElementById('code-d2').textContent = code[1];
-            document.getElementById('code-d3').textContent = code[2];
-            document.getElementById('code-d4').textContent = code[3];
-          })();
+          // Code Firestore থেকে আসবে — watchActiveTask দেখাবে
 
           function nowTime() {
             var d = new Date(); var h = d.getHours(); var m = d.getMinutes();
@@ -2415,10 +2413,11 @@
            S10 · TASK COMPLETED
            ========================================= -->
       <div class="screen" id="screen-completed">
-        <div class="complete-hero">
+        <div class="complete-hero" style="position:relative;">
+          <button onclick="nav('activity',null)" style="position:absolute;top:0;left:0;background:rgba(255,255,255,0.2);border:none;color:white;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;">‹</button>
           <div class="success-ring">✅</div>
           <div class="c-title">Task Completed!</div>
-          <div class="c-sub">Mahmud Hasan delivered your task successfully</div>
+          <div class="c-sub" id="completed-rider-name">ডেলিভারি সম্পন্ন হয়েছে</div>
         </div>
         <div class="scroll-content" style="padding:20px 18px;flex:1;overflow-y:auto;scrollbar-width:none;padding-bottom:30px;">
           <div class="card" style="margin-bottom:16px;text-align:center;">
@@ -3295,21 +3294,38 @@
             if (el.value && nextId) document.getElementById(nextId).focus();
           }
           function r5verify() {
-            var code = ['r5-c1','r5-c2','r5-c3','r5-c4'].map(function(id){
+            var entered = ['r5-c1','r5-c2','r5-c3','r5-c4'].map(function(id){
               return document.getElementById(id).value;
             }).join('');
-            if (code.length < 4) {
+            if (entered.length < 4) {
               document.getElementById('r5-err').textContent = '৪ ডিজিটের কোডটি সম্পূর্ণ দিন';
               return;
             }
-            // In real app: verify against server. Here simulate success.
-            document.getElementById('r5-err').textContent = '';
-            ['r5-c1','r5-c2','r5-c3','r5-c4'].forEach(function(id){
-              var el = document.getElementById(id);
-              el.style.border = '2px solid #10b981';
-              el.style.background = '#f0fdf4';
+            if (!selectedTaskId) {
+              document.getElementById('r5-err').textContent = 'Task ID পাওয়া যাচ্ছে না';
+              return;
+            }
+            db.collection('tasks').doc(selectedTaskId).get().then(function(doc) {
+              if (!doc.exists) { document.getElementById('r5-err').textContent = 'Task পাওয়া যায়নি'; return; }
+              var actual = doc.data().deliveryCode ? doc.data().deliveryCode.toString() : '';
+              if (entered === actual) {
+                document.getElementById('r5-err').textContent = '';
+                ['r5-c1','r5-c2','r5-c3','r5-c4'].forEach(function(id){
+                  var el = document.getElementById(id);
+                  el.style.border = '2px solid #10b981';
+                  el.style.background = '#f0fdf4';
+                });
+                setTimeout(function(){ riderCompleteTask(); }, 500);
+              } else {
+                document.getElementById('r5-err').textContent = '❌ কোড ভুল হয়েছে, আবার চেষ্টা করুন';
+                ['r5-c1','r5-c2','r5-c3','r5-c4'].forEach(function(id){
+                  var el = document.getElementById(id);
+                  el.style.border = '2px solid #ef4444';
+                });
+              }
+            }).catch(function(err) {
+              document.getElementById('r5-err').textContent = 'সমস্যা হয়েছে: ' + err.message;
             });
-            setTimeout(function(){ riderCompleteTask(); }, 500);
           }
         </script>
       </div>
@@ -4229,6 +4245,8 @@ function postTask() {
 
   collectTaskData();
 
+  var deliveryCode = Math.floor(1000 + Math.random() * 9000).toString();
+
   var taskDoc = {
     title       : currentTaskData.title       || 'নতুন টাস্ক',
     description : currentTaskData.description || '',
@@ -4240,6 +4258,7 @@ function postTask() {
     customerId  : user.uid,
     customerName: document.querySelector('.home-name') ? document.querySelector('.home-name').textContent.replace('!','') : 'Customer',
     riderId     : null,
+    deliveryCode: deliveryCode,
     createdAt   : firebase.firestore.FieldValue.serverTimestamp()
   };
 
@@ -4622,22 +4641,47 @@ function watchActiveTask(taskId) {
       var screen = getCurrentScreen();
 
       // Rider name update
-      var riderInfoEl = document.getElementById('active-rider-name');
-      if (riderInfoEl && t.riderName) riderInfoEl.textContent = t.riderName;
+      var riderNameEl = document.getElementById('active-rider-name');
+      if (riderNameEl && t.riderName) riderNameEl.textContent = t.riderName;
+      var completedNameEl = document.getElementById('completed-rider-name');
+      if (completedNameEl && t.riderName) completedNameEl.textContent = t.riderName + ' delivered your task successfully';
 
-      // Status badge update — assigned screen এ
-      var statusEl = document.getElementById('assigned-status-label');
-      if (statusEl) {
-        var labels = { assigned:'🛵 রাইডার আসছে', picked_up:'📦 পিকআপ হয়েছে', completed:'✅ সম্পন্ন' };
-        statusEl.textContent = labels[t.status] || '';
+      // Delivery code display
+      if (t.deliveryCode) {
+        var c = t.deliveryCode.toString();
+        ['code-d1','code-d2','code-d3','code-d4'].forEach(function(id, i) {
+          var el = document.getElementById(id);
+          if (el) el.textContent = c[i] || '';
+        });
       }
 
+      // ETA text update
+      var etaEl = document.getElementById('eta-text');
+      if (etaEl) {
+        if (t.status === 'assigned')   etaEl.textContent = '🛵 রাইডার পিকআপে যাচ্ছে...';
+        if (t.status === 'picked_up')  etaEl.textContent = '📦 পণ্য পিকআপ হয়েছে — ডেলিভারিতে আসছে';
+        if (t.status === 'completed')  etaEl.textContent = '✅ ডেলিভারি সম্পন্ন!';
+      }
+
+      // Progress step update
+      var step2dot = document.querySelector('#step-2 > div:first-child');
+      var step3dot = document.querySelector('#step-3 > div:first-child');
+      var line2    = document.getElementById('line-2');
+      if (t.status === 'picked_up' || t.status === 'completed') {
+        if (step2dot) { step2dot.style.background = 'var(--green)'; step2dot.textContent = '✓'; step2dot.style.color = 'white'; }
+        if (line2)    line2.style.background = 'var(--green)';
+      }
+      if (t.status === 'completed') {
+        if (step3dot) { step3dot.style.background = 'var(--green)'; step3dot.textContent = '✓'; step3dot.style.color = 'white'; }
+      }
+
+      // Screen navigation
       if (t.status === 'assigned') {
         clearInterval(window._findTimer);
         if (screen === 'finding-rider') nav('assigned', null);
       }
       if (t.status === 'picked_up') {
-        if (screen === 'finding-rider' || screen === 'assigned') nav('assigned', null);
+        if (screen === 'finding-rider') nav('assigned', null);
       }
       if (t.status === 'completed') {
         nav('completed', null);

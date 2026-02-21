@@ -43,12 +43,14 @@
     padding: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
   }
 
   .phone-wrapper {
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     position: relative;
   }
 
@@ -3668,7 +3670,11 @@
            R9 · RIDER PROFILE
            ========================================= -->
       <div class="screen" id="screen-r-profile" style="background:var(--gray-50);">
-        <div style="background:linear-gradient(155deg,#0c1445,#1d4ed8,#06b6d4);padding:50px 24px 24px;text-align:center;flex-shrink:0;border-radius:0 0 36px 36px;">
+        <div style="background:linear-gradient(155deg,#0c1445,#1d4ed8,#06b6d4);padding:14px 24px 24px;text-align:center;flex-shrink:0;border-radius:0 0 36px 36px;">
+          <!-- Back button -->
+          <div style="display:flex;align-items:center;margin-bottom:16px;">
+            <button onclick="nav('r-home',null)" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;">‹</button>
+          </div>
           <div style="position:relative;display:inline-block;margin-bottom:12px;">
             <div style="width:80px;height:80px;background:rgba(255,255,255,0.15);border:3px solid rgba(255,255,255,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto;">🏍️</div>
             <button style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:white;border-radius:50%;border:none;cursor:pointer;font-size:12px;">✏️</button>

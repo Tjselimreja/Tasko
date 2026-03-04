@@ -2717,7 +2717,7 @@
           <!-- Rider Pin (animated position) -->
           <div id="pin-rider" style="position:absolute;display:flex;flex-direction:column;align-items:center;transition:left 1.2s cubic-bezier(0.4,0,0.2,1),top 1.2s cubic-bezier(0.4,0,0.2,1);left:60px;top:98px;transform:translateX(-50%);">
             <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--blue-dark));display:flex;align-items:center;justify-content:center;font-size:19px;border:3px solid white;box-shadow:0 4px 16px rgba(37,99,235,0.5);animation:riderBounce 2s ease-in-out infinite;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-            <div style="font-size:8px;font-weight:700;color:var(--text-secondary);background:var(--bg-card);padding:2px 6px;border-radius:5px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.1);white-space:nowrap;">Mahmud</div>
+            <div style="font-size:8px;font-weight:700;color:var(--text-secondary);background:var(--bg-card);padding:2px 6px;border-radius:5px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.1);white-space:nowrap;"><span id="active-rider-name-span"></span></div>
           </div>
 
           <!-- ETA pill -->
@@ -2736,7 +2736,7 @@
             <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--blue-mid),var(--accent));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧑</div>
             <div style="flex:1;">
               <div style="font-weight:700;font-size:14px;color:var(--text-primary);" id="active-rider-name">রাইডার খুঁজছে...</div>
-              <div style="font-size:11px;color:var(--gray-400);">⭐ 4.8 · Honda CD-80 · G-234</div>
+              <div style="font-size:11px;color:var(--gray-400);"><span id="active-rider-vehicle"></span></div>
             </div>
             <div style="display:flex;gap:7px;">
               <button style="width:36px;height:36px;border-radius:10px;border:none;background:var(--blue-light);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></button>
@@ -2778,7 +2778,7 @@
                   <div style="font-weight:700;font-size:13px;color:var(--green);">Order Accepted</div>
                   <div style="font-size:10px;font-weight:700;color:var(--green);background:#d1fae5;padding:2px 8px;border-radius:6px;" id="time-1">10:28 AM</div>
                 </div>
-                <div style="font-size:11px;color:var(--gray-400);margin-top:2px;">Mahmud accepted your offer</div>
+                <div style="font-size:11px;color:var(--gray-400);margin-top:2px;"><span id="accepted-rider-msg"></span></div>
               </div>
             </div>
 
@@ -2917,146 +2917,45 @@
 
           <!-- ── RUNNING ── -->
           <div id="tc-running">
-
-            <!-- Card: On the way -->
-            <div onclick="nav('assigned',null)" style="background:white;border-radius:20px;padding:16px;margin-bottom:12px;border:1.5px solid #e5e7eb;box-shadow:0 2px 8px rgba(0,0,0,0.05);cursor:pointer;">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-                <div style="display:flex;align-items:center;gap:12px;">
-                  <div style="width:44px;height:44px;background:#f0f0f0;border-radius:14px;display:flex;align-items:center;justify-content:center;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  </div>
-                  <div>
-                    <div style="font-size:15px;font-weight:700;color:#111827;">Market Run</div>
-                    <div style="font-size:11px;color:#9ca3af;margin-top:2px;">Mohammadpur Bazar</div>
-                  </div>
+            <div id="running-tasks-list">
+              <!-- Firebase থেকে load হবে -->
+              <div id="running-empty" style="text-align:center;padding:60px 20px;">
+                <div style="width:64px;height:64px;background:#f0f0f0;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                 </div>
-                <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:#92400e;white-space:nowrap;">On the way</div>
-              </div>
-
-              <!-- Rider -->
-              <div style="background:#f9fafb;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-                <div style="width:34px;height:34px;background:#e5e7eb;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🧑</div>
-                <div style="flex:1;">
-                  <div style="font-size:13px;font-weight:700;color:#111827;">Mahmud Hasan</div>
-                  <div style="font-size:10px;color:#9ca3af;">⭐ 4.8 · Honda CD-80</div>
-                </div>
-                <div style="width:32px;height:32px;background:#f0fdf4;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012.03 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
-                </div>
-                <div style="width:32px;height:32px;background:#eff6ff;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                </div>
-              </div>
-
-              <!-- Route -->
-              <div style="display:flex;align-items:center;gap:8px;">
-                <div style="width:8px;height:8px;background:#10b981;border-radius:50%;flex-shrink:0;"></div>
-                <span style="font-size:11px;color:#6b7280;">Mohammadpur Bazar</span>
-                <div style="flex:1;border-top:1.5px dashed #e5e7eb;"></div>
-                <div style="width:8px;height:8px;background:#ef4444;border-radius:50%;flex-shrink:0;"></div>
-                <span style="font-size:11px;color:#6b7280;">Dhanmondi 27</span>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">কোনো চলমান টাস্ক নেই</div>
+                <div style="font-size:12px;color:#9ca3af;">নতুন টাস্ক পোস্ট করতে + বাটন চাপুন</div>
               </div>
             </div>
-
-            <!-- Card: Finding rider -->
-            <div style="background:white;border-radius:20px;padding:16px;margin-bottom:12px;border:1.5px solid #e5e7eb;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-                <div style="display:flex;align-items:center;gap:12px;">
-                  <div style="width:44px;height:44px;background:#f0f0f0;border-radius:14px;display:flex;align-items:center;justify-content:center;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-                  </div>
-                  <div>
-                    <div style="font-size:15px;font-weight:700;color:#111827;">Delivery</div>
-                    <div style="font-size:11px;color:#9ca3af;margin-top:2px;">Gulshan 2 → Banani</div>
-                  </div>
-                </div>
-                <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:#1d4ed8;display:flex;align-items:center;gap:5px;white-space:nowrap;">
-                  <div style="width:6px;height:6px;background:#3b82f6;border-radius:50%;animation:actBlink 1s infinite;"></div>
-                  Finding rider
-                </div>
-              </div>
-              <div style="font-size:11px;color:#9ca3af;">Posted 2 min ago · ৳80 offered</div>
-            </div>
-
           </div>
 
-          <!-- ── COMPLETED ── -->
+          <!-- ── COMPLETED<!-- ── COMPLETED ── -->
           <div id="tc-completed" style="display:none;">
             <div id="completed-tasks-list">
-
-              <div style="background:white;border-radius:20px;padding:16px;margin-bottom:12px;border:1.5px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-                  <div style="display:flex;align-items:center;gap:12px;">
-                    <div style="width:44px;height:44px;background:#f0fdf4;border-radius:14px;display:flex;align-items:center;justify-content:center;">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                    </div>
-                    <div>
-                      <div style="font-size:15px;font-weight:700;color:#111827;">Market Run</div>
-                      <div style="font-size:11px;color:#9ca3af;margin-top:2px;">Yesterday · ৳95</div>
-                    </div>
-                  </div>
-                  <div style="background:#f0fdf4;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:#10b981;">Done</div>
+              <div style="text-align:center;padding:60px 20px;">
+                <div style="width:64px;height:64px;background:#f0fdf4;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
                 </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-size:11px;color:#9ca3af;">Rider: Mahmud Hasan</div>
-                  <div style="display:flex;gap:1px;">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                  </div>
-                </div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">কোনো সম্পন্ন টাস্ক নেই</div>
+                <div style="font-size:12px;color:#9ca3af;">Completed tasks এখানে দেখাবে</div>
               </div>
-
-              <div style="background:white;border-radius:20px;padding:16px;margin-bottom:12px;border:1.5px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-                  <div style="display:flex;align-items:center;gap:12px;">
-                    <div style="width:44px;height:44px;background:#fef3c7;border-radius:14px;display:flex;align-items:center;justify-content:center;">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-                    </div>
-                    <div>
-                      <div style="font-size:15px;font-weight:700;color:#111827;">Documents</div>
-                      <div style="font-size:11px;color:#9ca3af;margin-top:2px;">2 days ago · ৳60</div>
-                    </div>
-                  </div>
-                  <div style="background:#f0fdf4;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:#10b981;">Done</div>
-                </div>
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-size:11px;color:#9ca3af;">Rider: Karim Uddin</div>
-                  <div style="display:flex;gap:1px;">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="#e5e7eb" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </div>
 
-          <!-- ── CANCELLED ── -->
+          <!-- ── CANCELLED<!-- ── CANCELLED ── -->
           <div id="tc-cancelled" style="display:none;">
             <div id="cancelled-tasks-list">
-              <div style="background:white;border-radius:20px;padding:16px;margin-bottom:12px;border:1.5px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                  <div style="display:flex;align-items:center;gap:12px;">
-                    <div style="width:44px;height:44px;background:#fef2f2;border-radius:14px;display:flex;align-items:center;justify-content:center;">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-                    </div>
-                    <div>
-                      <div style="font-size:15px;font-weight:700;color:#111827;">Delivery</div>
-                      <div style="font-size:11px;color:#9ca3af;margin-top:2px;">3 days ago · Refunded ৳80</div>
-                    </div>
-                  </div>
-                  <div style="background:#fef2f2;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:#ef4444;">Cancelled</div>
+              <div style="text-align:center;padding:60px 20px;">
+                <div style="width:64px;height:64px;background:#fef2f2;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </div>
-                <div style="font-size:11px;color:#9ca3af;">No rider found in your area</div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">কোনো বাতিল টাস্ক নেই</div>
+                <div style="font-size:12px;color:#9ca3af;">Cancelled tasks এখানে দেখাবে</div>
               </div>
             </div>
           </div>
+
+        </div>
 
         </div>
 
@@ -3533,13 +3432,28 @@
 
         </div>
 
-        <!-- Bottom Nav -->
-</div>
-        </div></div>
-<div>History</div><div class="bnav-dot"></div></div>
-<div>Earnings</div><div class="bnav-dot"></div></div>
-<div>Profile</div><div class="bnav-dot"></div></div>
+        <!-- Rider Bottom Nav -->
         </div>
+
+        <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding:10px 0 26px;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
+          <div onclick="nav('r-home',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            <div style="font-size:10px;font-weight:700;color:#111827;">Home</div>
+          </div>
+          <div onclick="nav('r-history',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">History</div>
+          </div>
+          <div onclick="nav('r-earnings',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Earnings</div>
+          </div>
+          <div onclick="nav('r-profile',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Profile</div>
+          </div>
+        </div>
+
       </div>
 
       <!-- =========================================
@@ -3588,6 +3502,7 @@
             <div>
               <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;">Customer's Offer</div>
               <div id="alert-fee" style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--text-primary);">৳—</div>
+              <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Customer: <span id="alert-customer-name" style="font-weight:700;color:var(--text-primary);">—</span></div>
             </div>
             <div style="font-size:32px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
           </div>
@@ -4140,7 +4055,26 @@
               <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--text-primary);">4.8</div>
               <div style="font-size:10px;color:var(--gray-400);font-weight:600;">Avg Rating</div>
             </div>
+    
+
+        <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding:10px 0 26px;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
+          <div onclick="nav('r-home',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Home</div>
           </div>
+          <div onclick="nav('r-history',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">History</div>
+          </div>
+          <div onclick="nav('r-earnings',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            <div style="font-size:10px;font-weight:700;color:#111827;">Earnings</div>
+          </div>
+          <div onclick="nav('r-profile',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Profile</div>
+          </div>
+        </div>      </div>
 
           <!-- Transaction List -->
           <div class="section-title">Recent Transactions</div>
@@ -4341,7 +4275,26 @@
           <div class="tab-item active" id="rh-all" onclick="switchRH('all')">All</div>
           <div class="tab-item" id="rh-done" onclick="switchRH('done')">Completed</div>
           <div class="tab-item" id="rh-cancelled" onclick="switchRH('cancelled')">Cancelled</div>
-        </div>
+  
+
+        <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding:10px 0 26px;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
+          <div onclick="nav('r-home',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Home</div>
+          </div>
+          <div onclick="nav('r-history',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <div style="font-size:10px;font-weight:700;color:#111827;">History</div>
+          </div>
+          <div onclick="nav('r-earnings',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Earnings</div>
+          </div>
+          <div onclick="nav('r-profile',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Profile</div>
+          </div>
+        </div>      </div>
 
         <div style="flex:1;overflow-y:auto;padding:14px 0 90px;scrollbar-width:none;">
           <div id="rhc-all">
@@ -4399,7 +4352,26 @@
             <div style="background:rgba(255,255,255,0.14);border-radius:20px;padding:6px 14px;font-size:12px;color:white;font-weight:600;border:1px solid rgba(255,255,255,0.18);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg> 1,240 Tasks</div>
             <div style="background:rgba(255,255,255,0.14);border-radius:20px;padding:6px 14px;font-size:12px;color:white;font-weight:600;border:1px solid rgba(255,255,255,0.18);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,21 12,17 16,21"/><rect x="7" y="17" width="10" height="4" rx="1"/><path d="M17 5H7v8a5 5 0 0010 0V5z"/><path d="M7 9H4a2 2 0 000 4h3"/><path d="M17 9h3a2 2 0 010 4h-3"/></svg> Top Rider</div>
           </div>
-        </div>
+  
+
+        <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding:10px 0 26px;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
+          <div onclick="nav('r-home',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Home</div>
+          </div>
+          <div onclick="nav('r-history',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">History</div>
+          </div>
+          <div onclick="nav('r-earnings',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            <div style="font-size:10px;font-weight:600;color:#9ca3af;">Earnings</div>
+          </div>
+          <div onclick="nav('r-profile',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div style="font-size:10px;font-weight:700;color:#111827;">Profile</div>
+          </div>
+        </div>      </div>
 
         <div style="flex:1;overflow-y:auto;padding-bottom:90px;scrollbar-width:none;">
           <div class="menu-section">
@@ -4872,8 +4844,12 @@ auth.onAuthStateChanged(function(user) {
 
 // Apply user data to UI
 function applyUserToUI(data) {
-  var name = data.name || 'User';
+  var name = data.name || '';
   var phone = data.phone || '';
+
+  // Global এ রাখো — postTask এ customerName এর জন্য
+  window._currentUserName = name;
+
   // Customer home name
   document.querySelectorAll('.home-name').forEach(function(el){ el.textContent = name + '!'; });
   // Ham panel
@@ -5027,30 +5003,38 @@ var riderFeedListener = null;  // unsubscribe handle
 
 // ── Post1→Post4 ডেটা collect ──
 function collectTaskData() {
-  // Post1: service type
+  // Post1: service type (dropdown এ selected যা আছে)
   var serviceNameEl = document.getElementById('service-name');
-  currentTaskData.title = serviceNameEl ? serviceNameEl.textContent.trim() : 'New Task';
-  currentTaskData.description = (document.getElementById('task-desc-input') || {}).value || '';
+  currentTaskData.title = serviceNameEl ? serviceNameEl.textContent.trim() : '';
 
-  // Post2: pickup / delivery / distance
-  currentTaskData.pickup   = (document.getElementById('pickup-input')   || {}).value || '';
-  currentTaskData.delivery = (document.getElementById('delivery-input') || {}).value || '';
+  // Post1: description
+  var descEl = document.getElementById('task-desc-input');
+  currentTaskData.description = descEl ? descEl.value.trim() : '';
+
+  // Post2: pickup / delivery
+  var pickupEl = document.getElementById('pickup-input');
+  var deliveryEl = document.getElementById('delivery-input');
+  currentTaskData.pickup   = pickupEl   ? pickupEl.value.trim()   : '';
+  currentTaskData.delivery = deliveryEl ? deliveryEl.value.trim() : '';
+
+  // Post2: distance (only if calculated, skip "Enter both locations")
   var distEl = document.getElementById('dist-text');
-  currentTaskData.distance = distEl ? distEl.textContent.trim() : '';
+  var distText = distEl ? distEl.textContent.trim() : '';
+  currentTaskData.distance = (distText && distText !== 'Enter both locations') ? distText : '';
 
-  // Post3: timing + scheduled date/time
-  var isNow = document.getElementById('t-now') && document.getElementById('t-now').classList.contains('selected');
+  // Post3: timing
+  var nowEl = document.getElementById('t-now');
+  var isNow = nowEl && nowEl.classList.contains('selected');
   currentTaskData.timing = isNow ? 'now' : 'later';
-  if (!isNow) {
-    var dateEl = document.getElementById('sched-date');
-    var timeEl = document.getElementById('sched-time');
-    currentTaskData.scheduledDate = dateEl ? dateEl.value : '';
-    currentTaskData.scheduledTime = timeEl ? timeEl.value : '';
-  }
+  var dateEl = document.getElementById('sched-date');
+  var timeEl = document.getElementById('sched-time');
+  currentTaskData.scheduledDate = (dateEl && !isNow) ? dateEl.value : '';
+  currentTaskData.scheduledTime = (timeEl && !isNow) ? timeEl.value : '';
 
-  // Post4: rider fee (contenteditable)
+  // Post4: fee (contenteditable)
   var feeEl = document.getElementById('task-fee-input');
-  currentTaskData.fee = feeEl ? (feeEl.textContent || feeEl.innerText || '80').trim().replace(/[^\d]/g,'') : '80';
+  var feeText = feeEl ? (feeEl.textContent || feeEl.innerText || '').trim().replace(/[^\d]/g,'') : '';
+  currentTaskData.fee = feeText || '';
 }
 
 // ── Task Post করো Firestore এ ──
@@ -5060,24 +5044,34 @@ function postTask() {
 
   collectTaskData();
 
+  // Validation
+  if (!currentTaskData.title)       { alert('Service type বেছে নিন'); return; }
+  if (!currentTaskData.pickup)      { alert('Pickup location দিন'); return; }
+  if (!currentTaskData.delivery)    { alert('Delivery location দিন'); return; }
+  if (!currentTaskData.fee)         { alert('Delivery charge দিন'); return; }
+
   var deliveryCode = Math.floor(1000 + Math.random() * 9000).toString();
 
+  // Customer name — Firestore থেকে নেওয়া (applyUserToUI তে set হয়)
+  var customerName = window._currentUserName || '';
+
   var taskDoc = {
-    title       : currentTaskData.title       || 'নতুন টাস্ক',
-    description : currentTaskData.description || '',
-    pickup      : currentTaskData.pickup      || 'অনির্ধারিত',
-    delivery    : currentTaskData.delivery    || 'অনির্ধারিত',
-    distance    : currentTaskData.distance    || '',
-    fee         : parseInt(currentTaskData.fee) || 80,
-    timing      : currentTaskData.timing      || 'now',
-    scheduledDate: currentTaskData.scheduledDate || '',
-    scheduledTime: currentTaskData.scheduledTime || '',
-    status      : 'open',
-    customerId  : user.uid,
-    customerName: document.querySelector('.home-name') ? document.querySelector('.home-name').textContent.replace('!','') : 'Customer',
-    riderId     : null,
-    deliveryCode: deliveryCode,
-    createdAt   : firebase.firestore.FieldValue.serverTimestamp()
+    title         : currentTaskData.title,
+    description   : currentTaskData.description,
+    pickup        : currentTaskData.pickup,
+    delivery      : currentTaskData.delivery,
+    distance      : currentTaskData.distance,
+    fee           : parseInt(currentTaskData.fee),
+    timing        : currentTaskData.timing,
+    scheduledDate : currentTaskData.scheduledDate,
+    scheduledTime : currentTaskData.scheduledTime,
+    status        : 'open',
+    customerId    : user.uid,
+    customerName  : customerName,
+    riderName     : '',
+    riderId       : null,
+    deliveryCode  : deliveryCode,
+    createdAt     : firebase.firestore.FieldValue.serverTimestamp()
   };
 
   var btn = document.querySelector('#screen-post4 .btn-primary');
@@ -5292,14 +5286,15 @@ function selectRiderTask(taskId) {
     var deliveryEl= document.getElementById('alert-delivery');
     var feeEl     = document.getElementById('alert-fee');
     var timingEl  = document.getElementById('alert-timing');
-    if (titleEl)    titleEl.textContent   = '📋 ' + (t.title || 'টাস্ক');
+    if (titleEl)    titleEl.textContent   = '📋 ' + (t.title || '');
     if (pickupEl)   pickupEl.textContent  = t.pickup   || '—';
     if (deliveryEl) deliveryEl.textContent= t.delivery || '—';
-    if (feeEl)      feeEl.textContent     = '৳' + (t.fee || 0);
+    if (feeEl)      feeEl.textContent     = '৳' + (t.fee || '');
     if (timingEl)   timingEl.textContent  = t.timing === 'now' ? '⚡ এখনই' : (t.scheduledDate ? '⏰ ' + t.scheduledDate + ' ' + t.scheduledTime : '⏰ পরে');
-    // Distance
     var distEl = document.getElementById('alert-distance');
     if (distEl) distEl.textContent = t.distance || '—';
+    var custEl = document.getElementById('alert-customer-name');
+    if (custEl) custEl.textContent = t.customerName || '—';
     nav('r-alert', null);
   });
 }
@@ -5392,9 +5387,7 @@ function riderAcceptTask() {
   var user = auth.currentUser;
   if (!user || !selectedTaskId) { nav('r-home', null); return; }
 
-  var riderName = document.getElementById('rider-greeting')
-    ? document.getElementById('rider-greeting').textContent.replace('Hey ','').replace('! 🏍️','')
-    : 'Rider';
+  var riderName = window._currentUserName || '';
 
   db.collection('tasks').doc(selectedTaskId).update({
     status    : 'assigned',
@@ -5463,7 +5456,13 @@ function watchActiveTask(taskId) {
 
       // Rider name update
       var riderNameEl = document.getElementById('active-rider-name');
-      if (riderNameEl && t.riderName) riderNameEl.textContent = t.riderName;
+      if (riderNameEl) riderNameEl.textContent = t.riderName || '';
+      var riderNameSpan = document.getElementById('active-rider-name-span');
+      if (riderNameSpan) riderNameSpan.textContent = t.riderName || '';
+      var riderVehicleEl = document.getElementById('active-rider-vehicle');
+      if (riderVehicleEl) riderVehicleEl.textContent = t.riderName ? '⭐ Rider' : '';
+      var acceptedMsgEl = document.getElementById('accepted-rider-msg');
+      if (acceptedMsgEl && t.riderName) acceptedMsgEl.textContent = t.riderName + ' accepted your offer';
       var completedNameEl = document.getElementById('completed-rider-name');
       if (completedNameEl && t.riderName) completedNameEl.textContent = t.riderName + ' delivered your task successfully';
 

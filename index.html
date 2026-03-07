@@ -299,74 +299,92 @@
      SCREEN 1 · SPLASH
      ==================================================== */
   #screen-splash {
-    background: #111827;
+    background: #ffffff;
     justify-content: center;
     align-items: center;
     gap: 0;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
   }
 
+  /* Subtle decorative orbs - match home header palette */
   .splash-bg-circle {
     position: absolute;
     border-radius: 50%;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    pointer-events: none;
   }
 
-  .splash-icon-box {
-    width: 108px; height: 108px;
-    background: rgba(255,255,255,0.12);
-    border-radius: 32px;
+  .splash-logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    animation: splashFadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes splashFadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .splash-logo-ring {
+    width: 120px; height: 120px;
+    border-radius: 30px;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 54px;
-    backdrop-filter: blur(16px);
-    border: 2px solid rgba(255,255,255,0.2);
-    box-shadow: 0 24px 64px rgba(0,0,0,0.3);
-    margin-bottom: 22px;
-    animation: splashFloat 3s ease-in-out infinite;
+    margin-bottom: 28px;
+    animation: splashFloat 3.2s ease-in-out infinite;
   }
 
   @keyframes splashFloat {
-    0%,100% { transform: translateY(0) rotate(0deg); }
-    50%      { transform: translateY(-10px) rotate(2deg); }
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-9px); }
   }
 
   .splash-brand {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 52px;
+    font-size: 54px;
     font-weight: 800;
-    color: white;
+    background: linear-gradient(135deg, #0c1445 0%, #1d4ed8 55%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     letter-spacing: -2.5px;
     line-height: 1;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .splash-tag {
     font-size: 14px;
-    color: rgba(255,255,255,0.7);
-    font-weight: 400;
+    color: #374151;
+    font-weight: 500;
     text-align: center;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
   }
 
   .splash-sub {
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+    color: #6b7280;
     text-align: center;
-    margin-top: 4px;
+    margin-top: 6px;
+    font-weight: 400;
   }
 
   .splash-dots {
     display: flex;
     gap: 8px;
-    margin-top: 64px;
+    margin-top: 72px;
+    position: relative;
+    z-index: 1;
   }
 
   .sdot {
     width: 8px; height: 8px;
-    background: rgba(255,255,255,0.35);
+    background: #d1d5db;
     border-radius: 50%;
     animation: sdotPulse 1.4s ease-in-out infinite;
   }
@@ -374,8 +392,8 @@
   .sdot:nth-child(3) { animation-delay: 0.4s; }
 
   @keyframes sdotPulse {
-    0%,100% { background: rgba(255,255,255,0.25); transform: scale(0.85); }
-    50%      { background:var(--bg-card); transform: scale(1.2); }
+    0%,100% { background: #e5e7eb; transform: scale(0.85); }
+    50%      { background: #1d4ed8; transform: scale(1.2); }
   }
 
   /* ====================================================
@@ -1449,58 +1467,94 @@
            S1 · SPLASH
            ========================================= -->
       <div class="screen active" id="screen-splash">
-        <div class="splash-bg-circle" style="width:300px;height:300px;top:-100px;right:-80px;"></div>
-        <div class="splash-bg-circle" style="width:200px;height:200px;bottom:-60px;left:-60px;"></div>
-        <div class="splash-bg-circle" style="width:120px;height:120px;top:55%;left:10%;"></div>
 
-        <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;">
-          <img src="https://i.postimg.cc/59Btg7ms/grok-image-1772388059716.jpg" style="height:90px;object-fit:contain;margin-bottom:16px;" alt="tasko">
+        <!-- Soft background orbs -->
+        <div class="splash-bg-circle" style="width:320px;height:320px;top:-120px;right:-100px;background:radial-gradient(circle,rgba(29,78,216,0.06) 0%,transparent 70%);"></div>
+        <div class="splash-bg-circle" style="width:240px;height:240px;bottom:-80px;left:-80px;background:radial-gradient(circle,rgba(6,182,212,0.07) 0%,transparent 70%);"></div>
+        <div class="splash-bg-circle" style="width:160px;height:160px;top:58%;left:5%;background:radial-gradient(circle,rgba(29,78,216,0.04) 0%,transparent 70%);"></div>
+
+        <!-- Logo + Tagline -->
+        <div class="splash-logo-wrap">
+          <!-- App logo image -->
+          <div class="splash-logo-ring">
+            <img src="https://i.postimg.cc/59Btg7ms/grok-image-1772388059716.jpg" style="width:82px;height:82px;object-fit:contain;border-radius:18px;" alt="tasko">
+          </div>
+
+          <!-- Brand name — gradient text -->
+          <div class="splash-brand">tasko</div>
+
+          <!-- Tagline -->
           <div class="splash-tag">Hire a person. Get it done.</div>
           <div class="splash-sub">কাজ দাও · কাজ হয়ে যাক</div>
         </div>
 
-        <div class="splash-dots" style="position:relative;z-index:1;">
+        <!-- Loading dots -->
+        <div class="splash-dots">
           <div class="sdot"></div><div class="sdot"></div><div class="sdot"></div>
         </div>
 
-        <div style="position:absolute;bottom:36px;color:rgba(255,255,255,0.35);font-size:12px;font-weight:600;letter-spacing:1px;z-index:1;">TAP TO CONTINUE</div>
+        <!-- Tap hint -->
+        <div style="position:absolute;bottom:36px;color:#9ca3af;font-size:11px;font-weight:600;letter-spacing:1.5px;z-index:1;text-transform:uppercase;">TAP TO CONTINUE</div>
       </div>
 
       <!-- =========================================
            S2 · ROLE SELECTION
            ========================================= -->
-      <div class="screen" id="screen-role" style="background:var(--bg);">
-        <!-- bg circles -->
-        <div class="splash-bg-circle" style="width:280px;height:280px;top:-80px;right:-80px;"></div>
-        <div class="splash-bg-circle" style="width:180px;height:180px;bottom:-50px;left:-50px;"></div>
+      <div class="screen" id="screen-role" style="background:#ffffff;overflow:hidden;position:relative;">
 
-        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px 24px 30px;position:relative;z-index:1;">
-          <!-- Logo -->
-          <div style="font-family:'Space Grotesk',sans-serif;font-size:40px;font-weight:800;color:white;letter-spacing:-2px;margin-bottom:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg> tasko</div>
-          <div style="color:rgba(255,255,255,0.6);font-size:13px;margin-bottom:44px;">Who are you today?</div>
+        <!-- Dark top header band — like home screen -->
+        <div style="background:#0f1623;padding:48px 24px 40px;position:relative;overflow:hidden;flex-shrink:0;">
+          <!-- Subtle overlay circles -->
+          <div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%;pointer-events:none;"></div>
+          <div style="position:absolute;bottom:-40px;left:-40px;width:140px;height:140px;background:rgba(255,255,255,0.03);border-radius:50%;pointer-events:none;"></div>
+
+          <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;">
+            <img src="https://i.postimg.cc/59Btg7ms/grok-image-1772388059716.jpg" style="height:56px;object-fit:contain;border-radius:14px;margin-bottom:12px;" alt="tasko">
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:white;letter-spacing:-1px;margin-bottom:6px;">tasko</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.5);font-weight:400;">আপনি কে আজকে? · Who are you today?</div>
+          </div>
+        </div>
+
+        <!-- Cards section — white background -->
+        <div style="flex:1;padding:28px 20px 24px;display:flex;flex-direction:column;justify-content:center;">
 
           <!-- Customer Card -->
-          <div onclick="setRole('customer')" style="width:100%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.25);border-radius:22px;padding:24px 20px;margin-bottom:14px;cursor:pointer;backdrop-filter:blur(12px);transition:all 0.25s;display:flex;align-items:center;gap:18px;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-            <div style="width:60px;height:60px;background:rgba(255,255,255,0.15);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.2);">🙋</div>
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;">I'm a Customer</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;">Post tasks, hire riders, get things done</div>
+          <div onclick="setRole('customer')"
+            style="width:100%;background:#ffffff;border:2px solid #e5e7eb;border-radius:22px;padding:22px 18px;margin-bottom:16px;cursor:pointer;transition:all 0.2s ease;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);"
+            onmouseover="this.style.borderColor='#111827';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)';this.style.transform='translateY(-2px)'"
+            onmouseout="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 2px 12px rgba(0,0,0,0.06)';this.style.transform='translateY(0)'">
+            <div style="width:60px;height:60px;background:#f3f4f6;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;">🙋</div>
+            <div style="flex:1;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;color:#111827;margin-bottom:4px;">I'm a Customer</div>
+              <div style="font-size:12px;color:#6b7280;line-height:1.4;">Post tasks · Hire riders · Get things done</div>
             </div>
-            <div style="margin-left:auto;color:rgba(255,255,255,0.5);font-size:20px;">›</div>
+            <div style="width:32px;height:32px;background:#111827;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg>
+            </div>
           </div>
 
           <!-- Rider Card -->
-          <div onclick="setRole('rider')" style="width:100%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.25);border-radius:22px;padding:24px 20px;cursor:pointer;backdrop-filter:blur(12px);transition:all 0.25s;display:flex;align-items:center;gap:18px;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
-            <div style="width:60px;height:60px;background:rgba(255,255,255,0.15);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0;border:1.5px solid rgba(255,255,255,0.2);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;">I'm a Rider</div>
-              <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;">Accept tasks, earn money, ride freely</div>
+          <div onclick="setRole('rider')"
+            style="width:100%;background:#ffffff;border:2px solid #e5e7eb;border-radius:22px;padding:22px 18px;cursor:pointer;transition:all 0.2s ease;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);"
+            onmouseover="this.style.borderColor='#111827';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.12)';this.style.transform='translateY(-2px)'"
+            onmouseout="this.style.borderColor='#e5e7eb';this.style.boxShadow='0 2px 12px rgba(0,0,0,0.06)';this.style.transform='translateY(0)'">
+            <div style="width:60px;height:60px;background:#f3f4f6;border-radius:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/>
+                <path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/>
+              </svg>
             </div>
-            <div style="margin-left:auto;color:rgba(255,255,255,0.5);font-size:20px;">›</div>
+            <div style="flex:1;">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;color:#111827;margin-bottom:4px;">I'm a Rider</div>
+              <div style="font-size:12px;color:#6b7280;line-height:1.4;">Accept tasks · Earn money · Ride freely</div>
+            </div>
+            <div style="width:32px;height:32px;background:#111827;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg>
+            </div>
           </div>
 
-          <!-- Lang -->
-          <div class="lang-row" style="margin-top:32px;">
+          <!-- Lang pills -->
+          <div class="lang-row" style="margin-top:28px;">
             <div class="lang-pill active">English</div>
             <div class="lang-pill inactive">বাংলা</div>
           </div>
@@ -2017,7 +2071,7 @@
       <!-- =========================================
            S5 · POST – LOCATION
            ========================================= -->
-      <div class="screen" id="screen-post2" style="background:#f2f2f7;overflow:hidden;">
+      <div class="screen" id="screen-post2" style="background:#f2f2f7;overflow:hidden;flex-direction:column;">
 
         <!-- Dark header -->
         <div style="background:#111827;padding:20px 18px 24px;flex-shrink:0;">
@@ -2038,132 +2092,312 @@
           <div style="font-size:12px;color:rgba(255,255,255,0.45);">Step 2 of 4 — Set your locations</div>
         </div>
 
-        <!-- MAP IMAGE -->
-        <div style="position:relative;height:180px;flex-shrink:0;overflow:hidden;">
-          <img src="https://i.postimg.cc/zGFdzr56/grok-image-1772582719826.jpg"
-            style="width:100%;height:100%;object-fit:cover;object-position:center;"
-            alt="Dhaka map">
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-          <!-- Map overlay gradient -->
-          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,24,39,0.15) 0%,rgba(17,24,39,0) 40%,rgba(17,24,39,0.3) 100%);"></div>
+        <!-- REAL MAP -->
+        <div id="tasko-map" style="width:100%;height:260px;flex-shrink:0;z-index:1;position:relative;"></div>
 
-          <!-- Pickup pin -->
-          <div id="pickup-pin" style="position:absolute;top:38%;left:30%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;">
-            <div style="background:#10b981;color:white;font-size:9px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap;margin-bottom:3px;box-shadow:0 2px 8px rgba(0,0,0,0.3);">Pickup</div>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#10b981" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg>
-          </div>
-
-          <!-- Delivery pin -->
-          <div id="delivery-pin" style="position:absolute;top:52%;left:65%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;">
-            <div style="background:#ef4444;color:white;font-size:9px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap;margin-bottom:3px;box-shadow:0 2px 8px rgba(0,0,0,0.3);">Delivery</div>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#ef4444" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg>
-          </div>
-
-          <!-- GPS button on map -->
-          <button onclick="getMyLocation()" style="position:absolute;bottom:10px;right:10px;background:white;border:none;border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#111827;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.2);">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-            Use my location
+        <!-- Active mode toggle -->
+        <div style="display:flex;gap:8px;padding:10px 16px 6px;flex-shrink:0;background:#f2f2f7;">
+          <button id="mode-pickup-btn" onclick="setMapMode('pickup')"
+            style="flex:1;padding:8px 10px;border-radius:12px;border:2px solid #10b981;background:#10b981;color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;">
+            <div style="width:8px;height:8px;background:white;border-radius:50%;"></div> Set Pickup
+          </button>
+          <button id="mode-delivery-btn" onclick="setMapMode('delivery')"
+            style="flex:1;padding:8px 10px;border-radius:12px;border:2px solid #e5e7eb;background:white;color:#6b7280;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;">
+            <div style="width:8px;height:8px;background:#ef4444;border-radius:50%;"></div> Set Delivery
           </button>
         </div>
 
         <!-- Form cards -->
-        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 16px 110px;">
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:8px 16px 110px;">
 
-          <!-- Pickup -->
-          <div style="background:white;border-radius:18px;padding:14px 16px;margin-bottom:10px;border:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:10px;height:10px;background:#10b981;border-radius:50%;flex-shrink:0;"></div>
-              <div style="flex:1;">
-                <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Pickup Point</div>
-                <input id="pickup-input" type="text" placeholder="Where to pick up from?"
-                  style="width:100%;border:none;outline:none;font-size:14px;font-weight:600;color:#111827;font-family:'DM Sans',sans-serif;background:transparent;"
-                  oninput="calcDistance()">
-              </div>
-              <button onclick="getMyLocation()" style="background:#f0fdf4;border:none;border-radius:10px;padding:8px;cursor:pointer;color:#10b981;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+          <!-- Pickup search -->
+          <div style="background:white;border-radius:18px;padding:12px 14px;margin-bottom:8px;border:2px solid #10b981;box-shadow:0 1px 6px rgba(16,185,129,0.1);">
+            <div style="font-size:10px;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">📍 Pickup Point</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input id="pickup-input" type="text" placeholder="Search pickup location..."
+                style="flex:1;border:none;outline:none;font-size:13px;font-weight:600;color:#111827;font-family:'DM Sans',sans-serif;background:transparent;"
+                oninput="searchLocation(this.value,'pickup')" autocomplete="off">
+              <button onclick="useMyLocationForPickup()" title="Use my GPS location"
+                style="background:#f0fdf4;border:none;border-radius:10px;padding:7px;cursor:pointer;color:#10b981;flex-shrink:0;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
               </button>
             </div>
+            <div id="pickup-suggestions" style="display:none;margin-top:6px;border-top:1px solid #f3f4f6;padding-top:6px;"></div>
           </div>
 
           <!-- Dashed connector -->
-          <div style="display:flex;align-items:center;padding:0 24px;margin:-4px 0;gap:8px;">
-            <div style="width:2px;height:20px;border-left:2px dashed #e5e7eb;margin-left:4px;"></div>
+          <div style="padding:0 20px;margin:-2px 0;">
+            <div style="border-left:2px dashed #d1d5db;height:14px;margin-left:5px;"></div>
           </div>
 
-          <!-- Delivery -->
-          <div style="background:white;border-radius:18px;padding:14px 16px;margin-bottom:12px;border:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:10px;height:10px;background:#ef4444;border-radius:50%;flex-shrink:0;"></div>
-              <div style="flex:1;">
-                <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Delivery Point</div>
-                <input id="delivery-input" type="text" placeholder="Where to deliver?"
-                  style="width:100%;border:none;outline:none;font-size:14px;font-weight:600;color:#111827;font-family:'DM Sans',sans-serif;background:transparent;"
-                  oninput="calcDistance()">
-              </div>
+          <!-- Delivery search -->
+          <div style="background:white;border-radius:18px;padding:12px 14px;margin-bottom:10px;border:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,0.05);" id="delivery-card">
+            <div style="font-size:10px;font-weight:700;color:#ef4444;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">🎯 Delivery Point</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input id="delivery-input" type="text" placeholder="Search delivery location..."
+                style="flex:1;border:none;outline:none;font-size:13px;font-weight:600;color:#111827;font-family:'DM Sans',sans-serif;background:transparent;"
+                oninput="searchLocation(this.value,'delivery')" autocomplete="off">
             </div>
+            <div id="delivery-suggestions" style="display:none;margin-top:6px;border-top:1px solid #f3f4f6;padding-top:6px;"></div>
           </div>
 
-          <!-- Distance info card -->
+          <!-- Distance card -->
           <div id="distance-card" style="background:white;border-radius:16px;padding:14px 16px;border:1.5px solid #e5e7eb;display:flex;gap:14px;align-items:center;">
-            <div style="width:40px;height:40px;background:#f0f0f0;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+            <div style="width:40px;height:40px;background:#f0f0f0;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;" id="dist-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
             </div>
-            <div>
-              <div id="dist-text" style="font-size:14px;font-weight:700;color:#111827;">Enter both locations</div>
-              <div id="eta-text" style="font-size:11px;color:#9ca3af;margin-top:2px;">Distance & ETA will appear here</div>
+            <div style="flex:1;">
+              <div id="dist-text" style="font-size:14px;font-weight:700;color:#111827;">দুটো location pin করুন</div>
+              <div id="eta-text" style="font-size:11px;color:#9ca3af;margin-top:2px;">ম্যাপে pin টেনে বা search করে সেট করুন</div>
             </div>
           </div>
 
         </div>
 
         <!-- Footer -->
-        <div style="position:absolute;bottom:0;left:0;right:0;background:white;padding:14px 16px 28px;border-top:1px solid #f0f0f0;z-index:10;box-shadow:0 -2px 16px rgba(0,0,0,0.06);">
-          <button onclick="nav('post3',null)" style="width:100%;background:#111827;color:white;border:none;border-radius:16px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:white;padding:14px 16px 28px;border-top:1px solid #f0f0f0;z-index:20;box-shadow:0 -2px 16px rgba(0,0,0,0.06);">
+          <button onclick="goToPost3()" id="post2-next-btn" style="width:100%;background:#d1d5db;color:#9ca3af;border:none;border-radius:16px;padding:16px;font-size:15px;font-weight:700;cursor:not-allowed;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;" disabled>
             Next — Set Time
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,18 15,12 9,6"/></svg>
           </button>
         </div>
 
+        <!-- Leaflet JS -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
-          function getMyLocation() {
-            if (!navigator.geolocation) {
-              alert('GPS supported না');
-              return;
-            }
-            var btn = event.currentTarget;
-            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Loading...';
+        (function(){
+          // ── State ──
+          var mapMode    = 'pickup'; // 'pickup' | 'delivery'
+          var pickupLatLng   = null;
+          var deliveryLatLng = null;
+          var taskMap    = null;
+          var pickupMarker   = null;
+          var deliveryMarker = null;
+          var routeLine  = null;
+          var searchTimers = {};
 
-            navigator.geolocation.getCurrentPosition(function(pos) {
-              var lat = pos.coords.latitude.toFixed(4);
-              var lng = pos.coords.longitude.toFixed(4);
-              var addr = 'আমার অবস্থান (' + lat + ', ' + lng + ')';
-              document.getElementById('pickup-input').value = addr;
-              btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg> Location set';
-              calcDistance();
-            }, function() {
-              btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> Use my location';
-              alert('Location access দিন browser settings এ');
+          // ── Custom pin icons ──
+          function makeIcon(color, label) {
+            return L.divIcon({
+              className: '',
+              html: '<div style="display:flex;flex-direction:column;align-items:center;">'
+                  + '<div style="background:' + color + ';color:white;font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.25);margin-bottom:2px;">' + label + '</div>'
+                  + '<svg width="26" height="26" viewBox="0 0 24 24" fill="' + color + '" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg>'
+                  + '</div>',
+              iconSize:   [60, 52],
+              iconAnchor: [30, 52],
             });
           }
 
-          function calcDistance() {
-            var p = document.getElementById('pickup-input').value.trim();
-            var d = document.getElementById('delivery-input').value.trim();
-            var distEl = document.getElementById('dist-text');
-            var etaEl  = document.getElementById('eta-text');
-            if (p && d) {
-              // Approximate random distance for prototype (1.5 – 5 km)
-              var km  = (Math.random() * 3.5 + 1.5).toFixed(1);
-              var min = Math.round(km * 8 + 5);
-              distEl.textContent = '~' + km + ' km দূরত্ব';
-              etaEl.textContent  = 'আনুমানিক ' + min + ' মিনিট লাগবে';
-              distEl.style.color = '#10b981';
-            } else {
-              distEl.textContent = 'দুটো location দিন';
-              distEl.style.color = '#111827';
-              etaEl.textContent  = 'Distance & ETA will appear here';
-            }
+          // ── Init map (Dhaka center) ──
+          function initMap() {
+            if (taskMap) return;
+            taskMap = L.map('tasko-map', { zoomControl: false }).setView([23.8103, 90.4125], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '© OSM', maxZoom: 19
+            }).addTo(taskMap);
+
+            // Zoom control bottom-right
+            L.control.zoom({ position: 'bottomright' }).addTo(taskMap);
+
+            // Click map to set pin
+            taskMap.on('click', function(e) {
+              if (mapMode === 'pickup') {
+                setPickupPin(e.latlng, null);
+              } else {
+                setDeliveryPin(e.latlng, null);
+              }
+            });
           }
+
+          // ── Set pickup pin ──
+          function setPickupPin(latlng, address) {
+            pickupLatLng = latlng;
+            if (pickupMarker) taskMap.removeLayer(pickupMarker);
+            pickupMarker = L.marker(latlng, { icon: makeIcon('#10b981','Pickup'), draggable: true }).addTo(taskMap);
+            pickupMarker.on('dragend', function(e) {
+              setPickupPin(e.target.getLatLng(), null);
+            });
+            if (!address) {
+              reverseGeocode(latlng, function(addr) {
+                document.getElementById('pickup-input').value = addr;
+                recalcDistance();
+              });
+            } else {
+              document.getElementById('pickup-input').value = address;
+              recalcDistance();
+            }
+            drawRoute();
+            // switch mode to delivery after pickup set
+            setTimeout(function(){ setMapMode('delivery'); }, 300);
+          }
+
+          // ── Set delivery pin ──
+          function setDeliveryPin(latlng, address) {
+            deliveryLatLng = latlng;
+            if (deliveryMarker) taskMap.removeLayer(deliveryMarker);
+            deliveryMarker = L.marker(latlng, { icon: makeIcon('#ef4444','Delivery'), draggable: true }).addTo(taskMap);
+            deliveryMarker.on('dragend', function(e) {
+              setDeliveryPin(e.target.getLatLng(), null);
+            });
+            if (!address) {
+              reverseGeocode(latlng, function(addr) {
+                document.getElementById('delivery-input').value = addr;
+                recalcDistance();
+              });
+            } else {
+              document.getElementById('delivery-input').value = address;
+              recalcDistance();
+            }
+            drawRoute();
+          }
+
+          // ── Draw straight line route ──
+          function drawRoute() {
+            if (!pickupLatLng || !deliveryLatLng) return;
+            if (routeLine) taskMap.removeLayer(routeLine);
+            routeLine = L.polyline([pickupLatLng, deliveryLatLng], {
+              color: '#3b82f6', weight: 3, dashArray: '8,6', opacity: 0.8
+            }).addTo(taskMap);
+            taskMap.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
+            recalcDistance();
+          }
+
+          // ── Haversine real distance ──
+          function haversine(a, b) {
+            var R = 6371;
+            var dLat = (b.lat - a.lat) * Math.PI / 180;
+            var dLon = (b.lng - a.lng) * Math.PI / 180;
+            var x = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(a.lat * Math.PI/180) * Math.cos(b.lat * Math.PI/180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
+          }
+
+          function recalcDistance() {
+            if (!pickupLatLng || !deliveryLatLng) return;
+            var km  = haversine(pickupLatLng, deliveryLatLng).toFixed(1);
+            var min = Math.round(km * 4 + 5); // ~15km/h city speed
+            var fee = Math.round(km * 12 + 30);
+            document.getElementById('dist-text').textContent = km + ' km দূরত্ব · আনুমানিক ৳' + fee;
+            document.getElementById('eta-text').textContent  = 'আনুমানিক ' + min + ' মিনিট · Dhaka city estimate';
+            document.getElementById('dist-text').style.color = '#10b981';
+            document.getElementById('dist-icon').style.background = '#f0fdf4';
+            document.getElementById('dist-icon').innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
+            // Save to global for post3/post4
+            window.taskPickup      = document.getElementById('pickup-input').value;
+            window.taskDelivery    = document.getElementById('delivery-input').value;
+            window.taskDistance    = km;
+            window.taskPickupCoords  = pickupLatLng  ? [pickupLatLng.lat,  pickupLatLng.lng]  : null;
+            window.taskDropCoords    = deliveryLatLng ? [deliveryLatLng.lat, deliveryLatLng.lng] : null;
+            window.taskFee      = fee;
+            // Enable next button
+            var btn = document.getElementById('post2-next-btn');
+            btn.disabled = false;
+            btn.style.background = '#111827';
+            btn.style.color = 'white';
+            btn.style.cursor = 'pointer';
+          }
+
+          // ── Reverse geocode via Nominatim ──
+          function reverseGeocode(latlng, cb) {
+            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latlng.lat + '&lon=' + latlng.lng + '&accept-language=bn,en')
+              .then(function(r){ return r.json(); })
+              .then(function(d){
+                var addr = d.display_name ? d.display_name.split(',').slice(0,3).join(', ') : (latlng.lat.toFixed(4)+', '+latlng.lng.toFixed(4));
+                cb(addr);
+              }).catch(function(){
+                cb(latlng.lat.toFixed(4)+', '+latlng.lng.toFixed(4));
+              });
+          }
+
+          // ── Search via Nominatim ──
+          window.searchLocation = function(q, type) {
+            clearTimeout(searchTimers[type]);
+            if (q.length < 3) { document.getElementById(type+'-suggestions').style.display='none'; return; }
+            searchTimers[type] = setTimeout(function(){
+              fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(q + ' Dhaka Bangladesh') + '&limit=5&accept-language=bn,en')
+                .then(function(r){ return r.json(); })
+                .then(function(results){
+                  var box = document.getElementById(type+'-suggestions');
+                  if (!results.length) { box.style.display='none'; return; }
+                  box.innerHTML = '';
+                  results.forEach(function(r){
+                    var name = r.display_name.split(',').slice(0,3).join(', ');
+                    var item = document.createElement('div');
+                    item.style.cssText = 'padding:8px 4px;font-size:12px;color:#374151;cursor:pointer;border-bottom:1px solid #f9fafb;line-height:1.4;';
+                    item.textContent = '📍 ' + name;
+                    item.onmouseover = function(){ this.style.background='#f0fdf4'; };
+                    item.onmouseout  = function(){ this.style.background='transparent'; };
+                    item.onclick = function(){
+                      var latlng = L.latLng(parseFloat(r.lat), parseFloat(r.lon));
+                      if (type === 'pickup') setPickupPin(latlng, name);
+                      else setDeliveryPin(latlng, name);
+                      taskMap.setView(latlng, 15);
+                      box.style.display = 'none';
+                    };
+                    box.appendChild(item);
+                  });
+                  box.style.display = 'block';
+                });
+            }, 450);
+          };
+
+          // ── GPS for pickup ──
+          window.useMyLocationForPickup = function() {
+            if (!navigator.geolocation) { alert('GPS নেই'); return; }
+            navigator.geolocation.getCurrentPosition(function(pos) {
+              var latlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
+              taskMap.setView(latlng, 15);
+              setPickupPin(latlng, null);
+            }, function(){ alert('Location permission দিন'); });
+          };
+
+          // ── Mode toggle ──
+          window.setMapMode = function(mode) {
+            mapMode = mode;
+            var pb = document.getElementById('mode-pickup-btn');
+            var db = document.getElementById('mode-delivery-btn');
+            if (mode === 'pickup') {
+              pb.style.background='#10b981'; pb.style.borderColor='#10b981'; pb.style.color='white';
+              db.style.background='white';   db.style.borderColor='#e5e7eb'; db.style.color='#6b7280';
+            } else {
+              db.style.background='#ef4444'; db.style.borderColor='#ef4444'; db.style.color='white';
+              pb.style.background='white';   pb.style.borderColor='#e5e7eb'; pb.style.color='#6b7280';
+            }
+          };
+
+          // ── Next button ──
+          window.goToPost3 = function() {
+            if (!pickupLatLng || !deliveryLatLng) {
+              alert('দুটো location সেট করুন');
+              return;
+            }
+            nav('post3', null);
+          };
+
+          // ── Init when screen becomes visible ──
+          var _origNav = window.nav;
+          window.nav = function(screen, data) {
+            _origNav(screen, data);
+            if (screen === 'post2') {
+              setTimeout(function(){
+                initMap();
+                if (taskMap) taskMap.invalidateSize();
+              }, 120);
+            }
+          };
+
+          // Also init if already on post2
+          document.addEventListener('DOMContentLoaded', function(){
+            if (document.getElementById('screen-post2').classList.contains('active')) {
+              setTimeout(initMap, 200);
+            }
+          });
+        })();
         </script>
 
       </div>
@@ -2425,151 +2659,98 @@
       <!-- =========================================
            S11b · NO RIDER FOUND — MAKE AN OFFER
            ========================================= -->
-      <div class="screen" id="screen-negotiate" style="background:var(--bg);">
-        <div style="background:#111827;padding:0 18px 20px;flex-shrink:0;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
-          <div class="status-bar light" style="position:relative;z-index:1;"><span>10:41</span><div>📶 🔋</div></div>
-
-          <!-- Alert banner -->
-          <div style="background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:14px;padding:12px 14px;margin-bottom:14px;position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;">
-            <span style="font-size:18px;flex-shrink:0;">😔</span>
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:800;color:white;margin-bottom:3px;">কোনো রাইডার রিকোয়েস্ট নেননি</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.5;">এই মুহূর্তে এলাকায় রাইডার কম। একটু বেশি অফার করলে দ্রুত রাইডার পাওয়ার সম্ভাবনা অনেক বেড়ে যাবে।</div>
-            </div>
-          </div>
-
-          <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;position:relative;z-index:1;">ডেলিভারি চার্জ বাড়ান <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:3px;position:relative;z-index:1;">বেশি অফার = দ্রুত রাইডার</div>
-        </div>
-
-        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 100px;">
-
-          <!-- Current offer info -->
-          <div style="background:var(--bg-card);border-radius:16px;padding:14px 16px;border:1px solid var(--border);box-shadow:var(--shadow-sm);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">আপনার আগের অফার</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--gray-300);">৳80</div>
-            </div>
-            <div style="font-size:28px;">→</div>
-            <div style="text-align:right;">
-              <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">নতুন অফার</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--blue-dark);" id="offer-display">৳120</div>
-            </div>
-          </div>
-
-          <!-- Quick offer chips -->
-          <div style="font-size:11px;font-weight:700;color:var(--gray-400);margin-bottom:10px;">দ্রুত অফার বেছে নিন</div>
-          <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
-            <div onclick="setOffer(this,'100')" style="flex:1;min-width:60px;background:var(--bg-card);border:2px solid var(--gray-200);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;font-weight:700;font-size:13px;color:var(--text-secondary);">৳100</div>
-            <div onclick="setOffer(this,'120')" style="flex:1;min-width:60px;background:var(--blue-light);border:2px solid var(--blue);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;font-weight:700;font-size:13px;color:var(--blue-dark);">৳120 ⭐</div>
-            <div onclick="setOffer(this,'150')" style="flex:1;min-width:60px;background:var(--bg-card);border:2px solid var(--gray-200);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;font-weight:700;font-size:13px;color:var(--text-secondary);">৳150</div>
-            <div onclick="setOffer(this,'200')" style="flex:1;min-width:60px;background:var(--bg-card);border:2px solid var(--gray-200);border-radius:12px;padding:10px 6px;text-align:center;cursor:pointer;font-weight:700;font-size:13px;color:var(--text-secondary);">৳200</div>
-          </div>
-
-          <!-- Custom input -->
-          <div style="font-size:11px;font-weight:700;color:var(--gray-400);margin-bottom:8px;">অথবা নিজে লিখুন</div>
-          <div style="display:flex;align-items:center;background:var(--bg-card);border:2px solid var(--gray-200);border-radius:14px;overflow:hidden;margin-bottom:16px;">
-            <span style="padding:0 14px;font-size:18px;font-weight:800;color:var(--gray-400);">৳</span>
-            <input type="number" placeholder="যেকোনো পরিমাণ" oninput="document.getElementById('offer-display').textContent='৳'+(this.value||'120')" style="flex:1;border:none;outline:none;padding:14px 0;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;color:var(--text-primary);">
-          </div>
-
-          <!-- Info -->
-          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:11px 13px;display:flex;gap:8px;align-items:flex-start;">
-            <span>💡</span>
-            <span style="font-size:11px;color:#166534;line-height:1.6;">৳120 বা তার বেশি অফার করলে সাধারণত ২ মিনিটের মধ্যে রাইডার পাওয়া যায়।</span>
-          </div>
-        </div>
-
-        <!-- Actions -->
-        <div style="position:absolute;bottom:0;left:0;right:0;background:var(--bg-card);border-top:1px solid var(--border);padding:12px 16px 28px;display:flex;gap:10px;">
-          <button onclick="nav('home',null)" style="flex:1;background:var(--bg-card);color:var(--gray-400);border:none;border-radius:14px;padding:15px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">বাতিল করুন</button>
-          <button onclick="nav('finding-rider',null);setTimeout(startFindTimer,100)" style="flex:2;background:linear-gradient(135deg,var(--blue-mid),var(--blue-dark));color:white;border:none;border-radius:14px;padding:15px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(37,99,235,0.35);">🚀 নতুন অফার পাঠান</button>
-        </div>
-
-        <script>
-          function setOffer(el, val) {
-            document.querySelectorAll('[onclick^="setOffer"]').forEach(function(e){
-              e.style.background='white'; e.style.border='2px solid var(--gray-200)'; e.style.color='var(--gray-700)';
-            });
-            el.style.background='var(--blue-light)'; el.style.border='2px solid var(--blue)'; el.style.color='var(--blue-dark)';
-            document.getElementById('offer-display').textContent = '৳' + val;
-          }
-        </script>
-      </div>
-
-
-      <div class="screen" id="screen-finding-rider" style="background:#0f1623;overflow:hidden;">
+      <div class="screen" id="screen-finding-rider" style="background:#f2f2f7;flex-direction:column;overflow:hidden;">
 
         <!-- Dark header -->
-        <div style="background:#111827;padding:20px 18px 18px;flex-shrink:0;display:flex;align-items:center;gap:12px;">
-          <button onclick="clearInterval(window._findTimer);nav('home',null)" style="width:36px;height:36px;background:rgba(255,255,255,0.1);border:none;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
-          </button>
-          <img src="https://i.postimg.cc/59Btg7ms/grok-image-1772388059716.jpg" style="height:26px;object-fit:contain;" alt="tasko">
+        <div style="background:#0f1623;flex-shrink:0;position:relative;overflow:hidden;padding:20px 20px 28px;">
+          <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);"></div>
+          <div style="position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;position:relative;z-index:1;">
+            <button onclick="clearInterval(window._findTimer);nav('home',null)" style="width:36px;height:36px;background:rgba(255,255,255,0.1);border:none;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+            </button>
+            <img src="https://i.postimg.cc/59Btg7ms/grok-image-1772388059716.jpg" style="height:28px;object-fit:contain;" alt="tasko">
+            <div style="width:36px;"></div>
+          </div>
+          <div style="position:relative;z-index:1;">
+            <div style="font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:3px;">Looking for someone nearby...</div>
+            <div style="font-size:26px;font-weight:800;color:white;line-height:1.1;font-family:'DM Sans',sans-serif;">Finding a Rider</div>
+          </div>
         </div>
 
-        <!-- Main content -->
-        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:0 24px 40px;">
+        <!-- Body -->
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:20px 16px 80px;">
 
-          <!-- Radar animation -->
-          <div style="position:relative;width:180px;height:180px;display:flex;align-items:center;justify-content:center;">
-            <!-- Rings -->
-            <div style="position:absolute;width:180px;height:180px;border-radius:50%;border:1.5px solid rgba(59,130,246,0.15);animation:radarPulse 2s ease-out infinite;"></div>
-            <div style="position:absolute;width:130px;height:130px;border-radius:50%;border:1.5px solid rgba(59,130,246,0.25);animation:radarPulse 2s ease-out infinite 0.5s;"></div>
-            <div style="position:absolute;width:80px;height:80px;border-radius:50%;border:1.5px solid rgba(59,130,246,0.4);animation:radarPulse 2s ease-out infinite 1s;"></div>
-            <!-- Core circle -->
-            <div style="width:60px;height:60px;background:#1d4ed8;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(59,130,246,0.5);z-index:2;">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>
+          <!-- Main animation card -->
+          <div style="background:white;border-radius:20px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);padding:36px 20px 28px;display:flex;flex-direction:column;align-items:center;gap:24px;margin-bottom:14px;">
+
+            <!-- Breathing circle animation -->
+            <div style="position:relative;width:140px;height:140px;display:flex;align-items:center;justify-content:center;">
+              <!-- Pulse rings -->
+              <div style="position:absolute;inset:0;border-radius:50%;background:rgba(37,99,235,0.06);animation:breathe 2.4s ease-in-out infinite;"></div>
+              <div style="position:absolute;inset:14px;border-radius:50%;background:rgba(37,99,235,0.08);animation:breathe 2.4s ease-in-out infinite 0.4s;"></div>
+              <div style="position:absolute;inset:28px;border-radius:50%;background:rgba(37,99,235,0.1);animation:breathe 2.4s ease-in-out infinite 0.8s;"></div>
+              <!-- Core -->
+              <div style="width:56px;height:56px;background:#111827;border-radius:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,0.18);z-index:2;animation:corePulse 2.4s ease-in-out infinite;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </div>
             </div>
-            <!-- Rider dots -->
-            <div style="position:absolute;top:18px;left:50px;width:10px;height:10px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981;animation:blink 1.5s ease-in-out infinite;"></div>
-            <div style="position:absolute;top:30px;right:35px;width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981;animation:blink 1.5s ease-in-out infinite 0.4s;"></div>
-            <div style="position:absolute;bottom:22px;left:30px;width:9px;height:9px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981;animation:blink 1.5s ease-in-out infinite 0.8s;"></div>
-            <div style="position:absolute;bottom:35px;right:28px;width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981;animation:blink 1.5s ease-in-out infinite 1.1s;"></div>
-          </div>
 
-          <!-- Title -->
-          <div style="text-align:center;">
-            <div style="font-size:22px;font-weight:800;color:white;font-family:'DM Sans',sans-serif;margin-bottom:6px;">Rider খোঁজা হচ্ছে...</div>
-            <div style="font-size:13px;color:rgba(255,255,255,0.45);">কাছের রাইডারদের notify করা হচ্ছে</div>
-          </div>
+            <!-- Timer -->
+            <div style="position:relative;width:80px;height:80px;">
+              <svg width="80" height="80" style="transform:rotate(-90deg);">
+                <circle cx="40" cy="40" r="34" fill="none" stroke="#f0f0f0" stroke-width="5"/>
+                <circle id="timer-ring" cx="40" cy="40" r="34" fill="none" stroke="#111827" stroke-width="5" stroke-dasharray="213.6" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear;"/>
+              </svg>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+                <div id="timer-count" style="font-size:24px;font-weight:800;color:#111827;line-height:1;font-family:'DM Sans',sans-serif;">15</div>
+                <div style="font-size:9px;color:#9ca3af;font-weight:600;margin-top:1px;">sec</div>
+              </div>
+            </div>
 
-          <!-- Timer circle -->
-          <div style="position:relative;width:88px;height:88px;">
-            <svg width="88" height="88" style="transform:rotate(-90deg);">
-              <circle cx="44" cy="44" r="38" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/>
-              <circle id="timer-ring" cx="44" cy="44" r="38" fill="none" stroke="#3b82f6" stroke-width="5" stroke-dasharray="238.8" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear;"/>
-            </svg>
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;">
-              <div id="timer-count" style="font-size:26px;font-weight:800;color:white;line-height:1;font-family:'DM Sans',sans-serif;">15</div>
-              <div style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:600;margin-top:1px;">sec</div>
+            <div style="text-align:center;">
+              <div style="font-size:15px;font-weight:700;color:#111827;font-family:'DM Sans',sans-serif;margin-bottom:4px;">Notifying nearby riders...</div>
+              <div style="font-size:12px;color:#9ca3af;line-height:1.5;">Accept হলে এখানে দেখা যাবে</div>
             </div>
           </div>
 
-          <!-- Riders nearby badge -->
-          <div style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:10px 20px;display:flex;align-items:center;gap:8px;">
-            <div style="width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 6px #10b981;"></div>
-            <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.9);">14 riders available nearby</span>
+          <!-- Riders available — clean pill style -->
+          <div style="background:white;border-radius:18px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);padding:16px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:38px;height:38px;background:#f0fdf4;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+              </div>
+              <div>
+                <div style="font-size:14px;font-weight:700;color:#111827;">14 riders nearby</div>
+                <div style="font-size:11px;color:#9ca3af;margin-top:1px;">Request sent to all of them</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <div style="width:7px;height:7px;background:#10b981;border-radius:50%;animation:dotBlink 1.2s infinite;"></div>
+              <div style="font-size:11px;font-weight:700;color:#10b981;">Live</div>
+            </div>
           </div>
 
-          <!-- Cancel button -->
-          <button onclick="clearInterval(window._findTimer);nav('home',null)" style="background:rgba(239,68,68,0.1);border:1.5px solid rgba(239,68,68,0.3);border-radius:16px;padding:14px 32px;color:#fca5a5;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            Cancel Task
+          <!-- Cancel — dark card style -->
+          <button onclick="clearInterval(window._findTimer);nav('home',null)" style="width:100%;background:#111827;border:none;border-radius:16px;padding:16px;color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;gap:8px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Cancel Request
           </button>
         </div>
 
         <style>
-          @keyframes radarPulse { 0%{transform:scale(0.8);opacity:0.8} 100%{transform:scale(1.1);opacity:0} }
-          @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+          @keyframes breathe  { 0%,100%{transform:scale(1);opacity:0.7} 50%{transform:scale(1.12);opacity:1} }
+          @keyframes corePulse{ 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
+          @keyframes dotBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
         </style>
 
         <script>
           function startFindTimer() {
             clearInterval(window._findTimer);
             var sec = 15;
-            var circumference = 238.8;
+            var circumference = 213.6;
             var tc = document.getElementById('timer-count');
             var tr = document.getElementById('timer-ring');
             if (!tc || !tr) return;
@@ -2581,275 +2762,281 @@
               if (tr) tr.style.strokeDashoffset = ((15 - sec) / 15) * circumference;
               if (sec <= 0) {
                 clearInterval(window._findTimer);
-                var retries = (window._findRetries = (window._findRetries || 0) + 1);
-                if (retries >= 3) { window._findRetries = 0; nav('counter-offer', null); }
-                else { nav('negotiate', null); }
+                // Firestore এ task cancel করো — rider feed থেকে সরে যাবে
+                var taskId = window.currentTaskData && window.currentTaskData.taskId;
+                if (taskId) {
+                  db.collection('tasks').doc(taskId).update({ status: 'cancelled' })
+                    .catch(function(e) { console.warn('cancel update failed:', e); });
+                }
+                nav('post4', null);
+                setTimeout(showNoRiderPopup, 350);
               }
             }, 1000);
           }
         </script>
       </div>
 
-      <!-- =========================================
-           S11c · RIDER COUNTER OFFER (to customer)
-           ========================================= -->
-      <div class="screen" id="screen-counter-offer" style="background:var(--bg);">
-        <div style="background:linear-gradient(155deg,#065f46,#059669,#10b981);padding:0 18px 20px;flex-shrink:0;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:rgba(255,255,255,0.06);border-radius:50%;"></div>
-          <div class="status-bar light" style="position:relative;z-index:1;"><span>10:41</span><div>📶 🔋</div></div>
+      <div class="screen" id="screen-assigned" style="background:#f2f2f7;flex-direction:column;overflow:hidden;">
 
-          <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:14px;padding:12px 14px;margin-bottom:14px;position:relative;z-index:1;display:flex;gap:10px;align-items:flex-start;">
-            <span style="font-size:20px;flex-shrink:0;">🎉</span>
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:800;color:white;margin-bottom:3px;">একজন রাইডার আগ্রহী!</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.75);line-height:1.5;">আপনার অর্ডারটি নেগোশিয়েশন সেকশনে গেছে। একজন রাইডার কাউন্টার অফার দিয়েছেন — গ্রহণ করবেন?</div>
-            </div>
+        <!-- MAP — compact, professional -->
+        <!-- Leaflet CSS (reuse if already loaded) -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+        <!-- LIVE TRACKING MAP -->
+        <div style="position:relative;flex-shrink:0;">
+          <div id="tracking-map" style="width:100%;height:240px;z-index:1;"></div>
+
+          <!-- ETA pill overlay -->
+          <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(17,24,39,0.82);backdrop-filter:blur(10px);border-radius:20px;padding:7px 14px;display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:10;pointer-events:none;">
+            <div style="width:7px;height:7px;border-radius:50%;background:#10b981;animation:etaBlink 1.2s ease-in-out infinite;flex-shrink:0;"></div>
+            <span id="eta-text" style="font-weight:700;font-size:11px;color:white;">রাইডার আসছে...</span>
           </div>
 
-          <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;position:relative;z-index:1;">রাইডারের কাউন্টার অফার <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <!-- Back button -->
+          <button onclick="nav('activity',null)" style="position:absolute;top:10px;left:12px;z-index:10;background:white;border:none;border-radius:10px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 6px rgba(0,0,0,0.15);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+          </button>
         </div>
 
-        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 110px;">
+        <!-- Leaflet JS -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+        (function(){
+          var tMap = null, riderMarker = null, pickupMarker = null, dropMarker = null;
+          var routeLine = null, riderSimInterval = null;
+          var riderLat = 23.8103, riderLng = 90.4050; // sim start
 
-          <!-- Rider info -->
-          <div style="background:var(--bg-card);border-radius:16px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-md);margin-bottom:14px;display:flex;align-items:center;gap:12px;">
-            <div style="width:46px;height:46px;background:linear-gradient(135deg,var(--blue-mid),var(--accent));border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🧑</div>
-            <div style="flex:1;">
-              <div style="font-weight:700;font-size:14px;color:var(--text-primary);">Mahmud Hasan</div>
-              <div style="font-size:11px;color:var(--gray-400);">⭐ 4.8 · 1,240 tasks · Honda CD-80</div>
-            </div>
-            <div style="background:#f0fdf4;border-radius:10px;padding:6px 10px;text-align:center;">
-              <div style="font-size:9px;color:#166534;font-weight:700;">NEARBY</div>
-              <div style="font-size:12px;color:#166534;font-weight:800;">0.6 km</div>
-            </div>
-          </div>
+          function makeRiderIcon(name) {
+            return L.divIcon({
+              className:'',
+              html: '<div style="display:flex;flex-direction:column;align-items:center;">'
+                  + '<div style="width:36px;height:36px;border-radius:50%;background:#2563eb;border:3px solid white;box-shadow:0 2px 12px rgba(37,99,235,0.45);display:flex;align-items:center;justify-content:center;">'
+                  + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>'
+                  + '</div>'
+                  + '<div style="font-size:9px;font-weight:700;color:#1d4ed8;background:white;padding:2px 7px;border-radius:6px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.12);white-space:nowrap;">' + (name||'Rider') + '</div>'
+                  + '</div>',
+              iconSize:[60,58], iconAnchor:[30,58]
+            });
+          }
+          function makePinIcon(color, label) {
+            return L.divIcon({
+              className:'',
+              html: '<div style="display:flex;flex-direction:column;align-items:center;">'
+                  + '<div style="width:28px;height:28px;border-radius:50%;background:'+color+';border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;">'
+                  + '<div style="width:8px;height:8px;border-radius:50%;background:white;"></div></div>'
+                  + '<div style="font-size:8px;font-weight:700;color:#374151;background:white;padding:1px 6px;border-radius:5px;margin-top:2px;box-shadow:0 1px 3px rgba(0,0,0,0.1);">'+label+'</div>'
+                  + '</div>',
+              iconSize:[50,44], iconAnchor:[25,44]
+            });
+          }
 
-          <!-- Offer comparison -->
-          <div style="background:var(--bg-card);border-radius:16px;padding:16px;border:1px solid var(--border);box-shadow:var(--shadow-sm);margin-bottom:14px;">
-            <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">অফার তুলনা</div>
-            <div style="display:flex;align-items:center;margin-bottom:12px;">
-              <div style="flex:1;background:var(--bg);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--border);">
-                <div style="font-size:10px;color:var(--gray-400);font-weight:600;margin-bottom:4px;">আপনার অফার</div>
-                <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--gray-400);">৳120</div>
-              </div>
-              <div style="padding:0 10px;font-size:20px;">↔️</div>
-              <div style="flex:1;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:12px;padding:12px;text-align:center;border:2px solid #86efac;">
-                <div style="font-size:10px;color:#166534;font-weight:700;margin-bottom:4px;">রাইডারের চাওয়া</div>
-                <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#15803d;">৳160</div>
-              </div>
-            </div>
-            <div style="background:var(--blue-light);border-radius:10px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:12px;font-weight:600;color:var(--blue-dark);">পার্থক্য</span>
-              <span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;color:var(--blue-dark);">৳40 বেশি</span>
-            </div>
-          </div>
+          function haversineKm(a, b) {
+            var R=6371, dLat=(b[0]-a[0])*Math.PI/180, dLon=(b[1]-a[1])*Math.PI/180;
+            var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+            return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
+          }
 
-          <!-- Rider message -->
-          <div style="background:var(--bg-card);border-radius:16px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);margin-bottom:14px;">
-            <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">রাইডারের বার্তা</div>
-            <div style="background:var(--bg);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--text-secondary);line-height:1.6;font-style:italic;">"ভাই, ট্রাফিক বেশি আছে এখন। ৳160 হলে এখনই বের হতে পারি।"</div>
-          </div>
+          function updateETA() {
+            if (!riderMarker || !pickupMarker) return;
+            var rp = riderMarker.getLatLng(), pp = pickupMarker.getLatLng();
+            var km = haversineKm([rp.lat,rp.lng],[pp.lat,pp.lng]);
+            var min = Math.max(1, Math.round(km / 0.25)); // ~15km/h
+            var el = document.getElementById('eta-text');
+            if (el) el.textContent = km < 0.08 ? '🟢 রাইডার পৌঁছে গেছে!' : '🛵 রাইডার ' + min + ' মিনিটে পৌঁছাবে · ' + km.toFixed(1) + ' km দূরে';
+          }
 
-          <!-- Counter input -->
-          <div style="background:var(--bg-card);border-radius:16px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);">
-            <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">আপনিও কাউন্টার দিতে পারেন</div>
-            <div style="display:flex;align-items:center;background:var(--bg);border:2px solid var(--gray-200);border-radius:12px;overflow:hidden;">
-              <span style="padding:0 12px;font-size:16px;font-weight:800;color:var(--gray-400);">৳</span>
-              <input type="number" placeholder="140" style="flex:1;border:none;outline:none;padding:12px 0;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;color:var(--text-primary);background:transparent;">
-            </div>
-          </div>
-        </div>
+          // Simulate rider moving toward pickup
+          function startRiderSim(targetLat, targetLng) {
+            if (riderSimInterval) clearInterval(riderSimInterval);
+            riderSimInterval = setInterval(function(){
+              var dlat = (targetLat - riderLat) * 0.06;
+              var dlng = (targetLng - riderLng) * 0.06;
+              riderLat += dlat; riderLng += dlng;
+              if (riderMarker) {
+                riderMarker.setLatLng([riderLat, riderLng]);
+                updateETA();
+              }
+              if (Math.abs(dlat) < 0.000005 && Math.abs(dlng) < 0.000005) clearInterval(riderSimInterval);
+            }, 2000);
+          }
 
-        <!-- Actions -->
-        <div style="position:absolute;bottom:0;left:0;right:0;background:var(--bg-card);border-top:1px solid var(--border);padding:12px 16px 28px;display:flex;flex-direction:column;gap:8px;">
-          <button onclick="nav('assigned',null)" style="width:100%;background:linear-gradient(135deg,var(--green),#059669);color:white;border:none;border-radius:14px;padding:15px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(16,185,129,0.4);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg> ৳160 তে রাজি — একসেপ্ট করুন</button>
-          <div style="display:flex;gap:8px;">
-            <button onclick="nav('negotiate',null)" style="flex:1;background:var(--blue-light);color:var(--blue-dark);border:none;border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">↩ কাউন্টার দিন</button>
-            <button onclick="nav('home',null)" style="flex:1;background:var(--bg-card);color:var(--gray-400);border:none;border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> বাতিল</button>
-          </div>
-        </div>
-      </div>
+          window.initTrackingMap = function(pickupCoords, dropCoords, riderName) {
+            // Use saved coords from post2 if available, else fallback Dhaka locations
+            var pLat = pickupCoords ? pickupCoords[0] : 23.8223;
+            var pLng = pickupCoords ? pickupCoords[1] : 90.3654;
+            var dLat = dropCoords   ? dropCoords[0]   : 23.7461;
+            var dLng = dropCoords   ? dropCoords[1]   : 90.3742;
 
-      <!-- =========================================
-           S9 · LIVE TRACKING
-           ========================================= -->
-      <div class="screen" id="screen-assigned" style="background:var(--bg);">
+            if (!tMap) {
+              tMap = L.map('tracking-map', { zoomControl:false, attributionControl:false })
+                      .setView([(pLat+dLat)/2, (pLng+dLng)/2], 13);
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19 }).addTo(tMap);
+              L.control.zoom({ position:'bottomright' }).addTo(tMap);
+            } else {
+              tMap.setView([(pLat+dLat)/2, (pLng+dLng)/2], 13);
+            }
 
-        <!-- Status bar -->
-        <div style="position:absolute;top:0;left:0;right:0;z-index:20;">
-          <div class="status-bar"><span>10:41</span><div>📶 🔋</div></div>
-        </div>
+            // Clear old markers
+            [pickupMarker, dropMarker, riderMarker, routeLine].forEach(function(m){ if(m) tMap.removeLayer(m); });
 
-        <!-- Back button overlay -->
-        <div style="position:absolute;top:36px;left:16px;z-index:25;">
-          <button onclick="nav('activity',null)" style="background:rgba(255,255,255,0.9);border:none;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.15);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg></button>
-        </div>
+            // Pickup & drop pins
+            pickupMarker = L.marker([pLat, pLng], { icon: makePinIcon('#f59e0b','Pickup') }).addTo(tMap);
+            dropMarker   = L.marker([dLat, dLng], { icon: makePinIcon('#10b981','Drop')   }).addTo(tMap);
 
-        <!-- Map Area -->
-        <div style="height:290px;background:linear-gradient(135deg,#e0f2fe,#dbeafe);position:relative;overflow:hidden;flex-shrink:0;" id="map-area">
-          <!-- Grid -->
-          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.07) 1px,transparent 1px);background-size:28px 28px;"></div>
-          <!-- Roads -->
-          <div style="position:absolute;height:5px;background:rgba(255,255,255,0.8);left:0;right:0;top:150px;"></div>
-          <div style="position:absolute;height:5px;background:rgba(255,255,255,0.8);left:0;right:0;top:220px;"></div>
-          <div style="position:absolute;width:5px;background:rgba(255,255,255,0.8);top:0;bottom:0;left:110px;"></div>
-          <div style="position:absolute;width:5px;background:rgba(255,255,255,0.8);top:0;bottom:0;left:255px;"></div>
+            // Route line
+            routeLine = L.polyline([[pLat,pLng],[dLat,dLng]], { color:'#3b82f6', weight:3, dashArray:'8,6', opacity:0.6 }).addTo(tMap);
 
-          <!-- Route: Rider → Pickup -->
-          <div id="route-a" style="position:absolute;top:144px;left:80px;width:90px;height:2px;background:repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 7px,transparent 7px,transparent 13px);opacity:0.8;transform:rotate(-8deg);transition:opacity 0.4s;"></div>
-          <!-- Route: Pickup → Home -->
-          <div id="route-b" style="position:absolute;top:144px;left:155px;width:115px;height:2px;background:repeating-linear-gradient(90deg,var(--green) 0,var(--green) 7px,transparent 7px,transparent 13px);opacity:0.5;transform:rotate(-3deg);transition:opacity 0.4s;"></div>
+            // Rider — start ~500m away from pickup
+            riderLat = pLat + 0.004; riderLng = pLng - 0.005;
+            riderMarker = L.marker([riderLat, riderLng], { icon: makeRiderIcon(riderName||'Rider') }).addTo(tMap);
 
-          <!-- Pickup Pin -->
-          <div style="position:absolute;left:148px;top:90px;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%);" id="pin-pickup">
-            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#d97706);display:flex;align-items:center;justify-content:center;font-size:17px;border:3px solid white;box-shadow:0 4px 12px rgba(245,158,11,0.45);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-            <div style="font-size:8px;font-weight:700;color:var(--text-secondary);background:var(--bg-card);padding:2px 6px;border-radius:5px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.1);">Pickup</div>
-          </div>
+            tMap.fitBounds([[pLat,pLng],[dLat,dLng],[riderLat,riderLng]], { padding:[40,40] });
 
-          <!-- Home Pin -->
-          <div style="position:absolute;left:275px;top:105px;display:flex;flex-direction:column;align-items:center;transform:translateX(-50%);" id="pin-home">
-            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green),#059669);display:flex;align-items:center;justify-content:center;font-size:17px;border:3px solid white;box-shadow:0 4px 12px rgba(16,185,129,0.45);">🏠</div>
-            <div style="font-size:8px;font-weight:700;color:var(--text-secondary);background:var(--bg-card);padding:2px 6px;border-radius:5px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.1);">Your Home</div>
-          </div>
+            updateETA();
+            startRiderSim(pLat, pLng);
+            tMap.invalidateSize();
+          };
 
-          <!-- Rider Pin (animated position) -->
-          <div id="pin-rider" style="position:absolute;display:flex;flex-direction:column;align-items:center;transition:left 1.2s cubic-bezier(0.4,0,0.2,1),top 1.2s cubic-bezier(0.4,0,0.2,1);left:60px;top:98px;transform:translateX(-50%);">
-            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue-mid),var(--blue-dark));display:flex;align-items:center;justify-content:center;font-size:19px;border:3px solid white;box-shadow:0 4px 16px rgba(37,99,235,0.5);animation:riderBounce 2s ease-in-out infinite;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-            <div style="font-size:8px;font-weight:700;color:var(--text-secondary);background:var(--bg-card);padding:2px 6px;border-radius:5px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.1);white-space:nowrap;"><span id="active-rider-name-span"></span></div>
-          </div>
+          // Hook into nav — init map when assigned screen opens
+          var _origNav2 = window.nav;
+          window.nav = function(screen, data) {
+            _origNav2(screen, data);
+            if (screen === 'assigned') {
+              setTimeout(function(){
+                var pCoords = window.taskPickupCoords  || null;
+                var dCoords = window.taskDropCoords    || null;
+                var rName   = document.getElementById('active-rider-name-span') ? document.getElementById('active-rider-name-span').textContent : 'Rider';
+                initTrackingMap(pCoords, dCoords, rName);
+              }, 150);
+            }
+          };
+        })();
+        </script>
 
-          <!-- ETA pill -->
-          <div style="position:absolute;top:48px;left:50%;transform:translateX(-50%);background:var(--bg-card);border-radius:20px;padding:7px 16px;box-shadow:0 4px 16px rgba(0,0,0,0.12);display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:5;">
-            <div style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:etaBlink 1.2s ease-in-out infinite;"></div>
-            <span id="eta-text" style="font-weight:700;font-size:12px;color:var(--text-primary);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg> রাইডার আসছে...</span>
-          </div>
-        </div>
-
-        <!-- Bottom sheet -->
-        <div style="background:var(--bg-card);border-radius:22px 22px 0 0;margin-top:-18px;flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 16px 100px;box-shadow:0 -6px 24px rgba(37,99,235,0.1);position:relative;z-index:2;">
-          <div style="width:32px;height:4px;background:var(--gray-200);border-radius:4px;margin:0 auto 14px;"></div>
+        <!-- CONTENT -->
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:12px 16px 100px;">
 
           <!-- Rider card -->
-          <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--bg);border-radius:14px;border:1px solid var(--border);margin-bottom:12px;">
-            <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--blue-mid),var(--accent));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧑</div>
-            <div style="flex:1;">
-              <div style="font-weight:700;font-size:14px;color:var(--text-primary);" id="active-rider-name">রাইডার খুঁজছে...</div>
-              <div style="font-size:11px;color:var(--gray-400);"><span id="active-rider-vehicle"></span></div>
+          <div style="background:white;border-radius:16px;padding:14px 16px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:10px;display:flex;align-items:center;gap:12px;">
+            <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,#eff6ff,#dbeafe);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧑</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:700;font-size:14px;color:#111827;font-family:'DM Sans',sans-serif;" id="active-rider-name">রাইডার খুঁজছে...</div>
+              <div style="font-size:11px;color:#9ca3af;margin-top:1px;"><span id="active-rider-vehicle"></span></div>
             </div>
             <div style="display:flex;gap:7px;">
-              <button style="width:36px;height:36px;border-radius:10px;border:none;background:var(--blue-light);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></button>
-              <button style="width:36px;height:36px;border-radius:10px;border:none;background:var(--bg-card);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>
+              <button style="width:36px;height:36px;border-radius:11px;border:none;background:#eff6ff;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </button>
+              <button style="width:36px;height:36px;border-radius:11px;border:none;background:#f0f0f0;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </button>
             </div>
           </div>
 
-          <!-- Warning note -->
-          <div style="display:flex;gap:9px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:11px 13px;margin-bottom:14px;">
-            <span style="font-size:15px;flex-shrink:0;">⚠️</span>
-            <span style="font-size:11px;color:#92400e;line-height:1.6;font-weight:500;">পণ্য বুঝে পাওয়ার <strong>পরেই</strong> কোডটি রাইডারকে দিন। কোড দেওয়া মানে ডেলিভারি সম্পন্ন — এরপর কোনো অভিযোগ গ্রহণযোগ্য হবে না।</span>
+          <!-- Warning -->
+          <div style="display:flex;gap:10px;align-items:flex-start;background:#fffbeb;border:1px solid #fde68a;border-radius:14px;padding:11px 13px;margin-bottom:12px;">
+            <span style="font-size:14px;flex-shrink:0;margin-top:1px;">⚠️</span>
+            <span style="font-size:11px;color:#92400e;line-height:1.6;font-weight:500;">পণ্য বুঝে পাওয়ার <strong>পরেই</strong> কোডটি রাইডারকে দিন। কোড দেওয়া মানে ডেলিভারি সম্পন্ন।</span>
           </div>
 
-          <!-- 3 Stage Progress -->
-          <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Delivery Progress</div>
+          <!-- Delivery Code + Progress in one card -->
+          <div style="background:white;border-radius:16px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);overflow:hidden;margin-bottom:10px;">
 
-          <!-- Verification Code -->
-          <div style="background:linear-gradient(135deg,#0c1445,#1d4ed8);border-radius:16px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
-            <div>
-              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">🔐 Delivery Code</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.45);">Share with rider on delivery</div>
-            </div>
-            <div style="display:flex;gap:6px;">
-              <div id="code-d1" style="width:36px;height:42px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
-              <div id="code-d2" style="width:36px;height:42px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
-              <div id="code-d3" style="width:36px;height:42px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
-              <div id="code-d4" style="width:36px;height:42px;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
-            </div>
-          </div>
-
-          <div id="progress-steps">
-
-            <!-- Stage 1: Order Accepted ✓ -->
-            <div id="step-1" style="display:flex;gap:12px;align-items:flex-start;position:relative;">
-              <div style="position:absolute;left:13px;top:26px;width:2px;height:calc(100% + 16px);background:var(--green);z-index:0;"></div>
-              <div style="width:26px;height:26px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;flex-shrink:0;position:relative;z-index:1;">✓</div>
-              <div style="padding-top:2px;padding-bottom:18px;flex:1;">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div style="font-weight:700;font-size:13px;color:var(--green);">Order Accepted</div>
-                  <div style="font-size:10px;font-weight:700;color:var(--green);background:#d1fae5;padding:2px 8px;border-radius:6px;" id="time-1">10:28 AM</div>
-                </div>
-                <div style="font-size:11px;color:var(--gray-400);margin-top:2px;"><span id="accepted-rider-msg"></span></div>
+            <!-- Code strip -->
+            <div style="background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;">🔐 Delivery Code</div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.25);">Share only on delivery</div>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <div id="code-d1" style="width:34px;height:40px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
+                <div id="code-d2" style="width:34px;height:40px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
+                <div id="code-d3" style="width:34px;height:40px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
+                <div id="code-d4" style="width:34px;height:40px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;"></div>
               </div>
             </div>
 
-            <!-- Stage 2: Pickup (active) -->
-            <div id="step-2" style="display:flex;gap:12px;align-items:flex-start;position:relative;">
-              <div style="position:absolute;left:13px;top:26px;width:2px;height:calc(100% + 16px);background:var(--gray-200);z-index:0;" id="line-2"></div>
-              <div id="dot-2" style="width:26px;height:26px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;position:relative;z-index:1;box-shadow:0 0 0 4px rgba(37,99,235,0.15);animation:riderBounce 1.8s infinite;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-              <div style="padding-top:2px;padding-bottom:18px;flex:1;">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div id="label-2" style="font-weight:700;font-size:13px;color:var(--blue);">Heading to Pickup</div>
-                  <div id="time-2" style="font-size:10px;font-weight:700;color:var(--blue);background:var(--blue-light);padding:2px 8px;border-radius:6px;">In progress</div>
-                </div>
-                <div id="sub-2" style="font-size:11px;color:var(--gray-400);margin-top:2px;">Mohammadpur Bazar</div>
-              </div>
-            </div>
+            <!-- Progress steps -->
+            <div id="progress-steps" style="padding:14px 16px;">
 
-            <!-- Stage 3: Delivered (pending) -->
-            <div id="step-3" style="display:flex;gap:12px;align-items:flex-start;">
-              <div id="dot-3" style="width:26px;height:26px;background:var(--bg-card);border-radius:50%;flex-shrink:0;border:2px solid var(--gray-200);"></div>
-              <div style="padding-top:2px;flex:1;">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div id="label-3" style="font-weight:600;font-size:13px;color:var(--gray-300);">Delivered</div>
-                  <div id="time-3" style="font-size:10px;font-weight:600;color:var(--gray-300);background:var(--bg-card);padding:2px 8px;border-radius:6px;">Est. 10:49 AM</div>
+              <!-- Step 1 -->
+              <div id="step-1" style="display:flex;gap:12px;align-items:flex-start;position:relative;">
+                <div style="position:absolute;left:11px;top:24px;width:2px;height:calc(100% + 2px);background:#e5e7eb;z-index:0;" id="line-1"></div>
+                <div id="dot-1" style="width:24px;height:24px;background:#f0f0f0;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;border:2px solid #e5e7eb;animation:riderBounce 1.8s infinite;">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
                 </div>
-                <div id="sub-3" style="font-size:11px;color:var(--gray-300);margin-top:2px;">Dhanmondi 27, House 4</div>
+                <div style="padding-top:2px;padding-bottom:16px;flex:1;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div id="label-1" style="font-weight:700;font-size:12px;color:#9ca3af;">Waiting for Rider...</div>
+                    <div id="time-1" style="font-size:10px;font-weight:600;color:#9ca3af;background:#f9fafb;padding:2px 8px;border-radius:6px;">Pending</div>
+                  </div>
+                  <div style="font-size:11px;color:#9ca3af;margin-top:2px;" id="accepted-rider-msg"></div>
+                </div>
               </div>
-            </div>
 
+              <!-- Step 2 -->
+              <div id="step-2" style="display:flex;gap:12px;align-items:flex-start;position:relative;">
+                <div style="position:absolute;left:11px;top:24px;width:2px;height:calc(100% + 2px);background:#e5e7eb;z-index:0;" id="line-2"></div>
+                <div id="dot-2" style="width:24px;height:24px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1;box-shadow:0 0 0 3px rgba(37,99,235,0.1);animation:riderBounce 1.8s infinite;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>
+                </div>
+                <div style="padding-top:2px;padding-bottom:16px;flex:1;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div id="label-2" style="font-weight:700;font-size:12px;color:#2563eb;">Heading to Pickup</div>
+                    <div id="time-2" style="font-size:10px;font-weight:600;color:#2563eb;background:#eff6ff;padding:2px 8px;border-radius:6px;">In progress</div>
+                  </div>
+                  <div id="sub-2" style="font-size:11px;color:#9ca3af;margin-top:2px;"></div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div id="step-3" style="display:flex;gap:12px;align-items:flex-start;">
+                <div id="dot-3" style="width:24px;height:24px;border-radius:50%;flex-shrink:0;background:white;border:2px solid #e5e7eb;display:flex;align-items:center;justify-content:center;"></div>
+                <div style="padding-top:2px;flex:1;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div id="label-3" style="font-weight:600;font-size:12px;color:#d1d5db;">Delivered</div>
+                    <div id="time-3" style="font-size:10px;font-weight:600;color:#d1d5db;background:#f9fafb;padding:2px 8px;border-radius:6px;">Pending</div>
+                  </div>
+                  <div id="sub-3" style="font-size:11px;color:#d1d5db;margin-top:2px;"></div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
 
-        <!-- No CTA — customer only watches. Rider controls status from their screen. -->
-
         <style>
-          @keyframes riderBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-          @keyframes etaBlink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+          @keyframes riderBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+          @keyframes etaBlink    { 0%,100%{opacity:1} 50%{opacity:0.3} }
         </style>
 
         <script>
-          // Code Firestore থেকে আসবে — watchActiveTask দেখাবে
-
           function nowTime() {
-            var d = new Date(); var h = d.getHours(); var m = d.getMinutes();
-            var ampm = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
-            return h + ':' + (m < 10 ? '0'+m : m) + ' ' + ampm;
+            var d=new Date(),h=d.getHours(),m=d.getMinutes(),ap=h>=12?'PM':'AM';
+            h=h%12||12; return h+':'+(m<10?'0'+m:m)+' '+ap;
           }
-
-          // Called from sidebar — simulates rider marking item as picked up
           function sim12stage2() {
             setTimeout(function(){
-              var t = nowTime();
-              var r = document.getElementById('pin-rider');
-              if(r) { r.style.left = '215px'; r.style.top = '100px'; }
-              var ra = document.getElementById('route-a'); if(ra) ra.style.opacity = '0.25';
-              var rb = document.getElementById('route-b'); if(rb) rb.style.opacity = '0.9';
-              var et = document.getElementById('eta-text'); if(et) et.textContent = 'Item picked up · heading to you · ~8 min';
-              var d2 = document.getElementById('dot-2');
-              if(d2){ d2.style.background='var(--green)'; d2.style.boxShadow='none'; d2.style.animation='none'; d2.textContent='✓'; d2.style.color='white'; }
-              var l2 = document.getElementById('label-2'); if(l2){ l2.style.color='var(--green)'; l2.textContent='Item Picked Up'; }
-              var s2 = document.getElementById('sub-2'); if(s2) s2.textContent='Collected from Mohammadpur Bazar';
-              var t2 = document.getElementById('time-2'); if(t2){ t2.textContent=t; t2.style.color='var(--green)'; t2.style.background='#d1fae5'; }
-              var ln2 = document.getElementById('line-2'); if(ln2) ln2.style.background='var(--green)';
-              var d3 = document.getElementById('dot-3');
-              if(d3){ d3.style.background='var(--blue)'; d3.style.border='none'; d3.style.boxShadow='0 0 0 4px rgba(37,99,235,0.15)'; d3.style.animation='riderBounce 1.8s infinite'; d3.textContent='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>'; d3.style.fontSize='12px'; }
-              var l3 = document.getElementById('label-3'); if(l3){ l3.style.color='var(--blue)'; l3.textContent='Delivering to you'; }
-              var t3 = document.getElementById('time-3'); if(t3){ t3.style.color='var(--blue)'; t3.style.background='var(--blue-light)'; t3.textContent='In progress'; }
-              var s3 = document.getElementById('sub-3'); if(s3){ s3.style.color='var(--gray-400)'; s3.textContent='Dhanmondi 27, House 4'; }
-            }, 100);
+              var t=nowTime();
+              var r=document.getElementById('pin-rider'); if(r){r.style.left='205px';r.style.top='68px';}
+              var ra=document.getElementById('route-a'); if(ra) ra.style.opacity='0.15';
+              var rb=document.getElementById('route-b'); if(rb) rb.style.opacity='0.9';
+              var et=document.getElementById('eta-text'); if(et) et.textContent='পণ্য পিকআপ হয়েছে · আসছে...';
+              var d2=document.getElementById('dot-2');
+              if(d2){d2.style.background='#10b981';d2.style.boxShadow='0 0 0 3px rgba(16,185,129,0.1)';d2.style.animation='none';d2.textContent='✓';d2.style.color='white';d2.style.fontSize='11px';}
+              var l2=document.getElementById('label-2'); if(l2){l2.style.color='#10b981';l2.textContent='Picked Up ✓';}
+              var t2=document.getElementById('time-2'); if(t2){t2.textContent=t;t2.style.color='#10b981';t2.style.background='#d1fae5';}
+              var ln2=document.getElementById('line-2'); if(ln2) ln2.style.background='#10b981';
+              var d3=document.getElementById('dot-3');
+              if(d3){d3.style.background='#2563eb';d3.style.border='none';d3.style.boxShadow='0 0 0 3px rgba(37,99,235,0.1)';d3.style.animation='riderBounce 1.8s infinite';d3.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>';}
+              var l3=document.getElementById('label-3'); if(l3){l3.style.color='#2563eb';l3.textContent='Delivering to you';}
+              var t3=document.getElementById('time-3'); if(t3){t3.style.color='#2563eb';t3.style.background='#eff6ff';t3.textContent='In progress';}
+            },100);
           }
         </script>
       </div>
 
-      <!-- =========================================
+            <!-- =========================================
            S10 · TASK COMPLETED
            ========================================= -->
       <div class="screen" id="screen-completed" style="background:#f2f2f7;">
@@ -2907,8 +3094,9 @@
             </div>
           </div>
           <!-- Tabs — underline style, same as home screen -->
-          <div style="display:flex;">
+          <div style="display:flex;" id="activity-tabs">
             <div id="tb-running" onclick="switchTab2('running')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:700;color:white;border-bottom:2px solid white;cursor:pointer;">Running</div>
+            <div id="tb-pending" onclick="switchTab2('pending')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);border-bottom:2px solid transparent;cursor:pointer;">Pending</div>
             <div id="tb-completed" onclick="switchTab2('completed')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);border-bottom:2px solid transparent;cursor:pointer;">Completed</div>
             <div id="tb-cancelled" onclick="switchTab2('cancelled')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);border-bottom:2px solid transparent;cursor:pointer;">Cancelled</div>
           </div>
@@ -2916,6 +3104,29 @@
 
         <!-- Content — light bg -->
         <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 100px;">
+
+          <div id="tc-pending" style="display:none;">
+            <!-- Select mode toolbar -->
+            <div id="pending-select-bar" style="display:none;background:white;border-radius:14px;padding:12px 14px;margin-bottom:10px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);align-items:center;justify-content:space-between;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div id="pending-select-all" onclick="pendingSelectAll()" style="width:22px;height:22px;border:2px solid #d1d5db;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"></div>
+                <span id="pending-select-count" style="font-size:13px;font-weight:700;color:#111827;">0 selected</span>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button onclick="pendingCancelSelect()" style="background:#f3f4f6;border:none;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>
+                <button id="pending-delete-btn" onclick="pendingDeleteSelected()" style="background:#ef4444;border:none;border-radius:10px;padding:7px 14px;font-size:12px;font-weight:700;color:white;cursor:pointer;font-family:'DM Sans',sans-serif;opacity:0.4;pointer-events:none;">Delete</button>
+              </div>
+            </div>
+            <div id="pending-tasks-list">
+              <div style="text-align:center;padding:52px 20px;">
+                <div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                </div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:5px;">No pending tasks</div>
+                <div style="font-size:12px;color:#9ca3af;">Tasks waiting for a rider will appear here</div>
+              </div>
+            </div>
+          </div>
 
           <div id="tc-running">
             <div id="running-tasks-list">
@@ -2958,11 +3169,24 @@
         <style>@keyframes actBlink{0%,100%{opacity:1}50%{opacity:0.2}}</style>
         <script>
           function switchTab2(tab) {
-            ['running','completed','cancelled'].forEach(function(t) {
-              document.getElementById('tc-'+t).style.display = t===tab ? 'block' : 'none';
-              var el = document.getElementById('tb-'+t);
-              if (t===tab) { el.style.color='white'; el.style.fontWeight='700'; el.style.borderBottom='2px solid white'; }
-              else { el.style.color='rgba(255,255,255,0.4)'; el.style.fontWeight='600'; el.style.borderBottom='2px solid transparent'; }
+            var allTabs = ['running','pending','completed','cancelled'];
+            allTabs.forEach(function(t) {
+              var tc = document.getElementById('tc-'+t);
+              var tb = document.getElementById('tb-'+t);
+              if (!tc || !tb) return;
+              tc.style.display = t===tab ? 'block' : 'none';
+              if (t===tab) {
+                // pending tab always show when active
+                tb.style.display = 'block';
+                tb.style.color='white'; tb.style.fontWeight='700'; tb.style.borderBottom='2px solid white';
+              } else {
+                tb.style.color='rgba(255,255,255,0.4)'; tb.style.fontWeight='600'; tb.style.borderBottom='2px solid transparent';
+                // hide pending tab if no pending tasks (controlled by processCustomerTasks)
+                if (t === 'pending') {
+                  var hasPending = document.querySelectorAll('[id^="ptask-"]').length > 0;
+                  if (!hasPending) tb.style.display = 'none';
+                }
+              }
             });
           }
         </script>
@@ -3575,41 +3799,7 @@
             <img id="alert-photo-img" src="" alt="Task photo" style="width:100%;max-height:200px;object-fit:cover;display:block;">
           </div>
 
-          <!-- Counter Offer -->
-          <div style="background:white;border-radius:18px;padding:16px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-              <div style="font-size:14px;font-weight:800;color:#111827;font-family:'DM Sans',sans-serif;">Counter Offer</div>
-              <div style="background:#f3f4f6;border-radius:8px;padding:4px 10px;font-size:10px;color:#6b7280;font-weight:700;">Optional</div>
-            </div>
 
-            <!-- Quick chips -->
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px;" id="counter-chips">
-              <div onclick="setCounter(this,200)" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
-                <div style="font-size:13px;font-weight:800;color:#111827;">৳200</div>
-                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">As-is</div>
-              </div>
-              <div onclick="setCounter(this,250)" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
-                <div style="font-size:13px;font-weight:800;color:#111827;">৳250</div>
-                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">+৳50</div>
-              </div>
-              <div onclick="setCounter(this,300)" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
-                <div style="font-size:13px;font-weight:800;color:#111827;">৳300</div>
-                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">+৳100</div>
-              </div>
-              <div onclick="setCounter(this,'custom')" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
-                <div style="font-size:16px;font-weight:800;color:#111827;">✏️</div>
-                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">Custom</div>
-              </div>
-            </div>
-
-            <!-- Custom input (hidden by default) -->
-            <div id="counter-custom-wrap" style="display:none;background:#f9fafb;border:2px solid #111827;border-radius:14px;padding:12px 16px;align-items:center;gap:8px;margin-bottom:8px;">
-              <span style="font-size:20px;font-weight:700;color:#9ca3af;">৳</span>
-              <input id="counter-input" type="number" placeholder="আপনার দাম লিখুন" style="flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:800;color:#111827;background:transparent;">
-            </div>
-
-            <div id="counter-note" style="font-size:11px;color:#9ca3af;text-align:center;">চিপ select করুন অথবা সরাসরি Accept করুন</div>
-          </div>
 
         </div>
 
@@ -3624,45 +3814,10 @@
               Accept Task
             </button>
           </div>
-          <div id="counter-offer-label" style="text-align:center;font-size:11px;color:#9ca3af;">Accept করলে offer এর দামেই যাবে</div>
+
         </div>
 
         <script>
-          var selectedCounterVal = null;
-          function setCounter(el, val) {
-            document.querySelectorAll('#counter-chips > div').forEach(function(c) {
-              c.style.background = '#f9fafb';
-              c.style.borderColor = '#e5e7eb';
-              c.querySelectorAll('div')[0].style.color = '#111827';
-              c.querySelectorAll('div')[1].style.color = '#9ca3af';
-            });
-            el.style.background = '#111827';
-            el.style.borderColor = '#111827';
-            el.querySelectorAll('div')[0].style.color = 'white';
-            el.querySelectorAll('div')[1].style.color = 'rgba(255,255,255,0.5)';
-
-            var wrap = document.getElementById('counter-custom-wrap');
-            var note = document.getElementById('counter-offer-label');
-            var noteCard = document.getElementById('counter-note');
-
-            if (val === 'custom') {
-              wrap.style.display = 'flex';
-              selectedCounterVal = null;
-              noteCard.textContent = 'নিজের দাম লিখুন';
-              note.textContent = 'Counter offer পাঠানো হবে — customer accept করলে কাজ পাবেন';
-            } else {
-              wrap.style.display = 'none';
-              selectedCounterVal = val;
-              if (val === 200) {
-                note.textContent = 'Customer এর offer মূল্যেই accept হবে';
-                noteCard.textContent = 'Customer এর দামে রাজি আছেন';
-              } else {
-                note.textContent = '৳' + val + ' counter offer যাবে — customer accept করলে কাজ পাবেন';
-                noteCard.textContent = '৳' + val + ' counter offer পাঠানো হবে';
-              }
-            }
-          }
-
           // Timer ring animation
           function updateTimerRing(val) {
             var ring = document.getElementById('timer-ring');
@@ -4750,6 +4905,7 @@
 
   // Rider History tabs
   function switchRH(name) {
+
     ['all','done','cancelled'].forEach(n => {
       const tb = document.getElementById('rh-'+n);
       const tc = document.getElementById('rhc-'+n);
@@ -4842,7 +4998,27 @@
   var CUSTOMER_NAV_SCREENS = ['home','activity','notifications','account','completed','c-add-money','c-txn-history','settings'];
   var BNAV_ACTIVE_MAP = {'home':'home','activity':'activity','notifications':'notifications','account':'account','post1':'home','post2':'home','post3':'home','post4':'home','completed':'activity','c-add-money':'account','c-txn-history':'account','settings':'account'};
 
+  // ── Back button (Android / browser) history support ──
+  var _navSkipPush = false;
+
+  window.addEventListener('popstate', function(e) {
+    var screenId = e.state && e.state.screen;
+    if (screenId) {
+      _navSkipPush = true;
+      nav(screenId, null);
+      _navSkipPush = false;
+    } else {
+      // কোনো state নেই — splash বা entry point, app বন্ধ করতে দাও
+      history.pushState({ screen: 'splash' }, '', '');
+    }
+  });
+
   function nav(screenId, btn) {
+    // Push to browser history (back button support)
+    if (!_navSkipPush) {
+      history.pushState({ screen: screenId }, '', '');
+    }
+
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const t = document.getElementById('screen-' + screenId);
     if (t) t.classList.add('active');
@@ -4890,6 +5066,8 @@
   document.addEventListener('DOMContentLoaded', function() {
     var sharedNav = document.getElementById('shared-bnav');
     if (sharedNav) sharedNav.style.display = 'none';
+    // Seed history with splash so first back press doesn't close the app
+    history.replaceState({ screen: 'splash' }, '', '');
   });
 </script>
 
@@ -5132,6 +5310,9 @@ function collectTaskData() {
 
 // ── Task Post করো Firestore এ ──
 function postTask() {
+  // Hide no-rider notice on fresh post
+  var n = document.getElementById('no-rider-notice');
+  if (n) n.style.display = 'none';
   var user = auth.currentUser;
   if (!user) { alert('আগে লগইন করুন'); return; }
 
@@ -5208,18 +5389,22 @@ function loadCustomerTasks() {
 }
 
 function processCustomerTasks(snapshot) {
-  var running = [], completed = [], cancelled = [];
+  var running = [], pending = [], completed = [], cancelled = [];
   snapshot.forEach(function(doc) {
     var t = doc.data();
     t.id = doc.id;
-    if (t.status === 'open' || t.status === 'assigned' || t.status === 'picked_up') running.push(t);
+    if (t.status === 'assigned' || t.status === 'picked_up') running.push(t);
+    else if (t.status === 'open') pending.push(t);
     else if (t.status === 'completed') completed.push(t);
     else if (t.status === 'cancelled') cancelled.push(t);
   });
+
   renderCustomerTaskList('running-tasks-list',   running,   'running');
+  renderCustomerTaskList('pending-tasks-list',   pending,   'pending');
   renderCustomerTaskList('completed-tasks-list', completed, 'done');
   renderCustomerTaskList('cancelled-tasks-list', cancelled, 'cancelled');
   renderHomeRecent(running.concat(completed).slice(0,3));
+
 }
 
 function renderCustomerTaskList(containerId, tasks, badgeType) {
@@ -5228,10 +5413,11 @@ function renderCustomerTaskList(containerId, tasks, badgeType) {
   if (!tasks.length) {
     var svgIcons = {
       running: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+      pending: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>',
       done:    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>',
       cancelled:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
     };
-    var msgs = { running:'No running tasks', done:'No completed tasks', cancelled:'No cancelled tasks' };
+    var msgs = { running:'No running tasks', pending:'No pending tasks', done:'No completed tasks', cancelled:'No cancelled tasks' };
     el.innerHTML = '<div style="text-align:center;padding:52px 20px;">'
       + '<div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);">' + (svgIcons[badgeType]||svgIcons.running) + '</div>'
       + '<div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:5px;">' + (msgs[badgeType]||'No tasks') + '</div>'
@@ -5239,14 +5425,43 @@ function renderCustomerTaskList(containerId, tasks, badgeType) {
     return;
   }
   var statusCfg = {
-    open:      { bar:'#3b82f6', badge:'Looking for rider', badgeBg:'#eff6ff', badgeColor:'#1d4ed8', dot:true  },
+    open:      { bar:'#f59e0b', badge:'Pending',           badgeBg:'#fffbeb', badgeColor:'#b45309', dot:true  },
     assigned:  { bar:'#f59e0b', badge:'Rider assigned',    badgeBg:'#fffbeb', badgeColor:'#b45309', dot:true  },
     picked_up: { bar:'#8b5cf6', badge:'On the way',        badgeBg:'#f5f3ff', badgeColor:'#6d28d9', dot:true  },
     completed: { bar:'#10b981', badge:'Completed',          badgeBg:'#f0fdf4', badgeColor:'#065f46', dot:false },
     cancelled: { bar:'#e5e7eb', badge:'Cancelled',          badgeBg:'#f9fafb', badgeColor:'#6b7280', dot:false }
   };
+  var isPending = (containerId === 'pending-tasks-list');
+
   el.innerHTML = tasks.map(function(t) {
     var cfg = statusCfg[t.status] || statusCfg.open;
+
+    if (isPending) {
+      return '<div id="ptask-' + t.id + '" data-taskid="' + t.id + '"'
+        + ' ontouchstart="pendingTouchStart(event,\''+t.id+'\')"'
+        + ' ontouchend="pendingTouchEnd(event)"'
+        + ' ontouchmove="pendingTouchMove(event)"'
+        + ' onclick="pendingCardClick(event,\''+t.id+'\',\'open\')"'
+        + ' style="background:white;border-radius:16px;margin-bottom:10px;cursor:pointer;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);display:flex;transition:background 0.15s;">'
+        + '<div class="pending-check" style="display:none;width:48px;align-items:center;justify-content:center;flex-shrink:0;">'
+        + '<div id="chk-'+t.id+'" style="width:22px;height:22px;border:2px solid #d1d5db;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all 0.15s;"></div>'
+        + '</div>'
+        + '<div style="width:4px;background:' + cfg.bar + ';flex-shrink:0;"></div>'
+        + '<div style="flex:1;padding:14px 14px 14px 12px;">'
+        + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">'
+        + '<div style="font-size:15px;font-weight:700;color:#111827;line-height:1.3;flex:1;">' + escHtml(t.title) + '</div>'
+        + '<div style="background:' + cfg.badgeBg + ';color:' + cfg.badgeColor + ';font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;">' + cfg.badge + '</div>'
+        + '</div>'
+        + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:12px;">'
+        + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+        + '<div style="font-size:12px;color:#6b7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div>'
+        + '</div>'
+        + '<div style="display:flex;justify-content:space-between;align-items:center;">'
+        + '<div style="font-size:20px;font-weight:800;color:#111827;font-family:\'DM Sans\',sans-serif;">৳' + (t.fee||0) + '</div>'
+        + '<div style="display:flex;align-items:center;gap:5px;"><div style="width:7px;height:7px;background:' + cfg.bar + ';border-radius:50%;animation:actBlink 1.4s infinite;"></div><div style="font-size:11px;color:' + cfg.bar + ';font-weight:600;">Waiting for rider</div></div>'
+        + '</div></div></div>';
+    }
+
     return '<div onclick="customerOpenTask(\'' + t.id + '\',\'' + t.status + '\')" style="background:white;border-radius:16px;margin-bottom:10px;cursor:pointer;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);display:flex;">'
       + '<div style="width:4px;background:' + cfg.bar + ';flex-shrink:0;"></div>'
       + '<div style="flex:1;padding:14px 14px 14px 12px;">'
@@ -5265,9 +5480,6 @@ function renderCustomerTaskList(containerId, tasks, badgeType) {
       + '</div>'
       + '</div></div>';
   }).join('');
-}
-
-function renderHomeRecent(tasks) {
   var el = document.getElementById('home-recent-tasks');
   if (!el) return;
   if (!tasks.length) {
@@ -5450,18 +5662,7 @@ function selectRiderTask(taskId) {
       }
     }
 
-    // Counter chips — offer price দিয়ে populate করি
-    var fee = t.fee || 200;
-    var chips = document.querySelectorAll('#counter-chips > div');
-    var vals = [fee, Math.round(fee * 1.25), Math.round(fee * 1.5)];
-    var labels = ['As-is', '+' + Math.round(fee*0.25) + ' extra', '+' + Math.round(fee*0.5) + ' extra'];
-    chips.forEach(function(c, i) {
-      if (i < 3) {
-        c.querySelectorAll('div')[0].textContent = '৳' + vals[i];
-        c.querySelectorAll('div')[1].textContent = labels[i];
-        c.setAttribute('onclick', 'setCounter(this,' + vals[i] + ')');
-      }
-    });
+
 
     nav('r-alert', null);
   });
@@ -5544,11 +5745,61 @@ function renderRiderTaskList(containerId, tasks, isCancelled) {
   }).join('');
 }
 
+
+// ── Reset assigned screen to initial state ──
+function resetAssignedScreen() {
+  var dot2   = document.getElementById('dot-2');
+  var dot3   = document.getElementById('dot-3');
+  var line2  = document.getElementById('line-2');
+  var label2 = document.getElementById('label-2');
+  var time2  = document.getElementById('time-2');
+  var label3 = document.getElementById('label-3');
+  var time3  = document.getElementById('time-3');
+  var sub2   = document.getElementById('sub-2');
+  var sub3   = document.getElementById('sub-3');
+
+  if (dot2)   { dot2.style.background = '#2563eb'; dot2.style.animation = 'riderBounce 1.8s infinite'; dot2.style.boxShadow = '0 0 0 4px rgba(37,99,235,0.12)'; dot2.style.color = ''; dot2.style.fontSize = '12px'; dot2.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>'; }
+  if (line2)  { line2.style.background = '#e5e7eb'; }
+  if (label2) { label2.textContent = 'Heading to Pickup'; label2.style.color = '#2563eb'; }
+  if (time2)  { time2.textContent = 'In progress'; time2.style.color = '#2563eb'; time2.style.background = '#eff6ff'; }
+  if (dot3)   { dot3.style.background = 'white'; dot3.style.border = '2px solid #e5e7eb'; dot3.innerHTML = ''; dot3.style.boxShadow = 'none'; dot3.style.animation = 'none'; dot3.style.color = ''; }
+  if (label3) { label3.textContent = 'Delivered'; label3.style.color = '#d1d5db'; }
+  if (time3)  { time3.textContent = 'Pending'; time3.style.color = '#d1d5db'; time3.style.background = '#f9fafb'; }
+  if (sub2)   sub2.textContent = '';
+  if (sub3)   sub3.textContent = '';
+  // Reset step 1 to waiting state
+  var dot1   = document.getElementById('dot-1');
+  var line1  = document.getElementById('line-1');
+  var label1 = document.getElementById('label-1');
+  var time1  = document.getElementById('time-1');
+  var msg1   = document.getElementById('accepted-rider-msg');
+  if (dot1)  { dot1.style.background = '#f0f0f0'; dot1.style.border = '2px solid #e5e7eb'; dot1.style.animation = 'riderBounce 1.8s infinite'; dot1.style.boxShadow = 'none'; dot1.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>'; dot1.style.color = ''; dot1.style.fontSize = ''; }
+  if (line1) { line1.style.background = '#e5e7eb'; }
+  if (label1){ label1.textContent = 'Waiting for Rider...'; label1.style.color = '#9ca3af'; }
+  if (time1) { time1.textContent = 'Pending'; time1.style.color = '#9ca3af'; time1.style.background = '#f9fafb'; }
+  if (msg1)  { msg1.textContent = ''; }
+}
+
 // ── Customer: Activity card click ──
 function customerOpenTask(taskId, status) {
   currentTaskData.taskId = taskId;
   watchActiveTask(taskId);
-  if (status === 'open' || status === 'assigned' || status === 'picked_up') {
+  if (status === 'open') {
+    // Pending task — post4 এ নিয়ে যাও + popup দেখাও
+    nav('post4', null);
+    setTimeout(showNoRiderPopup, 350);
+    return;
+  } else if (status === 'assigned' || status === 'picked_up') {
+    // Rider accept করেছে — assigned screen এ পাঠাও
+    resetAssignedScreen();
+    db.collection('tasks').doc(taskId).get().then(function(doc) {
+      if (!doc.exists) return;
+      var t = doc.data();
+      var sub2 = document.getElementById('sub-2');
+      if (sub2) sub2.textContent = t.pickup || '';
+      var sub3 = document.getElementById('sub-3');
+      if (sub3) sub3.textContent = t.delivery || '';
+    });
     nav('assigned', null);
   } else if (status === 'completed') {
     nav('completed', null);
@@ -5710,6 +5961,18 @@ function watchActiveTask(taskId) {
       if (riderVehicleEl) riderVehicleEl.textContent = t.riderName ? '⭐ Rider' : '';
       var acceptedMsgEl = document.getElementById('accepted-rider-msg');
       if (acceptedMsgEl && t.riderName) acceptedMsgEl.textContent = t.riderName + ' accepted your offer';
+
+      // Step 1: Waiting → Accepted (green) when rider assigns
+      if (t.riderName) {
+        var dot1   = document.getElementById('dot-1');
+        var line1  = document.getElementById('line-1');
+        var label1 = document.getElementById('label-1');
+        var time1  = document.getElementById('time-1');
+        if (dot1)  { dot1.style.background = '#10b981'; dot1.style.border = 'none'; dot1.style.animation = 'none'; dot1.style.boxShadow = '0 0 0 3px rgba(16,185,129,0.1)'; dot1.textContent = '✓'; dot1.style.color = 'white'; dot1.style.fontSize = '11px'; }
+        if (line1) { line1.style.background = '#10b981'; }
+        if (label1){ label1.textContent = 'Order Accepted'; label1.style.color = '#10b981'; }
+        if (time1) { time1.textContent = 'Just now'; time1.style.color = '#10b981'; time1.style.background = '#d1fae5'; }
+      }
       var completedNameEl = document.getElementById('completed-rider-name');
       if (completedNameEl && t.riderName) completedNameEl.textContent = t.riderName + ' delivered your task successfully';
 
@@ -5746,7 +6009,7 @@ function watchActiveTask(taskId) {
         if (label2) { label2.textContent = 'Picked Up ✓'; label2.style.color = 'var(--green)'; }
         if (time2)  { time2.textContent = 'Done'; time2.style.color = 'var(--green)'; time2.style.background = '#d1fae5'; }
         // Step 3 active হয়
-        if (dot3)   { dot3.style.background = 'var(--blue)'; dot3.style.border = 'none'; dot3.textContent = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>'; dot3.style.fontSize = '12px'; dot3.style.boxShadow = '0 0 0 4px rgba(37,99,235,0.15)'; dot3.style.display = 'flex'; dot3.style.alignItems = 'center'; dot3.style.justifyContent = 'center'; }
+        if (dot3)   { dot3.style.background = 'var(--blue)'; dot3.style.border = 'none'; dot3.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>'; dot3.style.fontSize = '12px'; dot3.style.boxShadow = '0 0 0 4px rgba(37,99,235,0.15)'; dot3.style.display = 'flex'; dot3.style.alignItems = 'center'; dot3.style.justifyContent = 'center'; }
         if (label3) { label3.textContent = 'Delivering...'; label3.style.color = 'var(--blue)'; }
         if (time3)  { time3.textContent = 'In progress'; time3.style.color = 'var(--blue)'; time3.style.background = 'var(--blue-light)'; }
       }
@@ -5776,5 +6039,276 @@ function getCurrentScreen() {
 }
 </script>
 
+
+
+  <!-- ── Delete Confirm Popup ── -->
+  <div id="delete-confirm-popup" style="display:none;position:fixed;inset:0;z-index:9999;align-items:flex-end;justify-content:center;">
+    <div onclick="closeDeleteConfirmPopup()" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);"></div>
+    <div style="position:relative;z-index:1;width:100%;background:white;border-radius:28px 28px 0 0;padding:28px 24px 40px;box-shadow:0 -8px 40px rgba(0,0,0,0.18);animation:slideUpPopup 0.3s cubic-bezier(0.34,1.08,0.64,1);">
+
+      <!-- Handle -->
+      <div style="width:36px;height:4px;background:#e5e7eb;border-radius:4px;margin:0 auto 24px;"></div>
+
+      <!-- Icon -->
+      <div style="width:60px;height:60px;background:#fef2f2;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+      </div>
+
+      <!-- Title -->
+      <div style="text-align:center;font-size:20px;font-weight:800;color:#111827;font-family:'DM Sans',sans-serif;margin-bottom:8px;">Delete Tasks?</div>
+
+      <!-- Message -->
+      <div style="text-align:center;font-size:14px;color:#6b7280;line-height:1.65;margin-bottom:28px;">
+        You're about to permanently delete
+        <span style="color:#111827;font-weight:700;" id="delete-popup-count">0</span>
+        <span id="delete-popup-label">pending tasks</span>.<br>
+        <span style="color:#ef4444;font-weight:600;">This action cannot be undone.</span>
+      </div>
+
+      <!-- Buttons -->
+      <div style="display:flex;gap:10px;">
+        <button onclick="closeDeleteConfirmPopup()" style="flex:1;background:#f3f4f6;border:none;border-radius:16px;padding:16px;font-size:14px;font-weight:700;color:#6b7280;cursor:pointer;font-family:'DM Sans',sans-serif;">
+          Cancel
+        </button>
+        <button id="popup-confirm-delete-btn" onclick="confirmPendingDelete()" style="flex:1.4;background:#ef4444;border:none;border-radius:16px;padding:16px;font-size:14px;font-weight:700;color:white;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(239,68,68,0.35);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+          Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── No Rider Found Popup ── -->
+  <div id="no-rider-popup" style="display:none;position:fixed;inset:0;z-index:9999;align-items:flex-end;justify-content:center;">
+    <!-- Backdrop -->
+    <div onclick="closeNoRiderPopup()" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);"></div>
+
+    <!-- Sheet -->
+    <div style="position:relative;z-index:1;width:100%;background:white;border-radius:28px 28px 0 0;padding:28px 24px 40px;box-shadow:0 -8px 40px rgba(0,0,0,0.18);animation:slideUpPopup 0.35s cubic-bezier(0.34,1.08,0.64,1);">
+
+      <!-- Handle -->
+      <div style="width:36px;height:4px;background:#e5e7eb;border-radius:4px;margin:0 auto 24px;"></div>
+
+      <!-- Icon -->
+      <div style="width:60px;height:60px;background:#fef3c7;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;">⏱️</div>
+
+      <!-- Title -->
+      <div style="text-align:center;font-size:20px;font-weight:800;color:#111827;font-family:'DM Sans',sans-serif;margin-bottom:8px;">No Riders Available</div>
+
+      <!-- Message -->
+      <div style="text-align:center;font-size:14px;color:#6b7280;line-height:1.65;margin-bottom:24px;">No one accepted your request in time.<br>Try <strong style="color:#111827;">increasing the delivery charge</strong> — riders are more likely to accept higher offers.</div>
+
+      <!-- Tip pill -->
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:14px;padding:12px 16px;margin-bottom:24px;display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;background:#10b981;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div style="font-size:12px;color:#065f46;line-height:1.5;"><strong>Pro tip:</strong> Adding ৳20–50 more to your offer significantly improves your chance of getting a rider fast.</div>
+      </div>
+
+      <!-- CTA -->
+      <button onclick="closeNoRiderPopup()" style="width:100%;background:#111827;color:white;border:none;border-radius:16px;padding:16px;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">
+        Update Offer & Retry
+      </button>
+    </div>
+  </div>
+
+  <style>
+    @keyframes slideUpPopup { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+  </style>
+
+
+  <script>
+    function showNoRiderPopup() {
+      var popup = document.getElementById('no-rider-popup');
+      if (popup) { popup.style.display = 'flex'; }
+    }
+    function closeNoRiderPopup() {
+      var popup = document.getElementById('no-rider-popup');
+      if (popup) { popup.style.display = 'none'; }
+    }
+// ── Pending task select & bulk delete ──
+var _pendingSelectMode = false;
+var _pendingSelected   = new Set();
+var _longPressTimer    = null;
+var _touchMoved        = false;
+
+function pendingEnterSelectMode(taskId) {
+  _pendingSelectMode = true;
+  // Show toolbar + checkboxes
+  var bar = document.getElementById('pending-select-bar');
+  if (bar) bar.style.display = 'flex';
+  document.querySelectorAll('.pending-check').forEach(function(el) {
+    el.style.display = 'flex';
+  });
+  // Vibrate (Android)
+  if (navigator.vibrate) navigator.vibrate(40);
+  // Auto-select the long-pressed card
+  if (taskId) pendingToggle(taskId);
+}
+
+function pendingCancelSelect() {
+  _pendingSelectMode = false;
+  _pendingSelected.clear();
+  var bar = document.getElementById('pending-select-bar');
+  if (bar) bar.style.display = 'none';
+  document.querySelectorAll('.pending-check').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  document.querySelectorAll('[id^="ptask-"]').forEach(function(el) {
+    el.style.background = 'white';
+  });
+  document.querySelectorAll('[id^="chk-"]').forEach(function(el) {
+    el.style.background = '';
+    el.style.borderColor = '#d1d5db';
+    el.innerHTML = '';
+  });
+  pendingUpdateBar();
+}
+
+function pendingToggle(taskId) {
+  if (_pendingSelected.has(taskId)) {
+    _pendingSelected.delete(taskId);
+  } else {
+    _pendingSelected.add(taskId);
+  }
+  // Update card bg
+  var card = document.getElementById('ptask-' + taskId);
+  if (card) card.style.background = _pendingSelected.has(taskId) ? '#fffbeb' : 'white';
+  // Update checkbox
+  var chk = document.getElementById('chk-' + taskId);
+  if (chk) {
+    if (_pendingSelected.has(taskId)) {
+      chk.style.background = '#111827';
+      chk.style.borderColor = '#111827';
+      chk.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>';
+    } else {
+      chk.style.background = '';
+      chk.style.borderColor = '#d1d5db';
+      chk.innerHTML = '';
+    }
+  }
+  pendingUpdateBar();
+}
+
+function pendingSelectAll() {
+  var allCards = document.querySelectorAll('[id^="ptask-"]');
+  var allSelected = allCards.length > 0 && _pendingSelected.size === allCards.length;
+  if (allSelected) {
+    // Deselect all
+    allCards.forEach(function(c) { pendingToggle(c.dataset.taskid); });
+  } else {
+    // Select all
+    allCards.forEach(function(c) {
+      if (!_pendingSelected.has(c.dataset.taskid)) pendingToggle(c.dataset.taskid);
+    });
+  }
+}
+
+function pendingUpdateBar() {
+  var count = _pendingSelected.size;
+  var countEl = document.getElementById('pending-select-count');
+  if (countEl) countEl.textContent = count + ' selected';
+  var delBtn = document.getElementById('pending-delete-btn');
+  if (delBtn) {
+    if (count > 0) {
+      delBtn.style.opacity = '1';
+      delBtn.style.pointerEvents = 'auto';
+    } else {
+      delBtn.style.opacity = '0.4';
+      delBtn.style.pointerEvents = 'none';
+    }
+  }
+  // Select-all checkbox state
+  var allCards = document.querySelectorAll('[id^="ptask-"]');
+  var saBtn = document.getElementById('pending-select-all');
+  if (saBtn) {
+    if (count > 0 && count === allCards.length) {
+      saBtn.style.background = '#111827';
+      saBtn.style.borderColor = '#111827';
+      saBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>';
+    } else {
+      saBtn.style.background = '';
+      saBtn.style.borderColor = '#d1d5db';
+      saBtn.innerHTML = '';
+    }
+  }
+}
+
+function pendingDeleteSelected() {
+  var ids = Array.from(_pendingSelected);
+  if (!ids.length) return;
+  showDeleteConfirmPopup(ids);
+}
+
+function confirmPendingDelete() {
+  var ids = window._pendingDeleteIds || [];
+  if (!ids.length) return;
+  closeDeleteConfirmPopup();
+
+  // Show loading state on delete button
+  var btn = document.getElementById('popup-confirm-delete-btn');
+
+  var batch = db.batch();
+  ids.forEach(function(id) {
+    batch.delete(db.collection('tasks').doc(id));
+  });
+  batch.commit()
+    .then(function() {
+      pendingCancelSelect();
+      window._pendingDeleteIds = [];
+    })
+    .catch(function(err) {
+      alert('Delete failed: ' + err.message);
+    });
+}
+
+function showDeleteConfirmPopup(ids) {
+  window._pendingDeleteIds = ids;
+  var count = ids.length;
+  document.getElementById('delete-popup-count').textContent = count;
+  document.getElementById('delete-popup-label').textContent =
+    count === 1 ? 'pending task' : 'pending tasks';
+  var popup = document.getElementById('delete-confirm-popup');
+  if (popup) popup.style.display = 'flex';
+}
+
+function closeDeleteConfirmPopup() {
+  var popup = document.getElementById('delete-confirm-popup');
+  if (popup) popup.style.display = 'none';
+}
+
+// Touch/click handlers
+function pendingTouchStart(e, taskId) {
+  _touchMoved = false;
+  _longPressTimer = setTimeout(function() {
+    if (!_touchMoved) pendingEnterSelectMode(taskId);
+  }, 500);
+}
+function pendingTouchMove(e) {
+  _touchMoved = true;
+  clearTimeout(_longPressTimer);
+}
+function pendingTouchEnd(e) {
+  clearTimeout(_longPressTimer);
+}
+function pendingCardClick(e, taskId, status) {
+  if (_pendingSelectMode) {
+    e.preventDefault();
+    e.stopPropagation();
+    pendingToggle(taskId);
+  } else {
+    customerOpenTask(taskId, status);
+  }
+}
+// Desktop long-press fallback
+var _mouseHoldTimer = null;
+function pendingMouseDown(e, taskId) {
+  _mouseHoldTimer = setTimeout(function() { pendingEnterSelectMode(taskId); }, 600);
+}
+function pendingMouseUp(e) { clearTimeout(_mouseHoldTimer); }
+
+
+  </script>
 </body>
 </html>

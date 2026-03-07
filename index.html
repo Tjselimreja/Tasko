@@ -99,7 +99,7 @@
   }
 
   #screen-r-alert.active {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   @keyframes slideIn {
@@ -1420,8 +1420,8 @@
       <div class="ham-panel" id="ham-panel">
         <div class="ham-header">
           <div class="ham-avatar">🧑</div>
-          <div class="ham-name">Rafi Ahmed</div>
-          <div class="ham-phone">+880 1712 345678</div>
+          <div class="ham-name">User</div>
+          <div class="ham-phone">—</div>
         </div>
         <div style="padding:16px;">
           <div class="menu-item" onclick="closeHam();nav('activity',null)">
@@ -1758,7 +1758,7 @@
             </div>
             <!-- Greeting (changes by time) -->
             <div id="home-greeting-text" style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:3px;">Good morning,</div>
-            <div id="c-name-display" style="font-family:'DM Sans',sans-serif;font-size:28px;font-weight:800;color:white;line-height:1.1;text-shadow:0 2px 16px rgba(0,0,0,0.5);">Rafi Ahmed</div>
+            <div id="c-name-display" style="font-family:'DM Sans',sans-serif;font-size:28px;font-weight:800;color:white;line-height:1.1;text-shadow:0 2px 16px rgba(0,0,0,0.5);">Hey there!</div>
           </div>
         </div>
 
@@ -1841,13 +1841,11 @@
           </div>
         </div>
 
-        <!-- BOTTOM NAV (Modo style) -->
-</div>
         </div>
 
       </div>
 
-      <!-- =========<!-- =========================================
+      <!-- =========================================
            S4 · POST – TASK DETAILS
            ========================================= -->
       <div class="screen" id="screen-post1" style="background:#f2f2f7;overflow:hidden;">
@@ -2900,12 +2898,15 @@
            ========================================= -->
       <div class="screen" id="screen-activity" style="background:#f2f2f7;overflow:hidden;">
 
-        <!-- Dark header -->
-        <div style="background:#111827;padding:44px 18px 0;flex-shrink:0;">
+        <!-- Dark header — same as rider/customer home -->
+        <div style="background:#111827;padding:20px 20px 0;flex-shrink:0;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-            <div style="font-size:22px;font-weight:800;color:white;font-family:'DM Sans',sans-serif;">Activity</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.4);">My Tasks</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:white;">Activity</div>
+            <div onclick="nav('post1',null)" style="width:36px;height:36px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
           </div>
+          <!-- Tabs — underline style, same as home screen -->
           <div style="display:flex;">
             <div id="tb-running" onclick="switchTab2('running')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:700;color:white;border-bottom:2px solid white;cursor:pointer;">Running</div>
             <div id="tb-completed" onclick="switchTab2('completed')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);border-bottom:2px solid transparent;cursor:pointer;">Completed</div>
@@ -2913,49 +2914,44 @@
           </div>
         </div>
 
+        <!-- Content — light bg -->
         <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 100px;">
 
-          <!-- ── RUNNING ── -->
           <div id="tc-running">
             <div id="running-tasks-list">
-              <!-- Firebase থেকে load হবে -->
               <div id="running-empty" style="text-align:center;padding:60px 20px;">
-                <div style="width:64px;height:64px;background:#f0f0f0;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                <div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                 </div>
-                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">কোনো চলমান টাস্ক নেই</div>
-                <div style="font-size:12px;color:#9ca3af;">নতুন টাস্ক পোস্ট করতে + বাটন চাপুন</div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">No running tasks</div>
+                <div style="font-size:12px;color:#9ca3af;">Post a new task to get started</div>
               </div>
             </div>
           </div>
 
-          <!-- ── COMPLETED<!-- ── COMPLETED ── -->
           <div id="tc-completed" style="display:none;">
             <div id="completed-tasks-list">
               <div style="text-align:center;padding:60px 20px;">
-                <div style="width:64px;height:64px;background:#f0fdf4;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                <div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
                 </div>
-                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">কোনো সম্পন্ন টাস্ক নেই</div>
-                <div style="font-size:12px;color:#9ca3af;">Completed tasks এখানে দেখাবে</div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">No completed tasks</div>
+                <div style="font-size:12px;color:#9ca3af;">Completed tasks will appear here</div>
               </div>
             </div>
           </div>
 
-          <!-- ── CANCELLED<!-- ── CANCELLED ── -->
           <div id="tc-cancelled" style="display:none;">
             <div id="cancelled-tasks-list">
               <div style="text-align:center;padding:60px 20px;">
-                <div style="width:64px;height:64px;background:#fef2f2;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                <div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </div>
-                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">কোনো বাতিল টাস্ক নেই</div>
-                <div style="font-size:12px;color:#9ca3af;">Cancelled tasks এখানে দেখাবে</div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">No cancelled tasks</div>
+                <div style="font-size:12px;color:#9ca3af;">Cancelled tasks will appear here</div>
               </div>
             </div>
           </div>
-
-        </div>
 
         </div>
 
@@ -3084,7 +3080,7 @@
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;position:relative;z-index:1;">
             <div style="width:56px;height:56px;background:rgba(255,255,255,0.12);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;border:1.5px solid rgba(255,255,255,0.15);">🧑</div>
             <div style="flex:1;">
-              <div class="acc-name" style="font-size:18px;font-weight:800;color:white;font-family:'DM Sans',sans-serif;">Rafi Ahmed</div>
+              <div class="acc-name" style="font-size:18px;font-weight:800;color:white;font-family:'DM Sans',sans-serif;">User</div>
               <div style="display:flex;align-items:center;gap:6px;margin-top:3px;">
                 <div style="font-size:11px;color:rgba(255,255,255,0.5);">+880 1712 345678</div>
                 <div style="width:3px;height:3px;background:rgba(255,255,255,0.3);border-radius:50%;"></div>
@@ -3364,80 +3360,134 @@
            ========================================= -->
       <div class="screen" id="screen-r-home" style="background:var(--bg);">
         <!-- Header -->
-        <div style="background:#111827;padding:24px 18px 22px;flex-shrink:0;position:relative;overflow:hidden;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;position:relative;z-index:1;">
-            <div>
-              <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-bottom:4px;">Rider Dashboard</div>
-              <div id="rider-greeting" style="font-family:'DM Sans',sans-serif;font-size:26px;font-weight:800;color:white;margin-bottom:10px;">Hey Mahmud!</div>
-              <!-- Wallet Balance — bKash style -->
-              <div onclick="toggleRWallet()" style="cursor:pointer;display:inline-block;">
-                <div style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:3px;letter-spacing:0.5px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> Wallet Balance</div>
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <span id="r-wallet-val" style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:white;letter-spacing:1px;">••••</span>
-                  <span style="font-size:16px;opacity:0.45;">👁</span>
+        <!-- DARK HEADER — Same style as customer home -->
+        <div style="background:#0f1623;flex-shrink:0;position:relative;overflow:hidden;min-height:190px;">
+
+          <!-- Background image (same time-based images as customer) -->
+          <img id="rider-header-bg" src=""
+            style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:center;transition:opacity 0.8s ease;"
+            alt="Dhaka city">
+
+          <!-- Dark gradient overlay -->
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,14,26,0.5) 0%, rgba(10,14,26,0.2) 50%, rgba(10,14,26,0.72) 100%);z-index:1;"></div>
+
+          <!-- Content overlay -->
+          <div style="position:relative;z-index:10;padding:20px 20px 24px;">
+            <!-- Top bar -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <img src="https://i.postimg.cc/59Btg7ms/grok-image-1772388059716.jpg" style="height:30px;object-fit:contain;" alt="tasko">
+              <div style="display:flex;gap:8px;">
+                <div style="position:relative;width:40px;height:40px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+                  <div style="position:absolute;top:6px;right:6px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid transparent;"></div>
+                </div>
+                <div onclick="nav('r-profile',null)" style="width:40px;height:40px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(8px);font-size:18px;">🧑</div>
+              </div>
+            </div>
+            <!-- Greeting -->
+            <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:3px;">Rider Dashboard</div>
+            <div id="rider-greeting" style="font-family:'DM Sans',sans-serif;font-size:28px;font-weight:800;color:white;line-height:1.1;text-shadow:0 2px 16px rgba(0,0,0,0.5);">Hey Rider!</div>
+          </div>
+
+          <script>
+            // Use same time-based images as customer header
+            (function() {
+              var imgs = {
+                morning:   'https://i.postimg.cc/g2k5QjbD/grok-image-1772581203373.jpg',
+                afternoon: 'https://i.postimg.cc/RZk7fpdZ/grok-image-1772581332981.jpg',
+                night:     'https://i.postimg.cc/15zrZq48/grok-image-1772581441827.jpg',
+              };
+              var h = new Date().getHours();
+              var tod = h >= 5 && h < 12 ? 'morning' : h >= 12 && h < 18 ? 'afternoon' : 'night';
+              var el = document.getElementById('rider-header-bg');
+              if (el) { el.src = imgs[tod]; el.style.opacity = '1'; }
+            })();
+          </script>
+        </div>
+
+        <!-- WALLET CARD — overlapping header, same as customer's "Post a Task" card -->
+        <div style="padding:0 16px;margin-top:-22px;flex-shrink:0;position:relative;z-index:10;">
+          <div onclick="toggleRWallet()" style="width:100%;background:white;border-radius:20px;padding:16px 18px;border:none;cursor:pointer;display:flex;align-items:center;gap:16px;box-shadow:0 4px 24px rgba(0,0,0,0.14);">
+            <div style="width:52px;height:52px;background:#111827;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            <div style="flex:1;text-align:left;">
+              <div style="font-size:11px;color:#9ca3af;font-weight:600;margin-bottom:2px;">Wallet Balance</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span id="r-wallet-val" style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:#111827;letter-spacing:-0.5px;">••••</span>
+                <span style="font-size:14px;color:#9ca3af;">👁</span>
+              </div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-size:10px;color:#9ca3af;margin-bottom:2px;">Today earned</div>
+              <div style="font-size:16px;font-weight:800;color:#10b981;">+৳840</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCROLL AREA — light background like customer -->
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;background:#f2f2f7;padding-bottom:90px;">
+          <div style="padding:16px 16px 0;">
+
+            <!-- Online/Offline toggle card -->
+            <div onclick="toggleOnline(this)" style="background:white;border-radius:18px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);border:1px solid #f0f0f0;cursor:pointer;transition:all 0.2s;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:40px;height:40px;background:#f0fdf4;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                  <div style="width:10px;height:10px;background:#10b981;border-radius:50%;box-shadow:0 0 0 3px rgba(16,185,129,0.2);"></div>
+                </div>
+                <div>
+                  <div id="online-label" style="font-size:14px;font-weight:700;color:#111827;">You're Online</div>
+                  <div style="font-size:11px;color:#9ca3af;margin-top:1px;">Receiving new task requests</div>
                 </div>
               </div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <div class="icon-btn" onclick="nav('r-profile',null)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div class="icon-btn" style="position:relative;">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-                <div style="position:absolute;top:-3px;right:-3px;width:14px;height:14px;background:#ef4444;border-radius:50%;font-size:9px;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;border:2px solid #1d4ed8;">2</div>
+              <div id="online-toggle" style="width:48px;height:26px;background:#10b981;border-radius:13px;position:relative;transition:background 0.3s;flex-shrink:0;">
+                <div style="position:absolute;top:3px;left:3px;width:20px;height:20px;background:white;border-radius:50%;transition:transform 0.3s;box-shadow:0 2px 6px rgba(0,0,0,0.2);transform:translateX(22px);"></div>
               </div>
             </div>
-          </div>
 
-          <!-- Online/Offline Toggle -->
-          <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:18px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;backdrop-filter:blur(8px);" onclick="toggleOnline(this)">
-            <div>
-              <div id="online-label" style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;color:white;">🟢 You're Online</div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;">Receiving new task requests</div>
+            <!-- Stats row — same white card style as customer -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;">
+              <div style="background:white;border-radius:18px;padding:14px 10px;text-align:center;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                <div style="font-size:9px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Earned</div>
+                <div style="font-family:'DM Sans',sans-serif;font-size:18px;font-weight:800;color:#111827;">৳840</div>
+                <div style="font-size:9px;color:#10b981;font-weight:600;margin-top:2px;">Today</div>
+              </div>
+              <div style="background:white;border-radius:18px;padding:14px 10px;text-align:center;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                <div style="font-size:9px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Tasks</div>
+                <div style="font-family:'DM Sans',sans-serif;font-size:18px;font-weight:800;color:#111827;">7</div>
+                <div style="font-size:9px;color:#3b82f6;font-weight:600;margin-top:2px;">Completed</div>
+              </div>
+              <div style="background:white;border-radius:18px;padding:14px 10px;text-align:center;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.06);">
+                <div style="font-size:9px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">Rating</div>
+                <div style="font-family:'DM Sans',sans-serif;font-size:18px;font-weight:800;color:#111827;">4.8</div>
+                <div style="font-size:9px;color:#f59e0b;font-weight:600;margin-top:2px;">⭐ Stars</div>
+              </div>
             </div>
-            <div id="online-toggle" style="width:52px;height:28px;background:#10b981;border-radius:14px;position:relative;cursor:pointer;transition:background 0.3s;flex-shrink:0;">
-              <div style="position:absolute;top:4px;left:4px;width:20px;height:20px;background:var(--bg-card);border-radius:50%;transition:transform 0.3s;box-shadow:0 2px 6px rgba(0,0,0,0.2);"></div>
+
+            <!-- Available Tasks heading -->
+            <div style="font-size:18px;font-weight:800;color:#111827;margin-bottom:14px;font-family:'DM Sans',sans-serif;">Available Tasks</div>
+
+            <div id="rider-task-feed">
+              <div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:10px;display:flex;">
+                <div style="width:4px;background:#e5e7eb;flex-shrink:0;"></div>
+                <div style="flex:1;padding:20px 14px 20px 12px;text-align:center;">
+                  <div style="width:48px;height:48px;background:#f2f2f7;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>
+                  </div>
+                  <div style="font-size:14px;font-weight:700;color:#374151;margin-bottom:4px;">No tasks right now</div>
+                  <div style="font-size:12px;color:#9ca3af;">Stay online, new tasks will appear here</div>
+                </div>
+              </div>
+              <div id="live-task-count" style="display:none;"></div>
             </div>
+
           </div>
         </div>
 
-        <!-- Stats Row -->
-        <div style="display:flex;gap:10px;padding:14px 16px 0;">
-          <div style="flex:1;background:white;border-radius:16px;padding:14px 12px;text-align:center;border:1px solid #f0f0f0;box-shadow:var(--shadow-sm);">
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--blue-dark);">৳840</div>
-            <div style="font-size:10px;color:var(--gray-400);font-weight:600;margin-top:2px;">Today's Earning</div>
-          </div>
-          <div style="flex:1;background:white;border-radius:16px;padding:14px 12px;text-align:center;border:1px solid #f0f0f0;box-shadow:var(--shadow-sm);">
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--green);">7</div>
-            <div style="font-size:10px;color:var(--gray-400);font-weight:600;margin-top:2px;">Tasks Done</div>
-          </div>
-          <div style="flex:1;background:white;border-radius:16px;padding:14px 12px;text-align:center;border:1px solid #f0f0f0;box-shadow:var(--shadow-sm);">
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--orange);">⭐ 4.8</div>
-            <div style="font-size:10px;color:var(--gray-400);font-weight:600;margin-top:2px;">Rating</div>
-          </div>
-        </div>
-
-        <div style="flex:1;overflow-y:auto;padding:14px 16px 90px;scrollbar-width:none;">
-
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;color:var(--text-primary);">⚡ Available Tasks</div>
-            <div id="live-task-count" style="font-size:10px;color:var(--gray-400);">লোড হচ্ছে...</div>
-          </div>
-
-          <div id="rider-task-feed">
-            <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
-              <div style="font-size:40px;margin-bottom:12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-              <div style="font-weight:600;">কোনো টাস্ক নেই এখন</div>
-              <div style="font-size:12px;margin-top:6px;">Online থাকুন, নতুন টাস্ক এলে দেখাবে</div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Rider Bottom Nav -->
-        </div>
-
+        <!-- Rider Bottom Nav — white, same as customer -->
         <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding:10px 0 26px;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
           <div onclick="nav('r-home',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
             <div style="font-size:10px;font-weight:700;color:#111827;">Home</div>
           </div>
           <div onclick="nav('r-history',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
@@ -3459,449 +3509,466 @@
       <!-- =========================================
            R2 · NEW TASK ALERT
            ========================================= -->
-      <div class="screen" id="screen-r-alert" style="background:rgba(0,0,0,0.6);">
-        <!-- Blurred background -->
-        <div style="position:absolute;inset:0;background:linear-gradient(160deg,#0c1445,#1d4ed8);opacity:0.85;"></div>
+      <div class="screen" id="screen-r-alert" style="background:#f2f2f7;flex-direction:column;overflow:hidden;">
 
-        <!-- Sheet -->
-        <div style="background:var(--bg-card);border-radius:28px 28px 0 0;padding:0 18px 36px;position:relative;z-index:1;animation:slideUp 0.4s cubic-bezier(0.34,1.08,0.64,1);max-height:92%;overflow-y:auto;scrollbar-width:none;">
-          <div style="width:36px;height:4px;background:var(--gray-200);border-radius:2px;margin:14px auto 16px;"></div>
-
-          <!-- Timer + Title -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-            <div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:800;color:var(--text-primary);">New Offer Received <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
-              <div style="font-size:12px;color:var(--gray-400);margin-top:2px;">Customer is waiting for your response</div>
-            </div>
-            <div style="background:rgba(239,68,68,0.1);border:1.5px solid rgba(239,68,68,0.3);border-radius:20px;padding:6px 14px;text-align:center;">
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--red);" id="r-timer">15</div>
-              <div style="font-size:9px;color:var(--red);font-weight:600;">secs</div>
-            </div>
+        <!-- TOP BAR -->
+        <div style="background:white;border-bottom:1px solid #f0f0f0;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;text-transform:uppercase;">New Task Request</div>
+            <div id="alert-task-title" style="font-family:'DM Sans',sans-serif;font-size:18px;font-weight:800;color:#111827;margin-top:2px;line-height:1.2;">📋 Market Run</div>
           </div>
-
-            <div style="background:var(--bg);border-radius:16px;padding:14px;border:1.5px solid var(--gray-200);margin-bottom:12px;">
-            <div id="alert-task-title" style="font-size:15px;font-weight:800;color:var(--text-primary);margin-bottom:10px;">📋 Task</div>
-            <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
-              <div style="display:flex;gap:10px;align-items:center;">
-                <div style="width:9px;height:9px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>
-                <div id="alert-pickup" style="font-size:13px;color:var(--text-secondary);">—</div>
-              </div>
-              <div style="width:2px;height:12px;background:var(--gray-300);margin-left:3.5px;"></div>
-              <div style="display:flex;gap:10px;align-items:center;">
-                <div style="width:9px;height:9px;background:var(--green);border-radius:50%;flex-shrink:0;"></div>
-                <div id="alert-delivery" style="font-size:13px;color:var(--text-secondary);">—</div>
-              </div>
+          <!-- Circular countdown timer -->
+          <div style="position:relative;flex-shrink:0;">
+            <svg width="52" height="52" viewBox="0 0 52 52" style="transform:rotate(-90deg);">
+              <circle cx="26" cy="26" r="21" fill="none" stroke="#f0f0f0" stroke-width="3"/>
+              <circle id="timer-ring" cx="26" cy="26" r="21" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="132" stroke-dashoffset="0" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear,stroke 0.5s;"/>
+            </svg>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+              <div id="r-timer" style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:800;color:#111827;line-height:1;">15</div>
+              <div style="font-size:7px;color:#9ca3af;font-weight:700;letter-spacing:0.5px;">SEC</div>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;" id="alert-timing">⚡ এখনই</div>
-            </div>
-          </div>
-
-          <!-- Customer's Offer -->
-          <div style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(245,158,11,0.05));border:1.5px solid rgba(245,158,11,0.3);border-radius:14px;padding:13px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-            <div>
-              <div style="font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;">Customer's Offer</div>
-              <div id="alert-fee" style="font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--text-primary);">৳—</div>
-              <div style="font-size:11px;color:var(--gray-400);margin-top:4px;">Customer: <span id="alert-customer-name" style="font-weight:700;color:var(--text-primary);">—</span></div>
-            </div>
-            <div style="font-size:32px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-          </div>
-
-          <!-- Your Range -->
-          <div style="background:var(--blue-light);border-radius:12px;padding:11px 14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.8px;">Your Range</div>
-              <div style="font-size:12px;color:var(--blue-dark);font-weight:600;margin-top:3px;">Min ৳80 — Max ৳300</div>
-            </div>
-            <div style="font-size:11px;color:var(--blue);font-weight:700;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg> Within range</div>
-          </div>
-
-          <!-- Counter Input -->
-          <div style="margin-bottom:16px;">
-            <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Counter Offer (optional)</div>
-            <div style="background:var(--bg-card);border:2px solid var(--gray-200);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;">
-              <span style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--green);">৳</span>
-              <input type="number" placeholder="e.g. 250" style="flex:1;border:none;outline:none;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--text-primary);background:transparent;">
-            </div>
-            <div style="font-size:11px;color:var(--gray-400);margin-top:6px;text-align:center;">Leave empty to accept ৳200 directly</div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <button onclick="riderAcceptTask()" style="width:100%;padding:15px;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:14px;color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(16,185,129,0.35);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg> Accept Task Now</button>
-            <button onclick="nav('r-home',null)" style="width:100%;padding:13px;background:var(--bg-card);border:none;border-radius:14px;color:var(--gray-400);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Skip this task</button>
           </div>
         </div>
+
+        <!-- SCROLL AREA -->
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 16px 120px;">
+
+          <!-- Offer card — hero -->
+          <div style="background:white;border-radius:20px;padding:18px;border:1px solid #f0f0f0;box-shadow:0 2px 12px rgba(0,0,0,0.07);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">Customer's Offer</div>
+              <div id="alert-fee" style="font-family:'DM Sans',sans-serif;font-size:34px;font-weight:800;color:#111827;letter-spacing:-1px;line-height:1;">৳200</div>
+              <div style="font-size:12px;color:#9ca3af;margin-top:5px;">Customer: <span id="alert-customer-name" style="color:#111827;font-weight:700;">Rafi Ahmed</span></div>
+            </div>
+            <div style="width:52px;height:52px;background:#f0fdf4;border-radius:16px;display:flex;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+          </div>
+
+          <!-- Route card -->
+          <div style="background:white;border-radius:18px;padding:16px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.05);margin-bottom:12px;">
+            <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Route</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+              <div style="width:9px;height:9px;background:#3b82f6;border-radius:50%;flex-shrink:0;"></div>
+              <div id="alert-pickup" style="font-size:13px;font-weight:600;color:#111827;">Mohammadpur Bazar</div>
+            </div>
+            <div style="width:2px;height:14px;background:#e5e7eb;margin-left:3.5px;margin-bottom:6px;"></div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+              <div style="width:9px;height:9px;background:#10b981;border-radius:50%;flex-shrink:0;"></div>
+              <div id="alert-delivery" style="font-size:13px;font-weight:600;color:#111827;">Dhanmondi 27</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <div id="alert-timing" style="background:#eff6ff;border-radius:8px;padding:5px 10px;font-size:11px;color:#1d4ed8;font-weight:700;">⚡ এখনই</div>
+              <div style="background:#f0fdf4;border-radius:8px;padding:5px 10px;font-size:11px;color:#059669;font-weight:700;">~1.8 km</div>
+            </div>
+          </div>
+
+          <!-- Task Description card -->
+          <div id="alert-desc-card" style="background:white;border-radius:18px;padding:16px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.05);margin-bottom:12px;display:none;">
+            <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Task Description</div>
+            <div id="alert-desc-text" style="font-size:14px;color:#374151;line-height:1.6;font-weight:500;">—</div>
+          </div>
+
+          <!-- Photo card -->
+          <div id="alert-photo-card" style="background:white;border-radius:18px;overflow:hidden;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.05);margin-bottom:12px;display:none;">
+            <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;padding:14px 16px 10px;">Photo</div>
+            <img id="alert-photo-img" src="" alt="Task photo" style="width:100%;max-height:200px;object-fit:cover;display:block;">
+          </div>
+
+          <!-- Counter Offer -->
+          <div style="background:white;border-radius:18px;padding:16px;border:1px solid #f0f0f0;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <div style="font-size:14px;font-weight:800;color:#111827;font-family:'DM Sans',sans-serif;">Counter Offer</div>
+              <div style="background:#f3f4f6;border-radius:8px;padding:4px 10px;font-size:10px;color:#6b7280;font-weight:700;">Optional</div>
+            </div>
+
+            <!-- Quick chips -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px;" id="counter-chips">
+              <div onclick="setCounter(this,200)" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
+                <div style="font-size:13px;font-weight:800;color:#111827;">৳200</div>
+                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">As-is</div>
+              </div>
+              <div onclick="setCounter(this,250)" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
+                <div style="font-size:13px;font-weight:800;color:#111827;">৳250</div>
+                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">+৳50</div>
+              </div>
+              <div onclick="setCounter(this,300)" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
+                <div style="font-size:13px;font-weight:800;color:#111827;">৳300</div>
+                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">+৳100</div>
+              </div>
+              <div onclick="setCounter(this,'custom')" style="background:#f9fafb;border:2px solid #e5e7eb;border-radius:14px;padding:11px 4px;text-align:center;cursor:pointer;transition:all 0.15s;">
+                <div style="font-size:16px;font-weight:800;color:#111827;">✏️</div>
+                <div style="font-size:9px;color:#9ca3af;margin-top:2px;">Custom</div>
+              </div>
+            </div>
+
+            <!-- Custom input (hidden by default) -->
+            <div id="counter-custom-wrap" style="display:none;background:#f9fafb;border:2px solid #111827;border-radius:14px;padding:12px 16px;align-items:center;gap:8px;margin-bottom:8px;">
+              <span style="font-size:20px;font-weight:700;color:#9ca3af;">৳</span>
+              <input id="counter-input" type="number" placeholder="আপনার দাম লিখুন" style="flex:1;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:800;color:#111827;background:transparent;">
+            </div>
+
+            <div id="counter-note" style="font-size:11px;color:#9ca3af;text-align:center;">চিপ select করুন অথবা সরাসরি Accept করুন</div>
+          </div>
+
+        </div>
+
+        <!-- FIXED BOTTOM -->
+        <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;padding:12px 16px 28px;z-index:20;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
+          <div style="display:flex;gap:10px;margin-bottom:8px;">
+            <button onclick="nav('r-home',null)" style="flex:1;padding:15px;background:#f3f4f6;border:none;border-radius:16px;color:#6b7280;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">
+              Skip
+            </button>
+            <button onclick="riderAcceptTask()" style="flex:2.5;padding:15px;background:#111827;border:none;border-radius:16px;color:white;font-size:15px;font-weight:800;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.18);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
+              Accept Task
+            </button>
+          </div>
+          <div id="counter-offer-label" style="text-align:center;font-size:11px;color:#9ca3af;">Accept করলে offer এর দামেই যাবে</div>
+        </div>
+
+        <script>
+          var selectedCounterVal = null;
+          function setCounter(el, val) {
+            document.querySelectorAll('#counter-chips > div').forEach(function(c) {
+              c.style.background = '#f9fafb';
+              c.style.borderColor = '#e5e7eb';
+              c.querySelectorAll('div')[0].style.color = '#111827';
+              c.querySelectorAll('div')[1].style.color = '#9ca3af';
+            });
+            el.style.background = '#111827';
+            el.style.borderColor = '#111827';
+            el.querySelectorAll('div')[0].style.color = 'white';
+            el.querySelectorAll('div')[1].style.color = 'rgba(255,255,255,0.5)';
+
+            var wrap = document.getElementById('counter-custom-wrap');
+            var note = document.getElementById('counter-offer-label');
+            var noteCard = document.getElementById('counter-note');
+
+            if (val === 'custom') {
+              wrap.style.display = 'flex';
+              selectedCounterVal = null;
+              noteCard.textContent = 'নিজের দাম লিখুন';
+              note.textContent = 'Counter offer পাঠানো হবে — customer accept করলে কাজ পাবেন';
+            } else {
+              wrap.style.display = 'none';
+              selectedCounterVal = val;
+              if (val === 200) {
+                note.textContent = 'Customer এর offer মূল্যেই accept হবে';
+                noteCard.textContent = 'Customer এর দামে রাজি আছেন';
+              } else {
+                note.textContent = '৳' + val + ' counter offer যাবে — customer accept করলে কাজ পাবেন';
+                noteCard.textContent = '৳' + val + ' counter offer পাঠানো হবে';
+              }
+            }
+          }
+
+          // Timer ring animation
+          function updateTimerRing(val) {
+            var ring = document.getElementById('timer-ring');
+            if (!ring) return;
+            ring.style.strokeDashoffset = 132 - (132 * (val / 15));
+            ring.style.stroke = val <= 5 ? '#ef4444' : val <= 10 ? '#f59e0b' : '#111827';
+            var timerEl = document.getElementById('r-timer');
+            if (timerEl) timerEl.style.color = val <= 5 ? '#ef4444' : '#111827';
+          }
+          window.startRTimer = function() {
+            clearInterval(window.rTimerInterval);
+            window.rTimerVal = 15;
+            updateTimerRing(15);
+            var el = document.getElementById('r-timer');
+            if (el) el.textContent = 15;
+            window.rTimerInterval = setInterval(function() {
+              window.rTimerVal--;
+              if (el) el.textContent = window.rTimerVal;
+              updateTimerRing(window.rTimerVal);
+              if (window.rTimerVal <= 0) {
+                clearInterval(window.rTimerInterval);
+                nav('r-home', null);
+              }
+            }, 1000);
+          };
+        </script>
+
       </div>
 
       <!-- =========================================
            R3 · TASK ACCEPTED
            ========================================= -->
-      <div class="screen" id="screen-r-accepted" style="background:var(--bg);">
+      <div class="screen" id="screen-r-accepted" style="background:#f2f2f7;flex-direction:column;overflow:hidden;">
 
-        <!-- Header -->
-        <div style="background:#111827;padding:0 18px 12px;flex-shrink:0;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
-          <div style="position:absolute;bottom:-30px;left:-20px;width:120px;height:120px;background:rgba(6,182,212,0.1);border-radius:50%;"></div>
-          <div class="status-bar light" style="padding:14px 0 8px;position:relative;z-index:1;"><span>10:41</span><div>📶 🔋</div></div>
-
-          <!-- Back + badge row -->
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1;">
-            <button onclick="nav('r-home',null)" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg></button>
-            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);border-radius:20px;padding:4px 12px;">
+        <!-- Dark header -->
+        <div style="background:#111827;padding:20px 20px 16px;flex-shrink:0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <button onclick="nav('r-home',null)" style="background:rgba(255,255,255,0.12);border:none;color:white;border-radius:12px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+            </button>
+            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,0.18);border:1px solid rgba(16,185,129,0.35);border-radius:20px;padding:5px 12px;">
               <div style="width:6px;height:6px;background:#10b981;border-radius:50%;animation:activePulse 1.5s infinite;"></div>
-              <span style="font-size:10px;font-weight:700;color:#6ee7b7;text-transform:uppercase;letter-spacing:1px;">Task Active</span>
+              <span style="font-size:10px;font-weight:700;color:#6ee7b7;letter-spacing:1px;">TASK ACTIVE</span>
             </div>
           </div>
-
-          <div style="position:relative;z-index:1;margin-bottom:16px;">
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;">Task Accepted <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></div>
-            <div id="accepted-customer-label" style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:2px;">Head to pickup · Customer is waiting</div>
+          <div style="margin-bottom:18px;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:white;margin-bottom:3px;">Task Accepted ✓</div>
+            <div id="accepted-customer-label" style="font-size:12px;color:rgba(255,255,255,0.5);">Head to pickup · Customer is waiting</div>
           </div>
-
-          <!-- Progress track — icon style -->
-          <div style="display:flex;align-items:center;position:relative;z-index:1;">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:24px;height:24px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 0 0 3px rgba(16,185,129,0.25);">✓</div>
+          <!-- Progress steps -->
+          <div style="display:flex;align-items:center;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(16,185,129,0.2);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
+              </div>
               <span style="font-size:9px;color:#6ee7b7;font-weight:700;">Accepted</span>
             </div>
-            <div style="flex:1;height:2px;background:rgba(255,255,255,0.3);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:24px;height:24px;background:var(--bg-card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;box-shadow:0 0 0 3px rgba(255,255,255,0.2);animation:activePulse 2s infinite;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
+            <div style="flex:1;height:2px;background:rgba(255,255,255,0.25);margin-bottom:14px;"></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:activePulse 2s infinite;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>
+              </div>
               <span style="font-size:9px;color:white;font-weight:700;">Pickup</span>
             </div>
-            <div style="flex:1;height:2px;background:rgba(255,255,255,0.15);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:24px;height:24px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid rgba(255,255,255,0.2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-              <span style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:600;">Deliver</span>
+            <div style="flex:1;height:2px;background:rgba(255,255,255,0.12);margin-bottom:14px;"></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:rgba(255,255,255,0.1);border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <span style="font-size:9px;color:rgba(255,255,255,0.3);font-weight:600;">Deliver</span>
             </div>
-            <div style="flex:1;height:2px;background:rgba(255,255,255,0.15);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:24px;height:24px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid rgba(255,255,255,0.2);">🏁</div>
-              <span style="font-size:9px;color:rgba(255,255,255,0.4);font-weight:600;">Done</span>
+            <div style="flex:1;height:2px;background:rgba(255,255,255,0.12);margin-bottom:14px;"></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:rgba(255,255,255,0.1);border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:12px;">🏁</div>
+              <span style="font-size:9px;color:rgba(255,255,255,0.3);font-weight:600;">Done</span>
             </div>
           </div>
         </div>
 
-        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:16px;padding-bottom:90px;">
+        <!-- Scroll content -->
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 110px;">
 
-          <!-- Map -->
-          <div style="border-radius:18px;overflow:hidden;border:1px solid var(--gray-200);box-shadow:var(--shadow-md);margin-bottom:14px;">
+          <!-- Map card -->
+          <div style="background:white;border-radius:18px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);margin-bottom:12px;">
             <div style="height:140px;background:linear-gradient(135deg,#e0f2fe,#dbeafe);position:relative;overflow:hidden;">
               <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.07) 1px,transparent 1px);background-size:26px 26px;"></div>
-              <!-- Roads -->
               <div style="position:absolute;height:5px;background:rgba(255,255,255,0.8);left:0;right:0;top:100px;"></div>
               <div style="position:absolute;width:5px;background:rgba(255,255,255,0.8);top:0;bottom:0;left:130px;"></div>
-              <!-- Dashed route -->
-              <div style="position:absolute;top:94px;left:65px;width:180px;height:2px;background:repeating-linear-gradient(90deg,var(--blue) 0,var(--blue) 8px,transparent 8px,transparent 14px);opacity:0.6;transform:rotate(-5deg);"></div>
-              <!-- You -->
+              <div style="position:absolute;top:94px;left:65px;width:180px;height:2px;background:repeating-linear-gradient(90deg,#3b82f6 0,#3b82f6 8px,transparent 8px,transparent 14px);opacity:0.6;transform:rotate(-5deg);"></div>
               <div style="position:absolute;left:75px;top:65px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
-                <div style="width:38px;height:38px;background:linear-gradient(135deg,var(--blue-mid),var(--blue-dark));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;border:3px solid white;box-shadow:0 4px 14px rgba(37,99,235,0.4);animation:activePulse 2s infinite;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-                <div style="font-size:8px;font-weight:700;color:var(--blue-dark);background:var(--bg-card);padding:2px 6px;border-radius:4px;box-shadow:var(--shadow-sm);">You</div>
+                <div style="width:36px;height:36px;background:#3b82f6;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 12px rgba(37,99,235,0.4);animation:activePulse 2s infinite;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>
+                </div>
+                <div style="font-size:8px;font-weight:700;color:#1d4ed8;background:white;padding:2px 6px;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.1);">You</div>
               </div>
-              <!-- Pickup -->
               <div style="position:absolute;right:55px;top:52px;transform:translateX(50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
-                <div style="width:38px;height:38px;background:linear-gradient(135deg,#10b981,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;border:3px solid white;box-shadow:0 4px 14px rgba(16,185,129,0.4);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-                <div style="font-size:8px;font-weight:700;color:#065f46;background:var(--bg-card);padding:2px 6px;border-radius:4px;box-shadow:var(--shadow-sm);">Pickup</div>
+                <div style="width:36px;height:36px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 12px rgba(16,185,129,0.4);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                </div>
+                <div style="font-size:8px;font-weight:700;color:#065f46;background:white;padding:2px 6px;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.1);">Pickup</div>
               </div>
-              <!-- ETA badge -->
-              <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:var(--bg-card);border-radius:20px;padding:6px 14px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:7px;white-space:nowrap;">
-                <div style="width:6px;height:6px;background:var(--green);border-radius:50%;"></div>
-                <span style="font-size:11px;font-weight:700;color:var(--text-primary);">Pickup · 0.8 km · ~5 min</span>
+              <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:white;border-radius:20px;padding:6px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.12);display:flex;align-items:center;gap:6px;white-space:nowrap;">
+                <div style="width:6px;height:6px;background:#10b981;border-radius:50%;"></div>
+                <span style="font-size:11px;font-weight:700;color:#111827;">Pickup · ~5 min away</span>
               </div>
             </div>
           </div>
 
-          <!-- Earning + distance row -->
-          <div style="display:flex;gap:10px;margin-bottom:14px;">
-            <div style="flex:1;background:var(--bg-card);border-radius:14px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);text-align:center;">
-              <div style="font-size:10px;color:var(--gray-400);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Your Fee</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--blue-dark);">৳200</div>
-            </div>
-            <div style="flex:1;background:var(--bg-card);border-radius:14px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);text-align:center;">
-              <div style="font-size:10px;color:var(--gray-400);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Distance</div>
-              <div style="font-size:20px;font-weight:800;color:var(--gray-800);">1.8 km</div>
-            </div>
-            <div style="flex:1;background:var(--bg-card);border-radius:14px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);text-align:center;">
-              <div style="font-size:10px;color:var(--gray-400);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Est. Time</div>
-              <div style="font-size:20px;font-weight:800;color:var(--gray-800);">20m</div>
-            </div>
-          </div>
-
-          <!-- Task + Customer card -->
-          <div style="background:var(--bg-card);border-radius:18px;padding:16px;border:1px solid var(--border);box-shadow:var(--shadow-md);margin-bottom:12px;">
-            <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Task & Customer</div>
-            <div style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">🛒 Market Run</div>
-            <div style="font-size:12px;color:var(--gray-400);line-height:1.6;margin-bottom:12px;">Pick up 1kg chicken, 2kg rice, and fresh vegetables from Mohammadpur Bazar.</div>
-            <div style="height:1px;background:var(--bg-card);margin-bottom:12px;"></div>
-            <div style="display:flex;align-items:center;gap:10px;">
-              <div style="width:40px;height:40px;background:var(--blue-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;">🧑</div>
+          <!-- Route + Fee card -->
+          <div style="background:white;border-radius:18px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:12px;">
+            <div style="display:flex;align-items:stretch;gap:10px;">
+              <div style="display:flex;flex-direction:column;align-items:center;padding-top:3px;">
+                <div style="width:10px;height:10px;background:#3b82f6;border-radius:50%;flex-shrink:0;"></div>
+                <div style="width:2px;flex:1;background:#e5e7eb;margin:3px 0;min-height:20px;"></div>
+                <div style="width:10px;height:10px;background:#10b981;border-radius:50%;flex-shrink:0;"></div>
+              </div>
               <div style="flex:1;">
-                <div style="font-size:13px;font-weight:700;color:var(--text-primary);">Rafi Ahmed</div>
-                <div style="font-size:11px;color:var(--gray-400);">⭐ 4.9 · 15 tasks posted</div>
+                <div style="margin-bottom:10px;">
+                  <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px;">Pickup</div>
+                  <div id="accepted-pickup-addr" style="font-size:13px;font-weight:600;color:#111827;">—</div>
+                </div>
+                <div>
+                  <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px;">Delivery</div>
+                  <div id="accepted-delivery-addr" style="font-size:13px;font-weight:600;color:#111827;">—</div>
+                </div>
+              </div>
+              <div style="background:#f0fdf4;border-radius:14px;padding:12px 14px;text-align:center;flex-shrink:0;align-self:center;">
+                <div style="font-size:10px;font-weight:700;color:#9ca3af;margin-bottom:2px;">Fee</div>
+                <div id="accepted-fee-val" style="font-size:22px;font-weight:800;color:#10b981;font-family:'DM Sans',sans-serif;">৳—</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Task & Customer card -->
+          <div style="background:white;border-radius:18px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:12px;">
+            <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Task Details</div>
+            <div id="accepted-task-title" style="font-size:15px;font-weight:700;color:#111827;margin-bottom:6px;">—</div>
+            <div id="accepted-task-desc" style="font-size:12px;color:#6b7280;line-height:1.6;margin-bottom:12px;display:none;"></div>
+            <div style="height:1px;background:#f0f0f0;margin-bottom:12px;"></div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:42px;height:42px;background:#eff6ff;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧑</div>
+              <div style="flex:1;">
+                <div id="accepted-customer-name" style="font-size:14px;font-weight:700;color:#111827;">—</div>
+                <div style="font-size:11px;color:#9ca3af;margin-top:1px;">Customer</div>
               </div>
               <div style="display:flex;gap:8px;">
-                <button style="width:36px;height:36px;background:var(--blue-light);border:none;border-radius:10px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></button>
-                <button style="width:36px;height:36px;background:var(--bg-card);border:none;border-radius:10px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>
+                <button style="width:38px;height:38px;background:#eff6ff;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                </button>
+                <button style="width:38px;height:38px;background:#f2f2f7;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                </button>
               </div>
             </div>
           </div>
 
         </div>
 
-        <!-- CTA -->
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px 30px;background:var(--bg-card);border-top:1px solid var(--border);z-index:10;">
-          <button onclick="riderStartNavigation()" class="btn-primary" style="margin-bottom:10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="1,6 1,22 8,18 16,22 23,18 23,2 16,6 8,2"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>️ Start Navigation to Pickup</button>
-          <button onclick="riderPickedUp()" style="width:100%;padding:15px;background:linear-gradient(135deg,#10b981,#059669);border:none;border-radius:14px;color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(16,185,129,0.35);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg> Arrived — Confirm Pickup</button>
+        <!-- Bottom CTA -->
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px 30px;background:white;border-top:1px solid #f0f0f0;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
+          <button onclick="riderPickedUp()" style="width:100%;padding:16px;background:#10b981;border:none;border-radius:14px;color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
+            Arrived — Confirm Pickup
+          </button>
         </div>
 
         <style>
           @keyframes activePulse {
             0%,100% { opacity:1; transform:scale(1); }
-            50% { opacity:0.8; transform:scale(1.06); }
+            50% { opacity:0.85; transform:scale(1.06); }
           }
         </style>
-</div>
-        </div></div>
-<div>History</div><div class="bnav-dot"></div></div>
-<div>Earnings</div><div class="bnav-dot"></div></div>
-<div>Profile</div><div class="bnav-dot"></div></div>
-        </div>
       </div>
-
-            <!-- =========================================
-           R4 · EN ROUTE TO PICKUP
+      
+      <!-- =========================================
+           R5 · ITEM PICKED UP
            ========================================= -->
-      <div class="screen" id="screen-r-pickup" style="background:var(--bg);">
+      <div class="screen" id="screen-r-delivery" style="background:#f2f2f7;flex-direction:column;overflow:hidden;">
 
-        <!-- Header -->
-        <div style="background:#111827;padding:0 18px 10px;flex-shrink:0;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
-          <div class="status-bar light" style="padding:40px 0 8px;position:relative;z-index:1;"><span>10:46</span><div>📶 🔋</div></div>
-
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:relative;z-index:1;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <button onclick="nav('r-accepted',null)" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg></button>
-              <div>
-                <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;">En Route to Pickup 🏍️</div>
-                <div style="font-size:11px;color:rgba(255,255,255,0.6);">Mohammadpur Bazar</div>
-              </div>
-            </div>
-            <!-- ETA badge -->
-            <div style="background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:8px 12px;text-align:center;">
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#fbbf24;line-height:1;">~5</div>
-              <div style="font-size:9px;color:rgba(251,191,36,0.7);font-weight:600;">min</div>
+        <!-- Dark header -->
+        <div style="background:#111827;padding:20px 20px 16px;flex-shrink:0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <button onclick="nav('r-accepted',null)" style="background:rgba(255,255,255,0.12);border:none;color:white;border-radius:12px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+            </button>
+            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.4);border-radius:20px;padding:5px 12px;">
+              <div style="width:6px;height:6px;background:#a78bfa;border-radius:50%;animation:activePulse 1.5s infinite;"></div>
+              <span style="font-size:10px;font-weight:700;color:#c4b5fd;letter-spacing:1px;">ON THE WAY</span>
             </div>
           </div>
-
-          <!-- Progress -->
-          <div style="display:flex;align-items:center;position:relative;z-index:1;">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 0 0 2px rgba(16,185,129,0.3);">✓</div>
+          <div style="margin-bottom:18px;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:white;margin-bottom:3px;">Item Picked Up ✓</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);">Now head to delivery location</div>
+          </div>
+          <!-- Progress steps -->
+          <div style="display:flex;align-items:center;">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
+              </div>
               <span style="font-size:9px;color:#6ee7b7;font-weight:700;">Accepted</span>
             </div>
-            <div style="flex:1;height:2px;background:rgba(16,185,129,0.5);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:var(--bg-card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 0 0 2px rgba(255,255,255,0.25);animation:activePulse 2s infinite;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-              <span style="font-size:9px;color:white;font-weight:700;">Pickup ←</span>
-            </div>
-            <div style="flex:1;height:2px;background:rgba(255,255,255,0.15);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:1.5px solid rgba(255,255,255,0.2);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-              <span style="font-size:9px;color:rgba(255,255,255,0.35);font-weight:600;">Deliver</span>
-            </div>
-            <div style="flex:1;height:2px;background:rgba(255,255,255,0.15);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:1.5px solid rgba(255,255,255,0.2);">🏁</div>
-              <span style="font-size:9px;color:rgba(255,255,255,0.35);font-weight:600;">Done</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Full Map -->
-        <div style="height:160px;background:linear-gradient(135deg,#e0f2fe,#dbeafe);position:relative;overflow:hidden;flex-shrink:0;border-bottom:1px solid var(--gray-200);">
-          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.07) 1px,transparent 1px);background-size:26px 26px;"></div>
-          <!-- Roads -->
-          <div style="position:absolute;height:5px;background:rgba(255,255,255,0.85);left:0;right:0;top:112px;"></div>
-          <div style="position:absolute;height:5px;background:rgba(255,255,255,0.85);left:0;right:0;top:172px;"></div>
-          <div style="position:absolute;width:5px;background:rgba(255,255,255,0.85);top:0;bottom:0;left:105px;"></div>
-          <div style="position:absolute;width:5px;background:rgba(255,255,255,0.85);top:0;bottom:0;left:255px;"></div>
-          <!-- Route dashed -->
-          <div style="position:absolute;top:106px;left:80px;width:165px;height:2px;background:repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 8px,transparent 8px,transparent 14px);opacity:0.8;transform:rotate(-4deg);"></div>
-          <!-- You -->
-          <div style="position:absolute;left:88px;top:75px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
-            <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--orange),#d97706);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;border:3px solid white;box-shadow:0 4px 16px rgba(245,158,11,0.5);animation:activePulse 2s infinite;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>
-            <div style="font-size:8px;font-weight:700;color:var(--text-secondary);background:var(--bg-card);padding:2px 6px;border-radius:4px;box-shadow:var(--shadow-sm);">You</div>
-          </div>
-          <!-- Pickup -->
-          <div style="position:absolute;right:52px;top:60px;transform:translateX(50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
-            <div style="width:40px;height:40px;background:linear-gradient(135deg,#10b981,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;border:3px solid white;box-shadow:0 4px 16px rgba(16,185,129,0.5);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-            <div style="font-size:8px;font-weight:700;color:#065f46;background:var(--bg-card);padding:2px 6px;border-radius:4px;box-shadow:var(--shadow-sm);">Pickup</div>
-          </div>
-          <!-- Bottom info bar -->
-          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);padding:9px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--gray-200);">
-            <div style="display:flex;align-items:center;gap:7px;">
-              <div style="width:7px;height:7px;background:var(--orange);border-radius:50%;animation:activePulse 1.2s infinite;"></div>
-              <span style="font-size:12px;font-weight:700;color:var(--text-primary);">0.8 km away</span>
-            </div>
-            <span style="font-size:11px;color:var(--gray-400);">Mohammadpur Bazar</span>
-          </div>
-        </div>
-
-        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 16px 90px;">
-
-          <!-- Task card -->
-          <div style="background:var(--bg-card);border-radius:16px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);margin-bottom:12px;">
-            <div style="font-size:13px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">🛒 Market Run</div>
-            <div style="font-size:12px;color:var(--gray-400);line-height:1.6;margin-bottom:10px;">Pick up 1kg chicken, 2kg rice, fresh vegetables</div>
-            <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);">
-              <div style="font-size:12px;color:var(--gray-400);">Rafi Ahmed</div>
-              <div style="display:flex;gap:10px;">
-                <span style="font-size:12px;font-weight:700;color:var(--blue);cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Call</span>
-                <span style="font-size:12px;font-weight:700;color:var(--gray-400);cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Chat</span>
+            <div style="flex:1;height:2px;background:#10b981;margin-bottom:14px;"></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
               </div>
-            </div>
-          </div>
-
-          <div style="text-align:center;font-size:12px;color:var(--red);cursor:pointer;font-weight:600;">⚠️ Report an Issue</div>
-        </div>
-
-        <!-- CTA -->
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px 30px;background:var(--bg-card);border-top:1px solid var(--border);z-index:10;">
-          <button onclick="nav('r-delivery',null)" class="btn-primary"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg> Arrived at Pickup — Confirm</button>
-        </div>
-      </div>
-
-            <!-- =========================================
-           R5 · EN ROUTE TO DELIVERY
-           ========================================= -->
-      <div class="screen" id="screen-r-delivery" style="background:var(--bg);">
-
-        <!-- Header — green accent to match delivery stage -->
-        <div style="background:linear-gradient(155deg,#0c1445,#065f46,#059669);padding:0 18px 10px;flex-shrink:0;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,0.05);border-radius:50%;"></div>
-          <div class="status-bar light" style="padding:40px 0 8px;position:relative;z-index:1;"><span>11:02</span><div>📶 🔋</div></div>
-
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:relative;z-index:1;">
-            <div style="display:flex;align-items:center;gap:10px;">
-              <button onclick="nav('r-pickup',null)" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg></button>
-              <div>
-                <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:white;">Item Picked Up! <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-                <div style="font-size:11px;color:rgba(255,255,255,0.6);">Now deliver to customer</div>
-              </div>
-            </div>
-            <div style="background:rgba(16,185,129,0.25);border:1px solid rgba(16,185,129,0.4);border-radius:12px;padding:8px 12px;text-align:center;">
-              <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#6ee7b7;line-height:1;">~8</div>
-              <div style="font-size:9px;color:rgba(110,231,183,0.7);font-weight:600;">min</div>
-            </div>
-          </div>
-
-          <!-- Progress — 3 of 4 done -->
-          <div style="display:flex;align-items:center;position:relative;z-index:1;">
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 0 0 2px rgba(16,185,129,0.3);">✓</div>
-              <span style="font-size:9px;color:#6ee7b7;font-weight:700;">Accepted</span>
-            </div>
-            <div style="flex:1;height:2px;background:rgba(16,185,129,0.6);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:#10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 0 0 2px rgba(16,185,129,0.3);">✓</div>
               <span style="font-size:9px;color:#6ee7b7;font-weight:700;">Pickup</span>
             </div>
-            <div style="flex:1;height:2px;background:rgba(16,185,129,0.5);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:var(--bg-card);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;box-shadow:0 0 0 2px rgba(255,255,255,0.25);animation:activePulse 2s infinite;">🏍️</div>
-              <span style="font-size:9px;color:white;font-weight:700;">Deliver ←</span>
-            </div>
-            <div style="flex:1;height:2px;background:rgba(255,255,255,0.15);margin-bottom:14px;"></div>
-            <div style="display:flex;flex-direction:column;align-items:center;gap:5px;">
-              <div style="width:22px;height:22px;background:rgba(255,255,255,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:1.5px solid rgba(255,255,255,0.2);">🏁</div>
-              <span style="font-size:9px;color:rgba(255,255,255,0.35);font-weight:600;">Done</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Full Map — green accent -->
-        <div style="height:155px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);position:relative;overflow:hidden;flex-shrink:0;border-bottom:1px solid var(--gray-200);">
-          <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(16,185,129,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(16,185,129,0.08) 1px,transparent 1px);background-size:26px 26px;"></div>
-          <!-- Roads -->
-          <div style="position:absolute;height:5px;background:rgba(255,255,255,0.85);left:0;right:0;top:108px;"></div>
-          <div style="position:absolute;height:5px;background:rgba(255,255,255,0.85);left:0;right:0;top:168px;"></div>
-          <div style="position:absolute;width:5px;background:rgba(255,255,255,0.85);top:0;bottom:0;left:108px;"></div>
-          <div style="position:absolute;width:5px;background:rgba(255,255,255,0.85);top:0;bottom:0;left:250px;"></div>
-          <!-- Route dashed green -->
-          <div style="position:absolute;top:101px;left:92px;width:148px;height:2px;background:repeating-linear-gradient(90deg,#10b981 0,#10b981 8px,transparent 8px,transparent 14px);opacity:0.9;transform:rotate(-3deg);"></div>
-          <!-- You carrying package -->
-          <div style="position:absolute;left:100px;top:68px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
-            <div style="width:40px;height:40px;background:linear-gradient(135deg,#10b981,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;border:3px solid white;box-shadow:0 4px 16px rgba(16,185,129,0.5);animation:activePulse 2s infinite;">🏍️</div>
-            <div style="font-size:8px;font-weight:700;color:#065f46;background:var(--bg-card);padding:2px 6px;border-radius:4px;box-shadow:var(--shadow-sm);">You</div>
-          </div>
-          <!-- Drop point -->
-          <div style="position:absolute;right:50px;top:55px;transform:translateX(50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
-            <div style="width:40px;height:40px;background:linear-gradient(135deg,var(--blue-mid),var(--blue-dark));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;border:3px solid white;box-shadow:0 4px 16px rgba(37,99,235,0.4);">🏠</div>
-            <div style="font-size:8px;font-weight:700;color:var(--blue-dark);background:var(--bg-card);padding:2px 6px;border-radius:4px;box-shadow:var(--shadow-sm);">Drop</div>
-          </div>
-          <!-- Bottom bar -->
-          <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);padding:9px 16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(16,185,129,0.2);">
-            <div style="display:flex;align-items:center;gap:7px;">
-              <div style="width:7px;height:7px;background:#10b981;border-radius:50%;animation:activePulse 1.2s infinite;"></div>
-              <span style="font-size:12px;font-weight:700;color:var(--text-primary);">1.2 km to drop</span>
-            </div>
-            <span style="font-size:11px;color:var(--gray-400);">Dhanmondi 27</span>
-          </div>
-        </div>
-
-        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:14px 16px 90px;">
-
-          <!-- Delivery note -->
-          <div style="background:var(--bg-card);border-radius:16px;padding:14px;border:1px solid var(--border);box-shadow:var(--shadow-sm);margin-bottom:12px;">
-            <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Delivery Note</div>
-            <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:12px;">Drop at Gate 4, 3rd floor apartment. Ring the bell twice.</div>
-            <div style="height:1px;background:var(--bg-card);margin-bottom:12px;"></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <div style="width:34px;height:34px;background:var(--blue-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;">🧑</div>
-                <div>
-                  <div style="font-size:12px;font-weight:700;color:var(--text-primary);">Rafi Ahmed</div>
-                  <div style="font-size:10px;color:var(--gray-400);">⭐ 4.9 rating</div>
-                </div>
+            <div style="flex:1;height:2px;background:rgba(255,255,255,0.25);margin-bottom:14px;"></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:activePulse 2s infinite;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27,6.96 12,12.01 20.73,6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
               </div>
-              <button style="background:var(--blue-light);border:none;border-radius:10px;padding:8px 14px;color:var(--blue);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Call</button>
+              <span style="font-size:9px;color:white;font-weight:700;">Deliver</span>
+            </div>
+            <div style="flex:1;height:2px;background:rgba(255,255,255,0.12);margin-bottom:14px;"></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <div style="width:28px;height:28px;background:rgba(255,255,255,0.1);border-radius:50%;border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:12px;">🏁</div>
+              <span style="font-size:9px;color:rgba(255,255,255,0.3);font-weight:600;">Done</span>
             </div>
           </div>
-
-          <!-- Collect payment -->
-          <div style="background:linear-gradient(135deg,var(--blue-light),#e0f2fe);border:1.5px solid rgba(37,99,235,0.15);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <div>
-              <div style="font-size:10px;font-weight:700;color:var(--blue-dark);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;">Collect on Delivery</div>
-              <div style="font-size:11px;color:var(--blue-mid);">Cash from customer</div>
-            </div>
-            <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--blue-dark);">৳200</div>
-          </div>
-
-          <div style="text-align:center;font-size:12px;color:var(--red);cursor:pointer;font-weight:600;">⚠️ Report an Issue</div>
         </div>
 
-        <!-- CTA -->
-        <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px 28px;background:var(--bg-card);border-top:1px solid var(--border);z-index:10;">
+        <!-- Scroll content -->
+        <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 200px;">
 
-          <!-- 4-digit code input -->
-          <div style="margin-bottom:10px;">
-            <div style="font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;text-align:center;">🔐 কাস্টমারের কাছ থেকে কোড নিন</div>
-            <div style="display:flex;gap:8px;justify-content:center;margin-bottom:8px;">
-              <input id="r5-c1" type="number" maxlength="1" oninput="r5next(this,'r5-c2')" style="width:52px;height:56px;border:2px solid var(--gray-200);border-radius:12px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--text-primary);outline:none;transition:border 0.2s;" onfocus="this.style.border='2px solid var(--blue)'" onblur="this.style.border='2px solid var(--gray-200)'">
-              <input id="r5-c2" type="number" maxlength="1" oninput="r5next(this,'r5-c3')" style="width:52px;height:56px;border:2px solid var(--gray-200);border-radius:12px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--text-primary);outline:none;transition:border 0.2s;" onfocus="this.style.border='2px solid var(--blue)'" onblur="this.style.border='2px solid var(--gray-200)'">
-              <input id="r5-c3" type="number" maxlength="1" oninput="r5next(this,'r5-c4')" style="width:52px;height:56px;border:2px solid var(--gray-200);border-radius:12px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--text-primary);outline:none;transition:border 0.2s;" onfocus="this.style.border='2px solid var(--blue)'" onblur="this.style.border='2px solid var(--gray-200)'">
-              <input id="r5-c4" type="number" maxlength="1" oninput="r5next(this,null)" style="width:52px;height:56px;border:2px solid var(--gray-200);border-radius:12px;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--text-primary);outline:none;transition:border 0.2s;" onfocus="this.style.border='2px solid var(--blue)'" onblur="this.style.border='2px solid var(--gray-200)'">
+          <!-- Map card -->
+          <div style="background:white;border-radius:18px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);margin-bottom:12px;">
+            <div style="height:140px;background:linear-gradient(135deg,#f5f3ff,#ede9fe);position:relative;overflow:hidden;">
+              <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.07) 1px,transparent 1px);background-size:26px 26px;"></div>
+              <div style="position:absolute;height:5px;background:rgba(255,255,255,0.8);left:0;right:0;top:100px;"></div>
+              <div style="position:absolute;width:5px;background:rgba(255,255,255,0.8);top:0;bottom:0;left:130px;"></div>
+              <div style="position:absolute;top:94px;left:65px;width:180px;height:2px;background:repeating-linear-gradient(90deg,#8b5cf6 0,#8b5cf6 8px,transparent 8px,transparent 14px);opacity:0.7;transform:rotate(-5deg);"></div>
+              <!-- You (rider) -->
+              <div style="position:absolute;left:75px;top:65px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
+                <div style="width:36px;height:36px;background:#8b5cf6;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 12px rgba(139,92,246,0.4);animation:activePulse 2s infinite;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>
+                </div>
+                <div style="font-size:8px;font-weight:700;color:#6d28d9;background:white;padding:2px 6px;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.1);">You</div>
+              </div>
+              <!-- Delivery pin -->
+              <div style="position:absolute;right:55px;top:52px;transform:translateX(50%);display:flex;flex-direction:column;align-items:center;gap:3px;">
+                <div style="width:36px;height:36px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid white;box-shadow:0 4px 12px rgba(245,158,11,0.4);">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div style="font-size:8px;font-weight:700;color:#b45309;background:white;padding:2px 6px;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,0.1);">Drop</div>
+              </div>
+              <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:white;border-radius:20px;padding:6px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.12);display:flex;align-items:center;gap:6px;white-space:nowrap;">
+                <div style="width:6px;height:6px;background:#8b5cf6;border-radius:50%;animation:activePulse 1.2s infinite;"></div>
+                <span style="font-size:11px;font-weight:700;color:#111827;">Delivery · ~10 min away</span>
+              </div>
             </div>
-            <div id="r5-err" style="text-align:center;font-size:11px;color:#ef4444;font-weight:600;min-height:16px;"></div>
           </div>
 
-          <button onclick="r5verify()" style="background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:'DM Sans',sans-serif;box-shadow:0 4px 20px rgba(16,185,129,0.4);">🎯 কোড যাচাই করে ডেলিভারি সম্পন্ন করুন</button>
+          <!-- Delivery address card -->
+          <div style="background:white;border-radius:18px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:12px;">
+            <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Delivery Address</div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:38px;height:38px;background:#fef3c7;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div id="delivery-addr-text" style="font-size:14px;font-weight:600;color:#111827;flex:1;">—</div>
+            </div>
+          </div>
+
+          <!-- Customer + fee card -->
+          <div style="background:white;border-radius:18px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+              <div style="width:42px;height:42px;background:#eff6ff;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🧑</div>
+              <div style="flex:1;">
+                <div id="delivery-customer-name" style="font-size:14px;font-weight:700;color:#111827;">—</div>
+                <div style="font-size:11px;color:#9ca3af;margin-top:1px;">Customer</div>
+              </div>
+              <button style="width:38px;height:38px;background:#eff6ff;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-5.99-5.99 19.79 19.79 0 01-3.07-8.63A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </button>
+            </div>
+            <!-- Collect on delivery -->
+            <div style="background:#f0fdf4;border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:10px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px;">Collect on Delivery</div>
+                <div style="font-size:11px;color:#6b7280;">Cash from customer</div>
+              </div>
+              <div id="delivery-fee-val" style="font-size:22px;font-weight:800;color:#10b981;font-family:'DM Sans',sans-serif;">৳—</div>
+            </div>
+          </div>
+
+          <div style="text-align:center;font-size:12px;color:#ef4444;cursor:pointer;font-weight:600;">⚠️ Report an Issue</div>
+        </div>
+
+        <!-- Bottom CTA — delivery code -->
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 16px 30px;background:white;border-top:1px solid #f0f0f0;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
+          <div style="font-size:10px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;text-align:center;">Enter delivery code from customer</div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px;">
+            <input id="r5-c1" type="number" maxlength="1" oninput="r5next(this,'r5-c2')" style="width:52px;height:56px;border:2px solid #e5e7eb;border-radius:12px;text-align:center;font-family:'DM Sans',sans-serif;font-size:24px;font-weight:800;color:#111827;outline:none;" onfocus="this.style.borderColor='#111827'" onblur="this.style.borderColor='#e5e7eb'">
+            <input id="r5-c2" type="number" maxlength="1" oninput="r5next(this,'r5-c3')" style="width:52px;height:56px;border:2px solid #e5e7eb;border-radius:12px;text-align:center;font-family:'DM Sans',sans-serif;font-size:24px;font-weight:800;color:#111827;outline:none;" onfocus="this.style.borderColor='#111827'" onblur="this.style.borderColor='#e5e7eb'">
+            <input id="r5-c3" type="number" maxlength="1" oninput="r5next(this,'r5-c4')" style="width:52px;height:56px;border:2px solid #e5e7eb;border-radius:12px;text-align:center;font-family:'DM Sans',sans-serif;font-size:24px;font-weight:800;color:#111827;outline:none;" onfocus="this.style.borderColor='#111827'" onblur="this.style.borderColor='#e5e7eb'">
+            <input id="r5-c4" type="number" maxlength="1" oninput="r5next(this,null)" style="width:52px;height:56px;border:2px solid #e5e7eb;border-radius:12px;text-align:center;font-family:'DM Sans',sans-serif;font-size:24px;font-weight:800;color:#111827;outline:none;" onfocus="this.style.borderColor='#111827'" onblur="this.style.borderColor='#e5e7eb'">
+          </div>
+          <div id="r5-err" style="text-align:center;font-size:11px;color:#ef4444;font-weight:600;min-height:16px;margin-bottom:8px;"></div>
+          <button onclick="r5verify()" style="width:100%;padding:16px;background:#111827;border:none;border-radius:14px;color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">Confirm Delivery</button>
         </div>
 
         <script>
           function r5next(el, nextId) {
-            // Keep only last digit
             if (el.value.length > 1) el.value = el.value.slice(-1);
             if (el.value && nextId) document.getElementById(nextId).focus();
           }
@@ -3910,38 +3977,36 @@
               return document.getElementById(id).value;
             }).join('');
             if (entered.length < 4) {
-              document.getElementById('r5-err').textContent = '৪ ডিজিটের কোডটি সম্পূর্ণ দিন';
+              document.getElementById('r5-err').textContent = 'Please enter the 4-digit code';
               return;
             }
             if (!selectedTaskId) {
-              document.getElementById('r5-err').textContent = 'Task ID পাওয়া যাচ্ছে না';
+              document.getElementById('r5-err').textContent = 'Task ID not found';
               return;
             }
             db.collection('tasks').doc(selectedTaskId).get().then(function(doc) {
-              if (!doc.exists) { document.getElementById('r5-err').textContent = 'Task পাওয়া যায়নি'; return; }
+              if (!doc.exists) { document.getElementById('r5-err').textContent = 'Task not found'; return; }
               var actual = doc.data().deliveryCode ? doc.data().deliveryCode.toString() : '';
               if (entered === actual) {
                 document.getElementById('r5-err').textContent = '';
                 ['r5-c1','r5-c2','r5-c3','r5-c4'].forEach(function(id){
                   var el = document.getElementById(id);
-                  el.style.border = '2px solid #10b981';
+                  el.style.borderColor = '#10b981';
                   el.style.background = '#f0fdf4';
                 });
                 setTimeout(function(){ riderCompleteTask(); }, 500);
               } else {
-                document.getElementById('r5-err').textContent = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> কোড ভুল হয়েছে, আবার চেষ্টা করুন';
+                document.getElementById('r5-err').textContent = 'Wrong code, please try again';
                 ['r5-c1','r5-c2','r5-c3','r5-c4'].forEach(function(id){
-                  var el = document.getElementById(id);
-                  el.style.border = '2px solid #ef4444';
+                  document.getElementById(id).style.borderColor = '#ef4444';
                 });
               }
             }).catch(function(err) {
-              document.getElementById('r5-err').textContent = 'সমস্যা হয়েছে: ' + err.message;
+              document.getElementById('r5-err').textContent = 'Error: ' + err.message;
             });
           }
         </script>
       </div>
-
             <!-- =========================================
            R6 · TASK COMPLETED (RIDER)
            ========================================= -->
@@ -3949,7 +4014,7 @@
         <div style="background:#111827;padding:56px 24px 32px;border-radius:0 0 36px 36px;text-align:center;flex-shrink:0;">
           <div style="width:88px;height:88px;background:rgba(255,255,255,0.15);border:3px solid rgba(255,255,255,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;margin:0 auto 14px;animation:successPop 0.5s cubic-bezier(0.34,1.56,0.64,1);">🎉</div>
           <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:white;">Task Delivered!</div>
-          <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:5px;">Great job Mahmud! Payment received.</div>
+          <div style="color:rgba(255,255,255,0.7);font-size:13px;margin-top:5px;">Great job! Payment received.</div>
         </div>
 
         <div style="flex:1;overflow-y:auto;padding:20px 18px 30px;scrollbar-width:none;">
@@ -4262,28 +4327,66 @@
             <!-- =========================================
            R8 · TASK HISTORY
            ========================================= -->
-      <div class="screen" id="screen-r-history" style="background:#f2f2f7;" style="background:#f2f2f7;">
-        <div class="status-bar"><span>10:41</span><div>📶 🔋</div></div>
-        <div class="top-nav">
-          <button class="nav-btn" onclick="nav('r-home',null)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg></button>
-          <div class="nav-title">📋 Task History</div>
-          <div style="font-size:12px;color:var(--blue);font-weight:700;cursor:pointer;">Filter</div>
+      <div class="screen" id="screen-r-history" style="background:#f2f2f7;flex-direction:column;overflow:hidden;">
+
+        <!-- Dark header — same as rider home -->
+        <div style="background:#111827;padding:20px 20px 0;flex-shrink:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:22px;font-weight:800;color:white;">Task History</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.4);">Rider</div>
+          </div>
+          <div style="display:flex;">
+            <div class="rh-tab" id="rh-all" onclick="switchRH('all')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:700;color:white;border-bottom:2px solid white;cursor:pointer;">All</div>
+            <div class="rh-tab" id="rh-done" onclick="switchRH('done')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);border-bottom:2px solid transparent;cursor:pointer;">Completed</div>
+            <div class="rh-tab" id="rh-cancelled" onclick="switchRH('cancelled')" style="flex:1;text-align:center;padding:10px 0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);border-bottom:2px solid transparent;cursor:pointer;">Cancelled</div>
+          </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="tab-bar">
-          <div class="tab-item active" id="rh-all" onclick="switchRH('all')">All</div>
-          <div class="tab-item" id="rh-done" onclick="switchRH('done')">Completed</div>
-          <div class="tab-item" id="rh-cancelled" onclick="switchRH('cancelled')">Cancelled</div>
-  
+        <!-- Content -->
+        <div style="flex:1;overflow-y:auto;padding:16px 16px 90px;scrollbar-width:none;">
+          <div id="rhc-all">
+            <div id="rider-all-list">
+              <div style="text-align:center;padding:60px 20px;">
+                <div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">No tasks yet</div>
+                <div style="font-size:12px;color:#9ca3af;">Your task history will appear here</div>
+              </div>
+            </div>
+          </div>
+          <div id="rhc-done" style="display:none;">
+            <div id="rider-done-list">
+              <div style="text-align:center;padding:60px 20px;">
+                <div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
+                </div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">No completed tasks</div>
+                <div style="font-size:12px;color:#9ca3af;">Completed tasks will appear here</div>
+              </div>
+            </div>
+          </div>
+          <div id="rhc-cancelled" style="display:none;">
+            <div id="rider-cancelled-list">
+              <div style="text-align:center;padding:60px 20px;">
+                <div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </div>
+                <div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:6px;">No cancelled tasks</div>
+                <div style="font-size:12px;color:#9ca3af;">Cancelled tasks will appear here</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <!-- Bottom Nav — same white style as rider home -->
         <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-top:1px solid #f0f0f0;display:flex;justify-content:space-around;align-items:center;padding:10px 0 26px;z-index:10;box-shadow:0 -4px 20px rgba(0,0,0,0.06);">
           <div onclick="nav('r-home',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
             <div style="font-size:10px;font-weight:600;color:#9ca3af;">Home</div>
           </div>
           <div onclick="nav('r-history',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             <div style="font-size:10px;font-weight:700;color:#111827;">History</div>
           </div>
           <div onclick="nav('r-earnings',null)" style="display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
@@ -4294,40 +4397,21 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <div style="font-size:10px;font-weight:600;color:#9ca3af;">Profile</div>
           </div>
-        </div>      </div>
+        </div>
 
-        <div style="flex:1;overflow-y:auto;padding:14px 0 90px;scrollbar-width:none;">
-          <div id="rhc-all">
-            <div id="rider-all-list" style="padding:14px 14px 0;">
-              <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
-                <div style="font-size:40px;margin-bottom:12px;">📋</div>
-                <div style="font-weight:600;">কোনো টাস্ক নেই</div>
-              </div>
-            </div>
-          </div>
-          <div id="rhc-done" style="display:none;">
-            <div id="rider-done-list" style="padding:14px 14px 0;">
-              <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
-                <div style="font-size:40px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg></div>
-                <div style="font-weight:600;">কোনো সম্পন্ন টাস্ক নেই</div>
-              </div>
-            </div>
-          </div>
-          <div id="rhc-cancelled" style="display:none;">
-            <div id="rider-cancelled-list" style="padding:14px 14px 0;">
-              <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
-                <div style="font-size:40px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-                <div style="font-weight:600;">কোনো বাতিল টাস্ক নেই</div>
-              </div>
-            </div>
-          </div>
-        </div>
-</div>
-        </div></div>
-<div style="font-size:9px;font-weight:700;color:var(--blue);">History</div><div class="bnav-dot"></div></div>
-<div>Earnings</div><div class="bnav-dot"></div></div>
-<div>Profile</div><div class="bnav-dot"></div></div>
-        </div>
+        <script>
+          function switchRH(tab) {
+            ['all','done','cancelled'].forEach(function(t) {
+              var c = document.getElementById('rhc-'+t);
+              var el = document.getElementById('rh-'+t);
+              if (!c || !el) return;
+              c.style.display = t===tab ? 'block' : 'none';
+              if (t===tab) { el.style.color='white'; el.style.fontWeight='700'; el.style.borderBottom='2px solid white'; }
+              else { el.style.color='rgba(255,255,255,0.4)'; el.style.fontWeight='600'; el.style.borderBottom='2px solid transparent'; }
+            });
+          }
+        </script>
+
       </div>
 
       <!-- =========================================
@@ -4343,8 +4427,8 @@
             <div style="width:80px;height:80px;background:rgba(255,255,255,0.15);border:3px solid rgba(255,255,255,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto;">🏍️</div>
             <button style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--bg-card);border-radius:50%;border:none;cursor:pointer;font-size:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>️</button>
           </div>
-          <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;">Mahmud Hasan</div>
-          <div style="color:rgba(255,255,255,0.65);font-size:13px;margin-top:3px;">+880 1798 765432</div>
+          <div class="r-profile-name" style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:white;">Rider</div>
+          <div class="r-profile-phone" style="color:rgba(255,255,255,0.65);font-size:13px;margin-top:3px;">—</div>
           <!-- Rider Badge -->
           <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 14px;margin-top:10px;font-size:12px;color:white;font-weight:700;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg> Verified Rider</div>
           <div style="display:flex;gap:8px;justify-content:center;margin-top:14px;">
@@ -4631,13 +4715,17 @@
     const lbl = document.getElementById('online-label');
     const isOn = tog.style.background === 'rgb(16, 185, 129)' || tog.style.background === '#10b981';
     if (isOn) {
-      tog.style.background = '#94a3b8';
+      tog.style.background = '#d1d5db';
       tog.querySelector('div').style.transform = 'translateX(0px)';
-      lbl.textContent = '🔴 You\'re Offline';
+      lbl.textContent = "You're Offline";
+      lbl.style.color = '#9ca3af';
+      wrap.style.background = '#fafafa';
     } else {
       tog.style.background = '#10b981';
-      tog.querySelector('div').style.transform = 'translateX(24px)';
-      lbl.textContent = '🟢 You\'re Online';
+      tog.querySelector('div').style.transform = 'translateX(22px)';
+      lbl.textContent = "You're Online";
+      lbl.style.color = '#111827';
+      wrap.style.background = 'white';
     }
   }
 
@@ -4852,6 +4940,8 @@ function applyUserToUI(data) {
 
   // Customer home name
   document.querySelectorAll('.home-name').forEach(function(el){ el.textContent = name + '!'; });
+  var cNameEl = document.getElementById('c-name-display');
+  if (cNameEl) cNameEl.textContent = name + '!';
   // Ham panel
   var hamName = document.querySelector('.ham-name');
   if (hamName) hamName.textContent = name;
@@ -4862,7 +4952,10 @@ function applyUserToUI(data) {
   document.querySelectorAll('.acc-phone').forEach(function(el){ if(phone) el.textContent = '+880 ' + phone + ' · ⭐ 4.9'; });
   // Rider home greeting
   var riderGreetEl = document.getElementById('rider-greeting');
-  if (riderGreetEl) riderGreetEl.textContent = 'Hey ' + name + '! 🏍️';
+  if (riderGreetEl) riderGreetEl.textContent = 'Hey ' + name + '!';
+  // Rider profile name & phone
+  document.querySelectorAll('.r-profile-name').forEach(function(el){ el.textContent = name; });
+  document.querySelectorAll('.r-profile-phone').forEach(function(el){ if(phone) el.textContent = '+880 ' + phone; });
 }
 
 // ── GOOGLE LOGIN ──
@@ -5133,25 +5226,44 @@ function renderCustomerTaskList(containerId, tasks, badgeType) {
   var el = document.getElementById(containerId);
   if (!el) return;
   if (!tasks.length) {
-    var emojis = { running:'📋', done:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>', cancelled:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' };
-    var msgs   = { running:'কোনো চলমান টাস্ক নেই', done:'কোনো সম্পন্ন টাস্ক নেই', cancelled:'কোনো বাতিল টাস্ক নেই' };
-    el.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--gray-400);">'
-      + '<div style="font-size:40px;margin-bottom:12px;">' + (emojis[badgeType]||'📋') + '</div>'
-      + '<div style="font-weight:600;">' + (msgs[badgeType]||'কোনো টাস্ক নেই') + '</div></div>';
+    var svgIcons = {
+      running: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+      done:    '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>',
+      cancelled:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+    };
+    var msgs = { running:'No running tasks', done:'No completed tasks', cancelled:'No cancelled tasks' };
+    el.innerHTML = '<div style="text-align:center;padding:52px 20px;">'
+      + '<div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);">' + (svgIcons[badgeType]||svgIcons.running) + '</div>'
+      + '<div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:5px;">' + (msgs[badgeType]||'No tasks') + '</div>'
+      + '<div style="font-size:12px;color:#9ca3af;">Tasks will appear here</div></div>';
     return;
   }
-  var badgeLabels = { running:'Running', done:'Done', cancelled:'Cancelled' };
-  var badgeCls    = { running:'badge-running', done:'badge-done', cancelled:'badge-cancelled' };
+  var statusCfg = {
+    open:      { bar:'#3b82f6', badge:'Looking for rider', badgeBg:'#eff6ff', badgeColor:'#1d4ed8', dot:true  },
+    assigned:  { bar:'#f59e0b', badge:'Rider assigned',    badgeBg:'#fffbeb', badgeColor:'#b45309', dot:true  },
+    picked_up: { bar:'#8b5cf6', badge:'On the way',        badgeBg:'#f5f3ff', badgeColor:'#6d28d9', dot:true  },
+    completed: { bar:'#10b981', badge:'Completed',          badgeBg:'#f0fdf4', badgeColor:'#065f46', dot:false },
+    cancelled: { bar:'#e5e7eb', badge:'Cancelled',          badgeBg:'#f9fafb', badgeColor:'#6b7280', dot:false }
+  };
   el.innerHTML = tasks.map(function(t) {
-    return '<div class="task-card" style="margin:0 0 10px;cursor:pointer;" onclick="customerOpenTask(\'' + t.id + '\',\'' + t.status + '\')">'
-      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">'
-      + '<div><div class="tc-title">' + escHtml(t.title) + '</div>'
-      + '<div class="tc-meta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
-      + '<div class="status-badge ' + (badgeCls[badgeType]||'') + '">' + (badgeLabels[badgeType]||'') + '</div>'
+    var cfg = statusCfg[t.status] || statusCfg.open;
+    return '<div onclick="customerOpenTask(\'' + t.id + '\',\'' + t.status + '\')" style="background:white;border-radius:16px;margin-bottom:10px;cursor:pointer;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);display:flex;">'
+      + '<div style="width:4px;background:' + cfg.bar + ';flex-shrink:0;"></div>'
+      + '<div style="flex:1;padding:14px 14px 14px 12px;">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">'
+      + '<div style="font-size:15px;font-weight:700;color:#111827;line-height:1.3;flex:1;">' + escHtml(t.title) + '</div>'
+      + '<div style="background:' + cfg.badgeBg + ';color:' + cfg.badgeColor + ';font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;">' + cfg.badge + '</div>'
       + '</div>'
-      + '<div class="tc-bottom"><div class="tc-fee">৳' + (t.fee||0) + '</div>'
-      + '<div style="font-size:11px;color:var(--gray-400);">' + statusLabel(t.status) + '</div></div>'
-      + '</div>';
+      + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:12px;">'
+      + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+      + '<div style="font-size:12px;color:#6b7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div>'
+      + '</div>'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;">'
+      + '<div style="font-size:20px;font-weight:800;color:#111827;font-family:\'DM Sans\',sans-serif;">৳' + (t.fee||0) + '</div>'
+      + (cfg.dot ? '<div style="display:flex;align-items:center;gap:5px;"><div style="width:7px;height:7px;background:' + cfg.bar + ';border-radius:50%;animation:actBlink 1.4s infinite;"></div><div style="font-size:11px;color:' + cfg.bar + ';font-weight:600;">' + statusLabel(t.status) + '</div></div>'
+                 : '<div style="font-size:11px;color:#9ca3af;">' + statusLabel(t.status) + '</div>')
+      + '</div>'
+      + '</div></div>';
   }).join('');
 }
 
@@ -5195,26 +5307,33 @@ function loadRiderFeed() {
       if (!feed) return;
 
       if (!tasks.length) {
-        feed.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--gray-400);">'
-          + '<div style="font-size:40px;margin-bottom:12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>'
-          + '<div style="font-weight:600;">কোনো টাস্ক নেই এখন</div>'
-          + '<div style="font-size:12px;margin-top:6px;">Online থাকুন, নতুন টাস্ক এলে দেখাবে</div></div>';
+        feed.innerHTML = '<div style="background:white;border-radius:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:10px;display:flex;">'
+          + '<div style="width:4px;background:#e5e7eb;flex-shrink:0;"></div>'
+          + '<div style="flex:1;padding:20px 14px 20px 12px;text-align:center;">'
+          + '<div style="width:48px;height:48px;background:#f2f2f7;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>'
+          + '<div style="font-size:14px;font-weight:700;color:#374151;margin-bottom:4px;">No tasks right now</div>'
+          + '<div style="font-size:12px;color:#9ca3af;">Stay online, new tasks will appear here</div>'
+          + '</div></div>';
         return;
       }
 
       feed.innerHTML = tasks.map(function(t) {
-        return '<div style="background:var(--bg-card);border-radius:18px;padding:16px;border:1px solid var(--border);'
-          + 'box-shadow:var(--shadow-sm);margin-bottom:10px;cursor:pointer;" '
-          + 'onclick="selectRiderTask(\'' + t.id + '\')">'
-          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">'
-          + '<div><div style="font-size:15px;font-weight:700;color:var(--text-primary);">📋 ' + escHtml(t.title) + '</div>'
-          + '<div style="font-size:11px;color:var(--gray-400);margin-top:3px;">'
-          + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
-          + '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:18px;font-weight:800;color:var(--blue-dark);">৳' + (t.fee||0) + '</div>'
+        var isNow = t.timing === 'now';
+        return '<div onclick="selectRiderTask(\'' + t.id + '\')" style="background:white;border-radius:16px;margin-bottom:10px;cursor:pointer;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);display:flex;">'
+          + '<div style="width:4px;background:#3b82f6;flex-shrink:0;"></div>'
+          + '<div style="flex:1;padding:14px 14px 14px 12px;">'
+          + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">'
+          + '<div style="font-size:15px;font-weight:700;color:#111827;line-height:1.3;flex:1;">' + escHtml(t.title) + '</div>'
+          + '<div style="font-size:19px;font-weight:800;color:#111827;font-family:\'DM Sans\',sans-serif;flex-shrink:0;">৳' + (t.fee||0) + '</div>'
+          + '</div>'
+          + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:12px;">'
+          + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+          + '<div style="font-size:12px;color:#6b7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div>'
           + '</div>'
           + '<div style="display:flex;gap:8px;">'
-          + '<div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">⚡ ' + (t.timing==='now'?'এখনই':'পরে') + '</div>'
-          + '<div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">🙋 ' + escHtml(t.customerName||'Customer') + '</div>'
+          + '<div style="background:' + (isNow?'#eff6ff':'#f5f3ff') + ';border-radius:20px;padding:4px 10px;font-size:11px;color:' + (isNow?'#1d4ed8':'#6d28d9') + ';font-weight:700;">' + (isNow?'⚡ Now':'🕒 Later') + '</div>'
+          + '<div style="background:#f0fdf4;border-radius:20px;padding:4px 10px;font-size:11px;color:#065f46;font-weight:700;">🙋 ' + escHtml(t.customerName||'Customer') + '</div>'
+          + '</div>'
           + '</div></div>';
       }).join('');
     }, function(err) {
@@ -5230,19 +5349,30 @@ function loadRiderFeed() {
           var feed = document.getElementById('rider-task-feed');
           if (!feed) return;
           if (!tasks.length) {
-            feed.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--gray-400);"><div style="font-size:40px;margin-bottom:12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div><div style="font-weight:600;">কোনো টাস্ক নেই এখন</div></div>';
+            feed.innerHTML = '<div style="text-align:center;padding:48px 20px;">'
+              + '<div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg></div>'
+              + '<div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:5px;">No tasks right now</div>'
+              + '<div style="font-size:12px;color:#9ca3af;">Stay online, new tasks will appear here</div></div>';
             return;
           }
           feed.innerHTML = tasks.map(function(t) {
-            return '<div style="background:var(--bg-card);border-radius:18px;padding:16px;border:1px solid var(--border);box-shadow:var(--shadow-sm);margin-bottom:10px;cursor:pointer;" onclick="selectRiderTask(\''+t.id+'\')">'
-              +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">'
-              +'<div><div style="font-size:15px;font-weight:700;color:var(--text-primary);">📋 '+escHtml(t.title)+'</div>'
-              +'<div style="font-size:11px;color:var(--gray-400);margin-top:3px;">'+escHtml(t.pickup)+' → '+escHtml(t.delivery)+'</div></div>'
-              +'<div style="font-family:\'Space Grotesk\',sans-serif;font-size:18px;font-weight:800;color:var(--blue-dark);">৳'+(t.fee||0)+'</div></div>'
-              +'<div style="display:flex;gap:8px;">'
-              +'<div style="background:var(--blue-light);border-radius:8px;padding:5px 10px;font-size:11px;color:var(--blue-dark);font-weight:600;">⚡ '+(t.timing==='now'?'এখনই':'পরে')+'</div>'
-              +'<div style="background:#d1fae5;border-radius:8px;padding:5px 10px;font-size:11px;color:#065f46;font-weight:600;">🙋 '+escHtml(t.customerName||'Customer')+'</div>'
-              +'</div></div>';
+            var isNow = t.timing === 'now';
+            return '<div onclick="selectRiderTask(\''+t.id+'\')" style="background:white;border-radius:16px;margin-bottom:10px;cursor:pointer;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);display:flex;">'
+              + '<div style="width:4px;background:#3b82f6;flex-shrink:0;"></div>'
+              + '<div style="flex:1;padding:14px 14px 14px 12px;">'
+              + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">'
+              + '<div style="font-size:15px;font-weight:700;color:#111827;line-height:1.3;flex:1;">'+escHtml(t.title)+'</div>'
+              + '<div style="font-size:19px;font-weight:800;color:#111827;font-family:\'DM Sans\',sans-serif;flex-shrink:0;">৳'+(t.fee||0)+'</div>'
+              + '</div>'
+              + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:12px;">'
+              + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+              + '<div style="font-size:12px;color:#6b7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+escHtml(t.pickup)+' → '+escHtml(t.delivery)+'</div>'
+              + '</div>'
+              + '<div style="display:flex;gap:8px;">'
+              + '<div style="background:'+(isNow?'#eff6ff':'#f5f3ff')+';border-radius:20px;padding:4px 10px;font-size:11px;color:'+(isNow?'#1d4ed8':'#6d28d9')+';font-weight:700;">'+(isNow?'⚡ Now':'🕒 Later')+'</div>'
+              + '<div style="background:#f0fdf4;border-radius:20px;padding:4px 10px;font-size:11px;color:#065f46;font-weight:700;">🙋 '+escHtml(t.customerName||'Customer')+'</div>'
+              + '</div>'
+              + '</div></div>';
           }).join('');
         });
     });
@@ -5295,6 +5425,44 @@ function selectRiderTask(taskId) {
     if (distEl) distEl.textContent = t.distance || '—';
     var custEl = document.getElementById('alert-customer-name');
     if (custEl) custEl.textContent = t.customerName || '—';
+
+    // Description
+    var descCard = document.getElementById('alert-desc-card');
+    var descText = document.getElementById('alert-desc-text');
+    if (descCard && descText) {
+      if (t.description) {
+        descText.textContent = t.description;
+        descCard.style.display = 'block';
+      } else {
+        descCard.style.display = 'none';
+      }
+    }
+
+    // Photo
+    var photoCard = document.getElementById('alert-photo-card');
+    var photoImg  = document.getElementById('alert-photo-img');
+    if (photoCard && photoImg) {
+      if (t.photoUrl) {
+        photoImg.src = t.photoUrl;
+        photoCard.style.display = 'block';
+      } else {
+        photoCard.style.display = 'none';
+      }
+    }
+
+    // Counter chips — offer price দিয়ে populate করি
+    var fee = t.fee || 200;
+    var chips = document.querySelectorAll('#counter-chips > div');
+    var vals = [fee, Math.round(fee * 1.25), Math.round(fee * 1.5)];
+    var labels = ['As-is', '+' + Math.round(fee*0.25) + ' extra', '+' + Math.round(fee*0.5) + ' extra'];
+    chips.forEach(function(c, i) {
+      if (i < 3) {
+        c.querySelectorAll('div')[0].textContent = '৳' + vals[i];
+        c.querySelectorAll('div')[1].textContent = labels[i];
+        c.setAttribute('onclick', 'setCounter(this,' + vals[i] + ')');
+      }
+    });
+
     nav('r-alert', null);
   });
 }
@@ -5338,22 +5506,41 @@ function renderRiderTaskList(containerId, tasks, isCancelled) {
   var el = document.getElementById(containerId);
   if (!el) return;
   if (!tasks.length) {
-    el.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--gray-400);">'
-      + '<div style="font-size:40px;margin-bottom:12px;">' + (isCancelled ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' : '📋') + '</div>'
-      + '<div style="font-weight:600;">কোনো টাস্ক নেই</div></div>';
+    var icon = isCancelled
+      ? '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+      : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>';
+    el.innerHTML = '<div style="text-align:center;padding:52px 20px;">'
+      + '<div style="width:64px;height:64px;background:white;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 2px 8px rgba(0,0,0,0.07);">' + icon + '</div>'
+      + '<div style="font-size:15px;font-weight:700;color:#374151;margin-bottom:5px;">No tasks yet</div>'
+      + '<div style="font-size:12px;color:#9ca3af;">Tasks will appear here</div></div>';
     return;
   }
+  var statusCfg = {
+    assigned:  { bar:'#f59e0b', badge:'In Progress', badgeBg:'#fffbeb', badgeColor:'#b45309', dot:true,  feeColor:'#111827' },
+    picked_up: { bar:'#8b5cf6', badge:'On the way',  badgeBg:'#f5f3ff', badgeColor:'#6d28d9', dot:true,  feeColor:'#111827' },
+    completed: { bar:'#10b981', badge:'Completed',    badgeBg:'#f0fdf4', badgeColor:'#065f46', dot:false, feeColor:'#10b981' },
+    cancelled: { bar:'#e5e7eb', badge:'Cancelled',    badgeBg:'#f9fafb', badgeColor:'#6b7280', dot:false, feeColor:'#9ca3af' }
+  };
   el.innerHTML = tasks.map(function(t) {
-    var isActive = ['assigned','picked_up'].includes(t.status);
-    var badgeCls = isActive ? 'badge-running' : (t.status==='completed' ? 'badge-done' : 'badge-cancelled');
-    var badgeTxt = isActive ? 'চলছে' : (t.status==='completed' ? 'Done' : 'Cancelled');
-    var fee = t.status==='cancelled' ? '<span style="color:var(--gray-400);">৳0</span>' : '<span style="color:var(--green);">+৳'+t.fee+'</span>';
-    return '<div class="task-card" style="margin:0 0 10px;cursor:pointer;" onclick="riderOpenTask(\'' + t.id + '\',\'' + t.status + '\')">'
-      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">'
-      + '<div><div class="tc-title">📋 ' + escHtml(t.title) + '</div>'
-      + '<div class="tc-meta"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div></div>'
-      + '<div class="status-badge ' + badgeCls + '">' + badgeTxt + '</div></div>'
-      + '<div class="tc-bottom">' + fee + '</div></div>';
+    var cfg = statusCfg[t.status] || statusCfg.completed;
+    var fee = t.status === 'cancelled' ? '৳0' : '+৳' + (t.fee||0);
+    return '<div onclick="riderOpenTask(\'' + t.id + '\',\'' + t.status + '\')" style="background:white;border-radius:16px;margin-bottom:10px;cursor:pointer;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.06);display:flex;">'
+      + '<div style="width:4px;background:' + cfg.bar + ';flex-shrink:0;"></div>'
+      + '<div style="flex:1;padding:14px 14px 14px 12px;">'
+      + '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">'
+      + '<div style="font-size:15px;font-weight:700;color:#111827;line-height:1.3;flex:1;">' + escHtml(t.title) + '</div>'
+      + '<div style="background:' + cfg.badgeBg + ';color:' + cfg.badgeColor + ';font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;">' + cfg.badge + '</div>'
+      + '</div>'
+      + '<div style="display:flex;align-items:center;gap:5px;margin-bottom:12px;">'
+      + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+      + '<div style="font-size:12px;color:#6b7280;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + escHtml(t.pickup) + ' → ' + escHtml(t.delivery) + '</div>'
+      + '</div>'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;">'
+      + '<div style="font-size:20px;font-weight:800;color:' + cfg.feeColor + ';font-family:\'DM Sans\',sans-serif;">' + fee + '</div>'
+      + (cfg.dot ? '<div style="display:flex;align-items:center;gap:5px;"><div style="width:7px;height:7px;background:' + cfg.bar + ';border-radius:50%;animation:actBlink 1.4s infinite;"></div><div style="font-size:11px;color:' + cfg.bar + ';font-weight:600;">' + statusLabel(t.status) + '</div></div>'
+                 : '<div style="font-size:11px;color:#9ca3af;">' + (t.customerName||'') + '</div>')
+      + '</div>'
+      + '</div></div>';
   }).join('');
 }
 
@@ -5369,49 +5556,106 @@ function customerOpenTask(taskId, status) {
   // cancelled হলে কিছু করে না
 }
 
+// ── Accepted screen data populate helper ──
+function populateAcceptedScreen(t) {
+  var lbl = document.getElementById('accepted-customer-label');
+  if (lbl) lbl.textContent = 'Head to pickup · ' + (t.customerName||'Customer') + ' is waiting';
+  var titleEl = document.getElementById('accepted-task-title');
+  if (titleEl) titleEl.textContent = t.title || '—';
+  var descEl = document.getElementById('accepted-task-desc');
+  if (descEl) {
+    if (t.description) { descEl.textContent = t.description; descEl.style.display = 'block'; }
+    else { descEl.style.display = 'none'; }
+  }
+  var custEl = document.getElementById('accepted-customer-name');
+  if (custEl) custEl.textContent = t.customerName || '—';
+  var pickupEl = document.getElementById('accepted-pickup-addr');
+  if (pickupEl) pickupEl.textContent = t.pickup || '—';
+  var deliveryEl = document.getElementById('accepted-delivery-addr');
+  if (deliveryEl) deliveryEl.textContent = t.delivery || '—';
+  var feeEl = document.getElementById('accepted-fee-val');
+  if (feeEl) feeEl.textContent = '৳' + (t.fee || '—');
+}
+
 // ── Rider: History card click ──
 function riderOpenTask(taskId, status) {
   selectedTaskId = taskId;
   if (status === 'assigned') {
+    db.collection('tasks').doc(taskId).get().then(function(doc) {
+      if (doc.exists) populateAcceptedScreen(doc.data());
+    });
     nav('r-accepted', null);
   } else if (status === 'picked_up') {
-    nav('r-pickup', null);
+    db.collection('tasks').doc(taskId).get().then(function(doc) {
+      if (doc.exists) populateDeliveryScreen(doc.data());
+    });
+    nav('r-delivery', null);
   } else if (status === 'completed') {
     nav('r-done', null);
   }
-  // cancelled হলে কিছু করে না
 }
 
 // ── Accept এ screen update ──
 function riderAcceptTask() {
   var user = auth.currentUser;
   if (!user || !selectedTaskId) { nav('r-home', null); return; }
-
   var riderName = window._currentUserName || '';
 
-  db.collection('tasks').doc(selectedTaskId).update({
-    status    : 'assigned',
-    riderId   : user.uid,
-    riderName : riderName,
-    acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function() {
-    db.collection('tasks').doc(selectedTaskId).get().then(function(doc) {
-      if (doc.exists) {
-        var t = doc.data();
-        var lbl = document.getElementById('accepted-customer-label');
-        if (lbl) lbl.textContent = 'Head to pickup · ' + (t.customerName||'Customer') + ' is waiting';
+  // Active task check — একসাথে একটার বেশি নয়
+  db.collection('tasks')
+    .where('riderId', '==', user.uid)
+    .where('status', 'in', ['assigned', 'picked_up'])
+    .limit(1).get()
+    .then(function(snap) {
+      if (!snap.empty) {
+        alert('আপনার কাছে ইতোমধ্যে একটি active task আছে। আগে সেটি সম্পন্ন করুন।');
+        nav('r-home', null);
+        return;
       }
+      db.collection('tasks').doc(selectedTaskId).update({
+        status    : 'assigned',
+        riderId   : user.uid,
+        riderName : riderName,
+        acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(function() {
+        db.collection('tasks').doc(selectedTaskId).get().then(function(doc) {
+          if (doc.exists) populateAcceptedScreen(doc.data());
+        });
+        nav('r-accepted', null);
+      }).catch(function(err) {
+        alert('সমস্যা হয়েছে: ' + err.message);
+      });
+    }).catch(function() {
+      // Firestore query fail হলেও accept করতে দাও
+      db.collection('tasks').doc(selectedTaskId).update({
+        status    : 'assigned',
+        riderId   : user.uid,
+        riderName : riderName,
+        acceptedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(function() {
+        db.collection('tasks').doc(selectedTaskId).get().then(function(doc) {
+          if (doc.exists) populateAcceptedScreen(doc.data());
+        });
+        nav('r-accepted', null);
+      }).catch(function(err) {
+        alert('সমস্যা হয়েছে: ' + err.message);
+      });
     });
-    nav('r-accepted', null);
-  }).catch(function(err) {
-    alert('সমস্যা হয়েছে: ' + err.message);
-  });
 }
 
 // ── Start Navigation (assigned → picked_up pending) ──
 function riderStartNavigation() {
-  // শুধু screen navigation — Firestore এখনো assigned
-  nav('r-pickup', null);
+  nav('r-delivery', null);
+}
+
+// ── Delivery screen populate helper ──
+function populateDeliveryScreen(t) {
+  var addrEl = document.getElementById('delivery-addr-text');
+  if (addrEl) addrEl.textContent = t.delivery || '—';
+  var nameEl = document.getElementById('delivery-customer-name');
+  if (nameEl) nameEl.textContent = t.customerName || '—';
+  var feeEl = document.getElementById('delivery-fee-val');
+  if (feeEl) feeEl.textContent = '৳' + (t.fee || '—');
 }
 
 // ── Picked Up ──
@@ -5422,6 +5666,9 @@ function riderPickedUp() {
     status   : 'picked_up',
     pickedAt : firebase.firestore.FieldValue.serverTimestamp()
   }).then(function() {
+    db.collection('tasks').doc(selectedTaskId).get().then(function(doc) {
+      if (doc.exists) populateDeliveryScreen(doc.data());
+    });
     nav('r-delivery', null);
   }).catch(function(err) {
     alert('সমস্যা হয়েছে: ' + err.message);

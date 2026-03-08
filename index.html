@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tasko – App Prototype (Blue)</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Mapbox GL JS -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
 <style>
   :root {
     /* Modo dark theme */
@@ -2092,13 +2095,10 @@
           <div style="font-size:12px;color:rgba(255,255,255,0.45);">Step 2 of 4 — Set your locations</div>
         </div>
 
-        <!-- Leaflet CSS -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+        <!-- MAPBOX MAP -->
+        <div id="tasko-map" style="width:100%;height:260px;flex-shrink:0;position:relative;"></div>
 
-        <!-- REAL MAP -->
-        <div id="tasko-map" style="width:100%;height:260px;flex-shrink:0;z-index:1;position:relative;"></div>
-
-        <!-- Active mode toggle -->
+        <!-- Mode toggle -->
         <div style="display:flex;gap:8px;padding:10px 16px 6px;flex-shrink:0;background:#f2f2f7;">
           <button id="mode-pickup-btn" onclick="setMapMode('pickup')"
             style="flex:1;padding:8px 10px;border-radius:12px;border:2px solid #10b981;background:#10b981;color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;">
@@ -2110,51 +2110,46 @@
           </button>
         </div>
 
-        <!-- Form cards -->
+        <!-- Form -->
         <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:8px 16px 110px;">
 
-          <!-- Pickup search -->
+          <!-- Pickup -->
           <div style="background:white;border-radius:18px;padding:12px 14px;margin-bottom:8px;border:2px solid #10b981;box-shadow:0 1px 6px rgba(16,185,129,0.1);">
             <div style="font-size:10px;font-weight:700;color:#10b981;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">📍 Pickup Point</div>
             <div style="display:flex;align-items:center;gap:8px;">
               <input id="pickup-input" type="text" placeholder="Search pickup location..."
                 style="flex:1;border:none;outline:none;font-size:13px;font-weight:600;color:#111827;font-family:'DM Sans',sans-serif;background:transparent;"
-                oninput="searchLocation(this.value,'pickup')" autocomplete="off">
-              <button onclick="useMyLocationForPickup()" title="Use my GPS location"
-                style="background:#f0fdf4;border:none;border-radius:10px;padding:7px;cursor:pointer;color:#10b981;flex-shrink:0;">
+                oninput="mbSearch(this.value,'pickup')" autocomplete="off">
+              <button onclick="useMyGPS()" style="background:#f0fdf4;border:none;border-radius:10px;padding:7px;cursor:pointer;color:#10b981;flex-shrink:0;">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
               </button>
             </div>
-            <div id="pickup-suggestions" style="display:none;margin-top:6px;border-top:1px solid #f3f4f6;padding-top:6px;"></div>
+            <div id="pickup-suggestions" style="display:none;margin-top:6px;border-top:1px solid #f3f4f6;padding-top:6px;max-height:130px;overflow-y:auto;"></div>
           </div>
 
-          <!-- Dashed connector -->
           <div style="padding:0 20px;margin:-2px 0;">
             <div style="border-left:2px dashed #d1d5db;height:14px;margin-left:5px;"></div>
           </div>
 
-          <!-- Delivery search -->
-          <div style="background:white;border-radius:18px;padding:12px 14px;margin-bottom:10px;border:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,0.05);" id="delivery-card">
+          <!-- Delivery -->
+          <div style="background:white;border-radius:18px;padding:12px 14px;margin-bottom:10px;border:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
             <div style="font-size:10px;font-weight:700;color:#ef4444;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">🎯 Delivery Point</div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <input id="delivery-input" type="text" placeholder="Search delivery location..."
-                style="flex:1;border:none;outline:none;font-size:13px;font-weight:600;color:#111827;font-family:'DM Sans',sans-serif;background:transparent;"
-                oninput="searchLocation(this.value,'delivery')" autocomplete="off">
-            </div>
-            <div id="delivery-suggestions" style="display:none;margin-top:6px;border-top:1px solid #f3f4f6;padding-top:6px;"></div>
+            <input id="delivery-input" type="text" placeholder="Search delivery location..."
+              style="width:100%;border:none;outline:none;font-size:13px;font-weight:600;color:#111827;font-family:'DM Sans',sans-serif;background:transparent;"
+              oninput="mbSearch(this.value,'delivery')" autocomplete="off">
+            <div id="delivery-suggestions" style="display:none;margin-top:6px;border-top:1px solid #f3f4f6;padding-top:6px;max-height:130px;overflow-y:auto;"></div>
           </div>
 
-          <!-- Distance card -->
+          <!-- Distance -->
           <div id="distance-card" style="background:white;border-radius:16px;padding:14px 16px;border:1.5px solid #e5e7eb;display:flex;gap:14px;align-items:center;">
-            <div style="width:40px;height:40px;background:#f0f0f0;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;" id="dist-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            <div id="dist-icon" style="width:40px;height:40px;background:#f0f0f0;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
             </div>
             <div style="flex:1;">
               <div id="dist-text" style="font-size:14px;font-weight:700;color:#111827;">দুটো location pin করুন</div>
-              <div id="eta-text" style="font-size:11px;color:#9ca3af;margin-top:2px;">ম্যাপে pin টেনে বা search করে সেট করুন</div>
+              <div id="eta-text" style="font-size:11px;color:#9ca3af;margin-top:2px;">ম্যাপে tap বা search করুন</div>
             </div>
           </div>
-
         </div>
 
         <!-- Footer -->
@@ -2165,203 +2160,169 @@
           </button>
         </div>
 
-        <!-- Leaflet JS -->
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
         (function(){
-          // ── State ──
-          var mapMode    = 'pickup'; // 'pickup' | 'delivery'
-          var pickupLatLng   = null;
-          var deliveryLatLng = null;
-          var taskMap    = null;
-          var pickupMarker   = null;
-          var deliveryMarker = null;
-          var routeLine  = null;
+          var MB_TOKEN = 'pk.eyJ1IjoidGpzZWxpbXJlamEiLCJhIjoiY21taGUwcmF3MGV6ZjJyb2lucTZyanB2cCJ9.pAs4yToXJg_dY4M1i51VNQ';
+          var mapMode = 'pickup';
+          var pLngLat = null, dLngLat = null;
+          var mbMap = null, pMarker = null, dMarker = null;
           var searchTimers = {};
 
-          // ── Custom pin icons ──
-          function makeIcon(color, label) {
-            return L.divIcon({
-              className: '',
-              html: '<div style="display:flex;flex-direction:column;align-items:center;">'
-                  + '<div style="background:' + color + ';color:white;font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.25);margin-bottom:2px;">' + label + '</div>'
-                  + '<svg width="26" height="26" viewBox="0 0 24 24" fill="' + color + '" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg>'
-                  + '</div>',
-              iconSize:   [60, 52],
-              iconAnchor: [30, 52],
-            });
+          // ── Haversine ──
+          function haversine(a, b) {
+            var R=6371, dLat=(b[1]-a[1])*Math.PI/180, dLon=(b[0]-a[0])*Math.PI/180;
+            var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a[1]*Math.PI/180)*Math.cos(b[1]*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+            return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
           }
 
-          // ── Init map (Dhaka center) ──
+          // ── Custom marker element ──
+          function makeMarkerEl(color, label) {
+            var el = document.createElement('div');
+            el.style.cssText = 'display:flex;flex-direction:column;align-items:center;cursor:pointer;';
+            el.innerHTML = '<div style="background:'+color+';color:white;font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.25);margin-bottom:2px;">'+label+'</div>'
+              + '<svg width="28" height="28" viewBox="0 0 24 24" fill="'+color+'" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg>';
+            return el;
+          }
+
+          // ── Init Mapbox ──
           function initMap() {
-            if (taskMap) return;
-            taskMap = L.map('tasko-map', { zoomControl: false }).setView([23.8103, 90.4125], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '© OSM', maxZoom: 19
-            }).addTo(taskMap);
+            if (mbMap) { mbMap.resize(); return; }
+            mapboxgl.accessToken = MB_TOKEN;
+            mbMap = new mapboxgl.Map({
+              container: 'tasko-map',
+              style: 'mapbox://styles/mapbox/streets-v12',
+              center: [90.4125, 23.8103],
+              zoom: 12
+            });
+            mbMap.addControl(new mapboxgl.NavigationControl({ showCompass:false }), 'bottom-right');
+            mbMap.addControl(new mapboxgl.GeolocateControl({ positionOptions:{enableHighAccuracy:true}, trackUserLocation:false }), 'bottom-right');
 
-            // Zoom control bottom-right
-            L.control.zoom({ position: 'bottomright' }).addTo(taskMap);
+            mbMap.on('load', function() {
+              // Route line source
+              mbMap.addSource('route', { type:'geojson', data:{ type:'Feature', geometry:{ type:'LineString', coordinates:[] }}});
+              mbMap.addLayer({ id:'route-line', type:'line', source:'route',
+                layout:{ 'line-join':'round', 'line-cap':'round' },
+                paint:{ 'line-color':'#3b82f6', 'line-width':3, 'line-dasharray':[2,2] }
+              });
+            });
 
-            // Click map to set pin
-            taskMap.on('click', function(e) {
-              if (mapMode === 'pickup') {
-                setPickupPin(e.latlng, null);
-              } else {
-                setDeliveryPin(e.latlng, null);
-              }
+            mbMap.on('click', function(e) {
+              var lngLat = [e.lngLat.lng, e.lngLat.lat];
+              if (mapMode === 'pickup') setPickupPin(lngLat, null);
+              else setDeliveryPin(lngLat, null);
             });
           }
 
-          // ── Set pickup pin ──
-          function setPickupPin(latlng, address) {
-            pickupLatLng = latlng;
-            if (pickupMarker) taskMap.removeLayer(pickupMarker);
-            pickupMarker = L.marker(latlng, { icon: makeIcon('#10b981','Pickup'), draggable: true }).addTo(taskMap);
-            pickupMarker.on('dragend', function(e) {
-              setPickupPin(e.target.getLatLng(), null);
-            });
+          function updateRoute() {
+            if (!mbMap || !pLngLat || !dLngLat) return;
+            if (!mbMap.getSource('route')) return;
+            mbMap.getSource('route').setData({ type:'Feature', geometry:{ type:'LineString', coordinates:[pLngLat, dLngLat] }});
+          }
+
+          function recalc() {
+            if (!pLngLat || !dLngLat) return;
+            var km  = haversine(pLngLat, dLngLat).toFixed(1);
+            var min = Math.max(1, Math.round(km * 4 + 3));
+            var fee = Math.round(km * 12 + 30);
+            document.getElementById('dist-text').textContent = km + ' km · আনুমানিক ৳' + fee;
+            document.getElementById('eta-text').textContent  = 'আনুমানিক ' + min + ' মিনিট';
+            document.getElementById('dist-text').style.color = '#10b981';
+            document.getElementById('dist-icon').style.background = '#f0fdf4';
+            document.getElementById('dist-icon').innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>';
+            window.taskPickup       = document.getElementById('pickup-input').value;
+            window.taskDelivery     = document.getElementById('delivery-input').value;
+            window.taskDistance     = km;
+            window.taskFee          = fee;
+            window.taskPickupCoords = [pLngLat[1], pLngLat[0]];
+            window.taskDropCoords   = [dLngLat[1], dLngLat[0]];
+            var btn = document.getElementById('post2-next-btn');
+            btn.disabled = false; btn.style.background='#111827'; btn.style.color='white'; btn.style.cursor='pointer';
+          }
+
+          // ── Reverse geocode via Mapbox ──
+          function reverseGeocode(lngLat, cb) {
+            fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/'+lngLat[0]+','+lngLat[1]+'.json?access_token='+MB_TOKEN+'&language=bn,en&limit=1')
+              .then(function(r){return r.json();})
+              .then(function(d){
+                var name = d.features && d.features[0] ? d.features[0].place_name : (lngLat[1].toFixed(4)+', '+lngLat[0].toFixed(4));
+                cb(name);
+              }).catch(function(){ cb(lngLat[1].toFixed(4)+', '+lngLat[0].toFixed(4)); });
+          }
+
+          function setPickupPin(lngLat, address) {
+            pLngLat = lngLat;
+            if (pMarker) pMarker.remove();
+            pMarker = new mapboxgl.Marker({ element: makeMarkerEl('#10b981','Pickup'), draggable:true, anchor:'bottom' })
+              .setLngLat(lngLat).addTo(mbMap);
+            pMarker.on('dragend', function(){ setPickupPin(pMarker.getLngLat().toArray(), null); });
             if (!address) {
-              reverseGeocode(latlng, function(addr) {
+              reverseGeocode(lngLat, function(addr){
                 document.getElementById('pickup-input').value = addr;
-                recalcDistance();
+                recalc(); updateRoute();
               });
-            } else {
-              document.getElementById('pickup-input').value = address;
-              recalcDistance();
-            }
-            drawRoute();
-            // switch mode to delivery after pickup set
+            } else { document.getElementById('pickup-input').value = address; recalc(); updateRoute(); }
             setTimeout(function(){ setMapMode('delivery'); }, 300);
           }
 
-          // ── Set delivery pin ──
-          function setDeliveryPin(latlng, address) {
-            deliveryLatLng = latlng;
-            if (deliveryMarker) taskMap.removeLayer(deliveryMarker);
-            deliveryMarker = L.marker(latlng, { icon: makeIcon('#ef4444','Delivery'), draggable: true }).addTo(taskMap);
-            deliveryMarker.on('dragend', function(e) {
-              setDeliveryPin(e.target.getLatLng(), null);
-            });
+          function setDeliveryPin(lngLat, address) {
+            dLngLat = lngLat;
+            if (dMarker) dMarker.remove();
+            dMarker = new mapboxgl.Marker({ element: makeMarkerEl('#ef4444','Delivery'), draggable:true, anchor:'bottom' })
+              .setLngLat(lngLat).addTo(mbMap);
+            dMarker.on('dragend', function(){ setDeliveryPin(dMarker.getLngLat().toArray(), null); });
             if (!address) {
-              reverseGeocode(latlng, function(addr) {
+              reverseGeocode(lngLat, function(addr){
                 document.getElementById('delivery-input').value = addr;
-                recalcDistance();
+                recalc(); updateRoute();
               });
-            } else {
-              document.getElementById('delivery-input').value = address;
-              recalcDistance();
-            }
-            drawRoute();
+            } else { document.getElementById('delivery-input').value = address; recalc(); updateRoute(); }
           }
 
-          // ── Draw straight line route ──
-          function drawRoute() {
-            if (!pickupLatLng || !deliveryLatLng) return;
-            if (routeLine) taskMap.removeLayer(routeLine);
-            routeLine = L.polyline([pickupLatLng, deliveryLatLng], {
-              color: '#3b82f6', weight: 3, dashArray: '8,6', opacity: 0.8
-            }).addTo(taskMap);
-            taskMap.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
-            recalcDistance();
-          }
-
-          // ── Haversine real distance ──
-          function haversine(a, b) {
-            var R = 6371;
-            var dLat = (b.lat - a.lat) * Math.PI / 180;
-            var dLon = (b.lng - a.lng) * Math.PI / 180;
-            var x = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                    Math.cos(a.lat * Math.PI/180) * Math.cos(b.lat * Math.PI/180) *
-                    Math.sin(dLon/2) * Math.sin(dLon/2);
-            return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
-          }
-
-          function recalcDistance() {
-            if (!pickupLatLng || !deliveryLatLng) return;
-            var km  = haversine(pickupLatLng, deliveryLatLng).toFixed(1);
-            var min = Math.round(km * 4 + 5); // ~15km/h city speed
-            var fee = Math.round(km * 12 + 30);
-            document.getElementById('dist-text').textContent = km + ' km দূরত্ব · আনুমানিক ৳' + fee;
-            document.getElementById('eta-text').textContent  = 'আনুমানিক ' + min + ' মিনিট · Dhaka city estimate';
-            document.getElementById('dist-text').style.color = '#10b981';
-            document.getElementById('dist-icon').style.background = '#f0fdf4';
-            document.getElementById('dist-icon').innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
-            // Save to global for post3/post4
-            window.taskPickup      = document.getElementById('pickup-input').value;
-            window.taskDelivery    = document.getElementById('delivery-input').value;
-            window.taskDistance    = km;
-            window.taskPickupCoords  = pickupLatLng  ? [pickupLatLng.lat,  pickupLatLng.lng]  : null;
-            window.taskDropCoords    = deliveryLatLng ? [deliveryLatLng.lat, deliveryLatLng.lng] : null;
-            window.taskFee      = fee;
-            // Enable next button
-            var btn = document.getElementById('post2-next-btn');
-            btn.disabled = false;
-            btn.style.background = '#111827';
-            btn.style.color = 'white';
-            btn.style.cursor = 'pointer';
-          }
-
-          // ── Reverse geocode via Nominatim ──
-          function reverseGeocode(latlng, cb) {
-            fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latlng.lat + '&lon=' + latlng.lng + '&accept-language=bn,en')
-              .then(function(r){ return r.json(); })
-              .then(function(d){
-                var addr = d.display_name ? d.display_name.split(',').slice(0,3).join(', ') : (latlng.lat.toFixed(4)+', '+latlng.lng.toFixed(4));
-                cb(addr);
-              }).catch(function(){
-                cb(latlng.lat.toFixed(4)+', '+latlng.lng.toFixed(4));
-              });
-          }
-
-          // ── Search via Nominatim ──
-          window.searchLocation = function(q, type) {
+          // ── Mapbox search ──
+          window.mbSearch = function(q, type) {
             clearTimeout(searchTimers[type]);
-            if (q.length < 3) { document.getElementById(type+'-suggestions').style.display='none'; return; }
+            var box = document.getElementById(type+'-suggestions');
+            if (q.length < 3) { box.style.display='none'; return; }
             searchTimers[type] = setTimeout(function(){
-              fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(q + ' Dhaka Bangladesh') + '&limit=5&accept-language=bn,en')
-                .then(function(r){ return r.json(); })
-                .then(function(results){
-                  var box = document.getElementById(type+'-suggestions');
-                  if (!results.length) { box.style.display='none'; return; }
-                  box.innerHTML = '';
-                  results.forEach(function(r){
-                    var name = r.display_name.split(',').slice(0,3).join(', ');
-                    var item = document.createElement('div');
-                    item.style.cssText = 'padding:8px 4px;font-size:12px;color:#374151;cursor:pointer;border-bottom:1px solid #f9fafb;line-height:1.4;';
-                    item.textContent = '📍 ' + name;
-                    item.onmouseover = function(){ this.style.background='#f0fdf4'; };
-                    item.onmouseout  = function(){ this.style.background='transparent'; };
-                    item.onclick = function(){
-                      var latlng = L.latLng(parseFloat(r.lat), parseFloat(r.lon));
-                      if (type === 'pickup') setPickupPin(latlng, name);
-                      else setDeliveryPin(latlng, name);
-                      taskMap.setView(latlng, 15);
-                      box.style.display = 'none';
+              fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/'+encodeURIComponent(q)+'.json?access_token='+MB_TOKEN+'&country=BD&language=bn,en&limit=5&proximity=90.4125,23.8103')
+                .then(function(r){return r.json();})
+                .then(function(d){
+                  box.innerHTML=''; if(!d.features||!d.features.length){box.style.display='none';return;}
+                  d.features.forEach(function(f){
+                    var item=document.createElement('div');
+                    item.style.cssText='padding:8px 4px;font-size:12px;color:#374151;cursor:pointer;border-bottom:1px solid #f9fafb;line-height:1.4;';
+                    item.textContent='📍 '+f.place_name;
+                    item.onmouseover=function(){this.style.background='#f0fdf4';};
+                    item.onmouseout=function(){this.style.background='transparent';};
+                    item.onclick=function(){
+                      var lngLat=f.center;
+                      if(type==='pickup') setPickupPin(lngLat, f.place_name);
+                      else setDeliveryPin(lngLat, f.place_name);
+                      mbMap.flyTo({center:lngLat,zoom:15});
+                      box.style.display='none';
                     };
                     box.appendChild(item);
                   });
-                  box.style.display = 'block';
+                  box.style.display='block';
                 });
-            }, 450);
+            }, 400);
           };
 
-          // ── GPS for pickup ──
-          window.useMyLocationForPickup = function() {
+          // ── GPS ──
+          window.useMyGPS = function() {
             if (!navigator.geolocation) { alert('GPS নেই'); return; }
-            navigator.geolocation.getCurrentPosition(function(pos) {
-              var latlng = L.latLng(pos.coords.latitude, pos.coords.longitude);
-              taskMap.setView(latlng, 15);
-              setPickupPin(latlng, null);
+            navigator.geolocation.getCurrentPosition(function(pos){
+              var lngLat = [pos.coords.longitude, pos.coords.latitude];
+              mbMap.flyTo({center:lngLat, zoom:15});
+              setPickupPin(lngLat, null);
             }, function(){ alert('Location permission দিন'); });
           };
 
           // ── Mode toggle ──
           window.setMapMode = function(mode) {
             mapMode = mode;
-            var pb = document.getElementById('mode-pickup-btn');
-            var db = document.getElementById('mode-delivery-btn');
-            if (mode === 'pickup') {
+            var pb=document.getElementById('mode-pickup-btn'), db=document.getElementById('mode-delivery-btn');
+            if (mode==='pickup') {
               pb.style.background='#10b981'; pb.style.borderColor='#10b981'; pb.style.color='white';
               db.style.background='white';   db.style.borderColor='#e5e7eb'; db.style.color='#6b7280';
             } else {
@@ -2370,39 +2331,28 @@
             }
           };
 
-          // ── Next button ──
+          // ── Next ──
           window.goToPost3 = function() {
-            if (!pickupLatLng || !deliveryLatLng) {
-              alert('দুটো location সেট করুন');
-              return;
-            }
+            if (!pLngLat || !dLngLat) { alert('দুটো location সেট করুন'); return; }
             nav('post3', null);
           };
 
-          // ── Init when screen becomes visible ──
+          // ── Nav hook ──
           var _origNav = window.nav;
           window.nav = function(screen, data) {
             _origNav(screen, data);
-            if (screen === 'post2') {
-              setTimeout(function(){
-                initMap();
-                if (taskMap) taskMap.invalidateSize();
-              }, 120);
-            }
+            if (screen === 'post2') { setTimeout(initMap, 150); }
           };
 
-          // Also init if already on post2
           document.addEventListener('DOMContentLoaded', function(){
-            if (document.getElementById('screen-post2').classList.contains('active')) {
-              setTimeout(initMap, 200);
-            }
+            if (document.getElementById('screen-post2').classList.contains('active')) setTimeout(initMap, 200);
           });
         })();
         </script>
 
       </div>
 
-      <!-- =========================================
+            <!-- =========================================
            S6 · POST – SCHEDULE
            ========================================= -->
       <div class="screen" id="screen-post3" style="background:#f2f2f7;overflow:hidden;">
@@ -2778,142 +2728,135 @@
 
       <div class="screen" id="screen-assigned" style="background:#f2f2f7;flex-direction:column;overflow:hidden;">
 
-        <!-- MAP — compact, professional -->
-        <!-- Leaflet CSS (reuse if already loaded) -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
-        <!-- LIVE TRACKING MAP -->
+        <!-- MAPBOX LIVE TRACKING MAP -->
         <div style="position:relative;flex-shrink:0;">
-          <div id="tracking-map" style="width:100%;height:240px;z-index:1;"></div>
+          <div id="tracking-map" style="width:100%;height:240px;"></div>
 
-          <!-- ETA pill overlay -->
-          <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(17,24,39,0.82);backdrop-filter:blur(10px);border-radius:20px;padding:7px 14px;display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:10;pointer-events:none;">
+          <!-- ETA pill -->
+          <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(17,24,39,0.82);backdrop-filter:blur(8px);border-radius:20px;padding:7px 16px;display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:10;pointer-events:none;">
             <div style="width:7px;height:7px;border-radius:50%;background:#10b981;animation:etaBlink 1.2s ease-in-out infinite;flex-shrink:0;"></div>
             <span id="eta-text" style="font-weight:700;font-size:11px;color:white;">রাইডার আসছে...</span>
           </div>
 
-          <!-- Back button -->
+          <!-- Back -->
           <button onclick="nav('activity',null)" style="position:absolute;top:10px;left:12px;z-index:10;background:white;border:none;border-radius:10px;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 6px rgba(0,0,0,0.15);">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
           </button>
         </div>
 
-        <!-- Leaflet JS -->
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script>
         (function(){
-          var tMap = null, riderMarker = null, pickupMarker = null, dropMarker = null;
-          var routeLine = null, riderSimInterval = null;
-          var riderLat = 23.8103, riderLng = 90.4050; // sim start
+          var MB_TOKEN = 'pk.eyJ1IjoidGpzZWxpbXJlamEiLCJhIjoiY21taGUwcmF3MGV6ZjJyb2lucTZyanB2cCJ9.pAs4yToXJg_dY4M1i51VNQ';
+          var tMap = null, riderMarker = null, riderLngLat = null;
+          var simInterval = null;
 
-          function makeRiderIcon(name) {
-            return L.divIcon({
-              className:'',
-              html: '<div style="display:flex;flex-direction:column;align-items:center;">'
-                  + '<div style="width:36px;height:36px;border-radius:50%;background:#2563eb;border:3px solid white;box-shadow:0 2px 12px rgba(37,99,235,0.45);display:flex;align-items:center;justify-content:center;">'
-                  + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>'
-                  + '</div>'
-                  + '<div style="font-size:9px;font-weight:700;color:#1d4ed8;background:white;padding:2px 7px;border-radius:6px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.12);white-space:nowrap;">' + (name||'Rider') + '</div>'
-                  + '</div>',
-              iconSize:[60,58], iconAnchor:[30,58]
-            });
+          function makeRiderEl(name) {
+            var el = document.createElement('div');
+            el.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+            el.innerHTML = '<div style="width:36px;height:36px;border-radius:50%;background:#2563eb;border:3px solid white;box-shadow:0 2px 12px rgba(37,99,235,0.5);display:flex;align-items:center;justify-content:center;">'
+              +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="M15 6h2l2 4.5"/><path d="M9 6h4l2 5H8"/><path d="M8 11.5L6 17.5"/></svg>'
+              +'</div>'
+              +'<div style="font-size:9px;font-weight:700;color:#1d4ed8;background:white;padding:2px 7px;border-radius:6px;margin-top:3px;box-shadow:0 1px 4px rgba(0,0,0,0.1);white-space:nowrap;">'+(name||'Rider')+'</div>';
+            return el;
           }
-          function makePinIcon(color, label) {
-            return L.divIcon({
-              className:'',
-              html: '<div style="display:flex;flex-direction:column;align-items:center;">'
-                  + '<div style="width:28px;height:28px;border-radius:50%;background:'+color+';border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;">'
-                  + '<div style="width:8px;height:8px;border-radius:50%;background:white;"></div></div>'
-                  + '<div style="font-size:8px;font-weight:700;color:#374151;background:white;padding:1px 6px;border-radius:5px;margin-top:2px;box-shadow:0 1px 3px rgba(0,0,0,0.1);">'+label+'</div>'
-                  + '</div>',
-              iconSize:[50,44], iconAnchor:[25,44]
-            });
+
+          function makePinEl(color, label) {
+            var el = document.createElement('div');
+            el.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
+            el.innerHTML = '<div style="background:'+color+';color:white;font-size:9px;font-weight:700;padding:3px 8px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);margin-bottom:2px;">'+label+'</div>'
+              +'<svg width="24" height="24" viewBox="0 0 24 24" fill="'+color+'" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="white"/></svg>';
+            return el;
           }
 
           function haversineKm(a, b) {
-            var R=6371, dLat=(b[0]-a[0])*Math.PI/180, dLon=(b[1]-a[1])*Math.PI/180;
-            var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a[0]*Math.PI/180)*Math.cos(b[0]*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+            var R=6371, dLat=(b[1]-a[1])*Math.PI/180, dLon=(b[0]-a[0])*Math.PI/180;
+            var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(a[1]*Math.PI/180)*Math.cos(b[1]*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
             return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
           }
 
-          function updateETA() {
-            if (!riderMarker || !pickupMarker) return;
-            var rp = riderMarker.getLatLng(), pp = pickupMarker.getLatLng();
-            var km = haversineKm([rp.lat,rp.lng],[pp.lat,pp.lng]);
-            var min = Math.max(1, Math.round(km / 0.25)); // ~15km/h
-            var el = document.getElementById('eta-text');
-            if (el) el.textContent = km < 0.08 ? '🟢 রাইডার পৌঁছে গেছে!' : '🛵 রাইডার ' + min + ' মিনিটে পৌঁছাবে · ' + km.toFixed(1) + ' km দূরে';
-          }
+          window.initTrackingMap = function(pCoords, dCoords, riderName) {
+            // pCoords/dCoords = [lat, lng]
+            var pLng = pCoords ? pCoords[1] : 90.3654;
+            var pLat = pCoords ? pCoords[0] : 23.8223;
+            var dLng = dCoords ? dCoords[1] : 90.3742;
+            var dLat = dCoords ? dCoords[0] : 23.7461;
 
-          // Simulate rider moving toward pickup
-          function startRiderSim(targetLat, targetLng) {
-            if (riderSimInterval) clearInterval(riderSimInterval);
-            riderSimInterval = setInterval(function(){
-              var dlat = (targetLat - riderLat) * 0.06;
-              var dlng = (targetLng - riderLng) * 0.06;
-              riderLat += dlat; riderLng += dlng;
-              if (riderMarker) {
-                riderMarker.setLatLng([riderLat, riderLng]);
-                updateETA();
+            // Rider starts ~400m away from pickup
+            riderLngLat = [pLng - 0.005, pLat + 0.004];
+
+            if (!tMap) {
+              mapboxgl.accessToken = MB_TOKEN;
+              tMap = new mapboxgl.Map({
+                container: 'tracking-map',
+                style: 'mapbox://styles/mapbox/streets-v12',
+                center: [(pLng+dLng)/2, (pLat+dLat)/2],
+                zoom: 13
+              });
+              tMap.addControl(new mapboxgl.NavigationControl({showCompass:false}), 'bottom-right');
+
+              tMap.on('load', function(){
+                // Route line
+                tMap.addSource('track-route', {type:'geojson', data:{type:'Feature',geometry:{type:'LineString',coordinates:[[pLng,pLat],[dLng,dLat]]}}});
+                tMap.addLayer({id:'track-route-line',type:'line',source:'track-route',
+                  layout:{'line-join':'round','line-cap':'round'},
+                  paint:{'line-color':'#3b82f6','line-width':3,'line-dasharray':[2,2],'line-opacity':0.7}
+                });
+
+                // Pickup & drop markers
+                new mapboxgl.Marker({element: makePinEl('#f59e0b','Pickup'), anchor:'bottom'}).setLngLat([pLng,pLat]).addTo(tMap);
+                new mapboxgl.Marker({element: makePinEl('#10b981','Drop'), anchor:'bottom'}).setLngLat([dLng,dLat]).addTo(tMap);
+
+                // Rider marker
+                riderMarker = new mapboxgl.Marker({element: makeRiderEl(riderName), anchor:'bottom'})
+                  .setLngLat(riderLngLat).addTo(tMap);
+
+                // Fit bounds
+                tMap.fitBounds([[Math.min(pLng,dLng,riderLngLat[0])-0.005, Math.min(pLat,dLat,riderLngLat[1])-0.005],
+                                [Math.max(pLng,dLng,riderLngLat[0])+0.005, Math.max(pLat,dLat,riderLngLat[1])+0.005]], {padding:50});
+
+                startRiderSim([pLng, pLat]);
+              });
+            } else {
+              tMap.resize();
+            }
+          };
+
+          function startRiderSim(targetLngLat) {
+            if (simInterval) clearInterval(simInterval);
+            simInterval = setInterval(function(){
+              var dlng = (targetLngLat[0] - riderLngLat[0]) * 0.07;
+              var dlat = (targetLngLat[1] - riderLngLat[1]) * 0.07;
+              riderLngLat = [riderLngLat[0]+dlng, riderLngLat[1]+dlat];
+              if (riderMarker) riderMarker.setLngLat(riderLngLat);
+              var km = haversineKm(riderLngLat, targetLngLat);
+              var eta = document.getElementById('eta-text');
+              if (km < 0.05) {
+                if(eta) eta.textContent = '🟢 রাইডার পৌঁছে গেছে!';
+                clearInterval(simInterval);
+              } else {
+                var min = Math.max(1, Math.round(km/0.25));
+                if(eta) eta.textContent = '🛵 ' + min + ' মিনিটে আসছে · ' + km.toFixed(2) + ' km দূরে';
               }
-              if (Math.abs(dlat) < 0.000005 && Math.abs(dlng) < 0.000005) clearInterval(riderSimInterval);
             }, 2000);
           }
 
-          window.initTrackingMap = function(pickupCoords, dropCoords, riderName) {
-            // Use saved coords from post2 if available, else fallback Dhaka locations
-            var pLat = pickupCoords ? pickupCoords[0] : 23.8223;
-            var pLng = pickupCoords ? pickupCoords[1] : 90.3654;
-            var dLat = dropCoords   ? dropCoords[0]   : 23.7461;
-            var dLng = dropCoords   ? dropCoords[1]   : 90.3742;
-
-            if (!tMap) {
-              tMap = L.map('tracking-map', { zoomControl:false, attributionControl:false })
-                      .setView([(pLat+dLat)/2, (pLng+dLng)/2], 13);
-              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19 }).addTo(tMap);
-              L.control.zoom({ position:'bottomright' }).addTo(tMap);
-            } else {
-              tMap.setView([(pLat+dLat)/2, (pLng+dLng)/2], 13);
-            }
-
-            // Clear old markers
-            [pickupMarker, dropMarker, riderMarker, routeLine].forEach(function(m){ if(m) tMap.removeLayer(m); });
-
-            // Pickup & drop pins
-            pickupMarker = L.marker([pLat, pLng], { icon: makePinIcon('#f59e0b','Pickup') }).addTo(tMap);
-            dropMarker   = L.marker([dLat, dLng], { icon: makePinIcon('#10b981','Drop')   }).addTo(tMap);
-
-            // Route line
-            routeLine = L.polyline([[pLat,pLng],[dLat,dLng]], { color:'#3b82f6', weight:3, dashArray:'8,6', opacity:0.6 }).addTo(tMap);
-
-            // Rider — start ~500m away from pickup
-            riderLat = pLat + 0.004; riderLng = pLng - 0.005;
-            riderMarker = L.marker([riderLat, riderLng], { icon: makeRiderIcon(riderName||'Rider') }).addTo(tMap);
-
-            tMap.fitBounds([[pLat,pLng],[dLat,dLng],[riderLat,riderLng]], { padding:[40,40] });
-
-            updateETA();
-            startRiderSim(pLat, pLng);
-            tMap.invalidateSize();
-          };
-
-          // Hook into nav — init map when assigned screen opens
+          // Nav hook
           var _origNav2 = window.nav;
           window.nav = function(screen, data) {
             _origNav2(screen, data);
             if (screen === 'assigned') {
               setTimeout(function(){
-                var pCoords = window.taskPickupCoords  || null;
-                var dCoords = window.taskDropCoords    || null;
-                var rName   = document.getElementById('active-rider-name-span') ? document.getElementById('active-rider-name-span').textContent : 'Rider';
-                initTrackingMap(pCoords, dCoords, rName);
-              }, 150);
+                var pC = window.taskPickupCoords || null;
+                var dC = window.taskDropCoords   || null;
+                var rN = (document.getElementById('active-rider-name-span')||{}).textContent || 'Rider';
+                window.initTrackingMap(pC, dC, rN);
+              }, 200);
             }
           };
         })();
         </script>
 
-        <!-- CONTENT -->
+                <!-- CONTENT -->
         <div style="flex:1;overflow-y:auto;scrollbar-width:none;padding:12px 16px 100px;">
 
           <!-- Rider card -->

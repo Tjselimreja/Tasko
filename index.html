@@ -2074,7 +2074,7 @@
       <!-- =========================================
            S5 · POST – LOCATION
            ========================================= -->
-      <div class="screen" id="screen-post2" style="background:#f2f2f7;overflow:hidden;flex-direction:column;">
+      <div class="screen" id="screen-post2" style="background:#f2f2f7;flex-direction:column;overflow:hidden;position:relative;">
 
         <!-- Dark header -->
         <div style="background:#111827;padding:20px 18px 24px;flex-shrink:0;">
@@ -2096,7 +2096,7 @@
         </div>
 
         <!-- MAPBOX MAP -->
-        <div id="tasko-map" style="width:100%;height:260px;flex-shrink:0;position:relative;"></div>
+        <div id="tasko-map" style="width:100%;height:260px;flex-shrink:0;position:relative;display:block;"></div>
 
         <!-- Mode toggle -->
         <div style="display:flex;gap:8px;padding:10px 16px 6px;flex-shrink:0;background:#f2f2f7;">
@@ -2186,13 +2186,15 @@
 
           // ── Init Mapbox ──
           function initMap() {
-            if (mbMap) { mbMap.resize(); return; }
+            if (mbMap) { setTimeout(function(){ mbMap.resize(); }, 100); return; }
+            if (typeof mapboxgl === 'undefined') { setTimeout(initMap, 300); return; }
             mapboxgl.accessToken = MB_TOKEN;
             mbMap = new mapboxgl.Map({
               container: 'tasko-map',
               style: 'mapbox://styles/mapbox/streets-v12',
               center: [90.4125, 23.8103],
-              zoom: 12
+              zoom: 12,
+              attributionControl: false
             });
             mbMap.addControl(new mapboxgl.NavigationControl({ showCompass:false }), 'bottom-right');
             mbMap.addControl(new mapboxgl.GeolocateControl({ positionOptions:{enableHighAccuracy:true}, trackUserLocation:false }), 'bottom-right');
@@ -2341,7 +2343,12 @@
           var _origNav = window.nav;
           window.nav = function(screen, data) {
             _origNav(screen, data);
-            if (screen === 'post2') { setTimeout(initMap, 150); }
+            if (screen === 'post2') {
+              setTimeout(function(){
+                initMap();
+                if (mbMap) setTimeout(function(){ mbMap.resize(); }, 300);
+              }, 300);
+            }
           };
 
           document.addEventListener('DOMContentLoaded', function(){
@@ -2730,7 +2737,7 @@
 
         <!-- MAPBOX LIVE TRACKING MAP -->
         <div style="position:relative;flex-shrink:0;">
-          <div id="tracking-map" style="width:100%;height:240px;"></div>
+          <div id="tracking-map" style="width:100%;height:240px;display:block;"></div>
 
           <!-- ETA pill -->
           <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(17,24,39,0.82);backdrop-filter:blur(8px);border-radius:20px;padding:7px 16px;display:flex;align-items:center;gap:7px;white-space:nowrap;z-index:10;pointer-events:none;">
